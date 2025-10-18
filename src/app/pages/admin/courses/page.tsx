@@ -1,8 +1,8 @@
-export default function Page() {
+export default function CoursesPage() {
   return (
     <div>
-      <h1>Courses1</h1>
-      <p>Contenido básico</p>
+      <h1>Admin: Cursos</h1>
+      <p>Página de Cursos</p>
     </div>
   )
 }

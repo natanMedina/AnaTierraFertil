@@ -1,7 +1,7 @@
 export default function StorePage() {
   return (
     <div>
-      <h1>Tienda</h1>
+      <h1>Admin: Tienda</h1>
       <p>Página de Tienda</p>
     </div>
   )

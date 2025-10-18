@@ -1,8 +1,8 @@
-export default function Page() {
+export default function NewsPage() {
   return (
     <div>
-      <h1>News</h1>
-      <p>Contenido básico</p>
+      <h1>Novedades</h1>
+      <p>Página de Novedades</p>
     </div>
   )
 }

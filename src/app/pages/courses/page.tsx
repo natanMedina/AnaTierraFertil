@@ -4,5 +4,5 @@ export default function Page() {
       <h1>Courses</h1>
       <p>Contenido básico</p>
     </div>
-  );
+  )
 }

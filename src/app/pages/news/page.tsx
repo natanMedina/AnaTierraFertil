@@ -4,5 +4,5 @@ export default function Page() {
       <h1>News</h1>
       <p>Contenido básico</p>
     </div>
-  );
+  )
 }

@@ -1,8 +1,8 @@
-export default function Page() {
+export default function ServicesPage() {
   return (
     <div>
-      <h1>Services</h1>
-      <p>Contenido básico</p>
+      <h1>Admin</h1>
+      <p>Página de administración de servicios</p>
     </div>
-  );
+  )
 }

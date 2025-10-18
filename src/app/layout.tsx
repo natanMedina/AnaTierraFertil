@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './styles/globals.css'
+import { Button } from '@/components/ui/button'
 
 export const metadata: Metadata = {
   title: 'Ana Tierra Fertil',
@@ -11,6 +12,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="es">
       <body className="bg-white text-gray-900">
         {/* <Header /> */}
+        <Button>Buenas</Button>
         <main className="pt-16">{children}</main>
       </body>
     </html>

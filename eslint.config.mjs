@@ -27,8 +27,8 @@ export default [
       '@typescript-eslint/no-unused-vars': ['warn'],
       '@next/next/no-html-link-for-pages': 'off',
       'react/react-in-jsx-scope': 'off',
-      "prettier/prettier": ["error", { "endOfLine": "auto" }],
-      "prettier/prettier": [ "error", {"endOfLine": "auto", "semi": false}]
+      'prettier/prettier': ['error', { endOfLine: 'auto' }],
+      'prettier/prettier': ['error', { endOfLine: 'auto', semi: false }],
     },
   },
 ]

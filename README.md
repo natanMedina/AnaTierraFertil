@@ -1,31 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌱 Ana Tierra Fértil
 
-## Getting Started
+Proyecto creado con [Next.js](https://nextjs.org) y configurado con [Tailwind CSS v4](https://tailwindcss.com), [shadcn/ui](https://ui.shadcn.com), ESLint y Prettier.
 
-First, run the development server:
+---
+
+## 🚀 Requisitos previos
+
+- Node.js 18 o superior
+- npm 9 o superior
+
+---
+
+## 🧩 Instalación
+
+Clona el repositorio y ejecuta:
+
+````bash
+npm install
+
+## Ejecutar el Proyecto
 
 ```bash
 npm run dev
-npm run fix // parse the code
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🧹 Formato y limpieza del código
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+El proyecto usa Prettier y ESLint para mantener el código limpio y consistente.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+🔹 Formatear código (Prettier)
 
-## Learn More
+```bash
+npm run format
 
-To learn more about Next.js, take a look at the following resources:
+🔹 Analizar y corregir errores de lint (ESLint)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run lint
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+🔹 Ejecutar ambos (formato + lint) automáticamente
 
-## Deploy on Vercel
+```bash
+npm run fix
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Este comando ejecuta npm run format y npm run lint --fix en secuencia.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🧱 Componentes UI (shadcn/ui)
+
+El proyecto utiliza shadcn/ui para los componentes de interfaz.
+
+➕ Agregar nuevos componentes
+
+Puedes añadir cualquier componente de shadcn con el siguiente comando (con 'button' de ejemplo):
+
+```bash
+npx shadcn@latest add button
+
+Esto descargará el componente y lo colocará automáticamente en la carpeta src/components/ui.
+
+💡 Si no recuerdas el nombre exacto del componente, puedes ver la lista completa en ui.shadcn.com/docs/components
+
+## 📂 Estructura básica
+
+src/
+├─ app/               # Páginas y layouts del proyecto
+│   ├─ styles/        # Estilos globales (globals.css)
+│   └─ page.tsx       # Página principal
+├─ components/        # Componentes reutilizables
+│   └─ ui/            # Componentes de shadcn
+└─ lib/               # Configuración o utilidades (si aplica)
+
+## 🧠 Notas
+
+Tailwind CSS está configurado para usar variables CSS (--background, --foreground, etc.) compatibles con modo claro/oscuro.
+
+## 🛠 Scripts disponibles
+
+| Comando          | Descripción                           |
+| ---------------- | ------------------------------------- |
+| `npm run dev`    | Inicia el servidor de desarrollo      |
+| `npm run format` | Aplica formato con Prettier           |
+| `npm run lint`   | Ejecuta ESLint para revisar el código |
+| `npm run fix`    | Ejecuta Prettier y ESLint con `--fix` |
+````

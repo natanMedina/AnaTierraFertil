@@ -6,14 +6,13 @@ export const metadata: Metadata = {
   description: 'Sitio de cuidado femenino',
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es">
-      <body>{children}</body>
+      <body className="bg-white text-gray-900">
+        {/* <Header /> */}
+        <main className="pt-16">{children}</main>
+      </body>
     </html>
   )
 }

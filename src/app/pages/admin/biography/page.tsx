@@ -1,8 +1,8 @@
-// Forma correcta
-export default function BiographyPage() {
+export default function Page() {
   return (
     <div>
-      {/* Contenido */}
+      <h1>Biograhy</h1>
+      <p>Contenido básico</p>
     </div>
-  )
+  );
 }

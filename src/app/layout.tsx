@@ -1,21 +1,19 @@
-import type { Metadata } from "next";
-import "./styles/globals.css"
+import type { Metadata } from 'next'
+import './styles/globals.css'
 
 export const metadata: Metadata = {
-  title: "Ana Tierra Fertil",
-  description: "Sitio de cuidado femenino",
-};
+  title: 'Ana Tierra Fertil',
+  description: 'Sitio de cuidado femenino',
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="es">
-      <body>
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
-  );
+  )
 }

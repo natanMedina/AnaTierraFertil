@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import './styles/globals.css'
-import { Button } from '@/components/ui/button'
+import Header from '@/components/layout/Header'
 
 export const metadata: Metadata = {
   title: 'Ana Tierra Fertil',
@@ -14,9 +14,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-      <body className="bg-white text-gray-900">
-        {/* <Header /> */}
-        <Button>Buenas</Button>
+      <body className="text-gray-900">
+        <Header />
         <main className="pt-16">{children}</main>
       </body>
     </html>

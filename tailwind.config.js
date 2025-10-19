@@ -14,6 +14,7 @@ module.exports = {
         ring: 'hsl(var(--ring))',
         background: 'var(--background)',
         foreground: 'var(--foreground)',
+        brand: 'var(--color-brand)',
       },
       fontFamily: {
         sans: 'var(--font-geist-sans)',

@@ -24,21 +24,21 @@ export default function Header() {
         </Link>
 
         <nav className="flex items-center gap-9">
-          <Link href="/productos" className="hover:text-primary transition">
+          <Link href="/store" className="hover:text-primary transition">
             Productos
           </Link>
-          <Link href="/cursos" className="hover:text-primary transition">
+          <Link href="/courses" className="hover:text-primary transition">
             Cursos
           </Link>
-          <Link href="/servicios" className="hover:text-primary transition">
+          <Link href="/services" className="hover:text-primary transition">
             Servicios
           </Link>
-          <Link href="/novedades" className="hover:text-primary transition">
+          <Link href="/news" className="hover:text-primary transition">
             Novedades
           </Link>
 
           <Button asChild className="bg-brand hover:bg-brand/80 text-white">
-            <Link href="/contacto">Contacto</Link>
+            <a>Contacto</a>
           </Button>
         </nav>
       </div>

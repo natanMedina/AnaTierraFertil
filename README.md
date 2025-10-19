@@ -1,4 +1,4 @@
-# 🌱 Ana Tierra Fértil
+# 🌱 Ana Tierra Fértil.
 
 Proyecto creado con [Next.js](https://nextjs.org) y configurado con [Tailwind CSS v4](https://tailwindcss.com), [shadcn/ui](https://ui.shadcn.com), ESLint y Prettier.
 

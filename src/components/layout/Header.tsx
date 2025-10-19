@@ -13,7 +13,7 @@ export default function Header() {
           className="flex items-center gap-3 hover:opacity-90 transition"
         >
           <Image
-            src="/logo.svg" // desde /public
+            src="/logo.svg"
             alt="Logo Ana Tierra Fértil"
             width={36}
             height={36}

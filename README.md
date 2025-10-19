@@ -68,12 +68,12 @@ Esto descargará el componente y lo colocará automáticamente en la carpeta src
 ## 📂 Estructura básica
 
 src/\
-├─ app/               # Páginas y layouts del proyecto\
-│   ├─ styles/        # Estilos globales (globals.css)\
-│   └─ page.tsx       # Página principal\
-├─ components/        # Componentes reutilizables\
-│   └─ ui/            # Componentes de shadcn\
-└─ lib/               # Configuración o utilidades
+├─ app/ # Páginas y layouts del proyecto\
+│ ├─ styles/ # Estilos globales (globals.css)\
+│ └─ page.tsx # Página principal\
+├─ components/ # Componentes reutilizables\
+│ └─ ui/ # Componentes de shadcn\
+└─ lib/ # Configuración o utilidades
 
 ## 🧠 Notas
 
@@ -81,9 +81,9 @@ Tailwind CSS está configurado para usar variables CSS (--background, --foregrou
 
 ## 🛠 Scripts disponibles
 
-| Comando          | Descripción                           |
-| ---------------- | ------------------------------------- |
-| `npm run dev`    | Inicia el servidor de desarrollo      |
-| `npm run format` | Aplica formato con Prettier           |
-| `npm run lint`   | Ejecuta ESLint para revisar el código |
+| Comando          | Descripción                            |
+| ---------------- | -------------------------------------- |
+| `npm run dev`    | Inicia el servidor de desarrollo       |
+| `npm run format` | Aplica formato con Prettier            |
+| `npm run lint`   | Ejecuta ESLint para revisar el código  |
 | `npm run fix`    | Ejecuta Prettier y ESLint en secuencia |

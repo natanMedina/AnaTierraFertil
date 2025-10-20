@@ -3,16 +3,9 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogDescription,
-  DialogTitle,
-  DialogFooter,
-} from '@/components/ui/dialog'
 import { useState } from 'react'
 import { siteConfig } from '@/config/site'
+import { ContactDialog } from '@/components/shared/ContactDialog'
 
 export default function Header() {
   const [open, setOpen] = useState(false)
@@ -61,43 +54,7 @@ export default function Header() {
         </nav>
       </div>
       {/* Dialog */}
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="sm:max-w-md bg-brand py-10">
-          <DialogHeader>
-            <DialogTitle className="text-center text-background text-xl">
-              Serás redirigido a WhatsApp para comunicarte con {siteConfig.name}
-            </DialogTitle>
-            <DialogDescription className="text-center text-gray-50 text-base py-2">
-              ¿Deseas continuar?
-            </DialogDescription>
-          </DialogHeader>
-
-          <DialogFooter className="pt-6">
-            <div className="w-full flex items-center justify-center gap-4">
-              <Button
-                onClick={() => {
-                  setOpen(false)
-                  window.open(
-                    `https://wa.me/${siteConfig.contact.whatsapp}`,
-                    '_blank'
-                  )
-                }}
-                variant="outline"
-                className="bg-background hover:bg-background/60 text-brand"
-              >
-                Seguro
-              </Button>
-
-              <Button
-                onClick={() => setOpen(false)}
-                className="bg-background hover:bg-background/60 text-brand"
-              >
-                Por ahora no
-              </Button>
-            </div>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <ContactDialog open={open} onOpenChange={setOpen} />
     </header>
   )
 }

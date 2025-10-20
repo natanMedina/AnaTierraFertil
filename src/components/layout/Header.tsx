@@ -7,10 +7,12 @@ import {
   Dialog,
   DialogContent,
   DialogHeader,
+  DialogDescription,
   DialogTitle,
   DialogFooter,
 } from '@/components/ui/dialog'
 import { useState } from 'react'
+import { siteConfig } from '@/config/site'
 
 export default function Header() {
   const [open, setOpen] = useState(false)
@@ -25,12 +27,12 @@ export default function Header() {
         >
           <Image
             src="/logo.svg"
-            alt="Logo Ana Tierra Fértil"
+            alt={`Logo ${siteConfig.name}`}
             width={36}
             height={36}
           />
           <span className="text-xl font-semibold text-foreground">
-            Ana Tierra Fértil
+            {siteConfig.name}
           </span>
         </Link>
 
@@ -63,18 +65,22 @@ export default function Header() {
         <DialogContent className="sm:max-w-md bg-brand py-10">
           <DialogHeader>
             <DialogTitle className="text-center text-background text-xl">
-              Serás redirigido a WhatsApp para comunicarte con Ana Tierra Fértil
+              Serás redirigido a WhatsApp para comunicarte con {siteConfig.name}
             </DialogTitle>
+            <DialogDescription className="text-center text-gray-50 text-base py-2">
+              ¿Deseas continuar?
+            </DialogDescription>
           </DialogHeader>
-
-          <p className="text-center text-gray-50">¿Deseas continuar?</p>
 
           <DialogFooter className="pt-6">
             <div className="w-full flex items-center justify-center gap-4">
               <Button
                 onClick={() => {
                   setOpen(false)
-                  window.open('https://wa.me/573001234567', '_blank')
+                  window.open(
+                    `https://wa.me/${siteConfig.contact.whatsapp}`,
+                    '_blank'
+                  )
                 }}
                 variant="outline"
                 className="bg-background hover:bg-background/60 text-brand"

@@ -227,6 +227,60 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      {/* Special Moments Section */}
+      <div className="relative z-10 py-16 bg-green-50">
+        <div className="container mx-auto px-6 lg:px-12">
+          {/* Section Header */}
+          <div className="text-center mb-12">
+            <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-4">
+              Momentos Especiales
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Experiencias compartidas en nuestros cursos y encuentros
+            </p>
+          </div>
+
+          {/* Moments Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Card 1 */}
+            <div className="text-center">
+              <Card className="overflow-hidden">
+                <div className="w-full h-60 bg-brand flex items-center justify-center text-white text-xl font-semibold">
+                  Foto 1
+                </div>
+              </Card>
+              <p className="text-gray-600 mt-4">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              </p>
+            </div>
+
+            {/* Card 2 */}
+            <div className="text-center">
+              <Card className="overflow-hidden">
+                <div className="w-full h-60 bg-brand flex items-center justify-center text-white text-xl font-semibold">
+                  Foto 2
+                </div>
+              </Card>
+              <p className="text-gray-600 mt-4">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              </p>
+            </div>
+
+            {/* Card 3 */}
+            <div className="text-center">
+              <Card className="overflow-hidden">
+                <div className="w-full h-60 bg-brand flex items-center justify-center text-white text-xl font-semibold">
+                  Foto 3
+                </div>
+              </Card>
+              <p className="text-gray-600 mt-4">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

@@ -8,6 +8,13 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel'
 import { siteConfig } from '@/config/site'
 import { CheckCircleIcon } from 'lucide-react'
 
@@ -73,10 +80,10 @@ export default function Home() {
           {/* Section Header */}
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-4">
-              Servicios Especializados
+              {siteConfig.sections.services.title}
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Cuidado integral para cada etapa de tu vida
+              {siteConfig.sections.services.subtitle}
             </p>
           </div>
 
@@ -157,7 +164,7 @@ export default function Home() {
               size="lg"
               className="bg-brand text-white px-8 py-3 text-base font-medium hover:opacity-90 transition-opacity"
             >
-              Descubre lo ideal para ti
+              {siteConfig.sections.services.ctaButton}
             </Button>
           </div>
         </div>
@@ -171,41 +178,26 @@ export default function Home() {
             <Card className="lg:w-2/3 p-8 shadow-lg rounded-lg">
               <CardHeader className="pb-6">
                 <CardTitle className="text-4xl font-bold text-gray-800 mb-4">
-                  Un poco de mi
+                  {siteConfig.biography.title}
                 </CardTitle>
                 <CardDescription className="text-lg text-gray-600">
-                  Ana María Palau -{' '}
+                  {siteConfig.biography.name} -{' '}
                   <span className="text-brand font-medium">
-                    @ana.tierrafertil
+                    {siteConfig.biography.username}
                   </span>
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6 text-gray-700 text-lg leading-relaxed">
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
-                </p>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
-                </p>
+                {siteConfig.biography.description.map((paragraph, index) => (
+                  <p key={index}>{paragraph}</p>
+                ))}
                 <ul className="space-y-3 pl-5">
-                  <li className="flex items-start gap-2">
-                    <CheckCircleIcon className="w-6 h-6 text-brand flex-shrink-0 mt-1" />
-                    <span>Certificada en partería profesional</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircleIcon className="w-6 h-6 text-brand flex-shrink-0 mt-1" />
-                    <span>+500 familias acompañadas</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircleIcon className="w-6 h-6 text-brand flex-shrink-0 mt-1" />
-                    <span>Especialista en medicina natural</span>
-                  </li>
+                  {siteConfig.biography.services.map((service, index) => (
+                    <li key={index} className="flex items-start gap-2">
+                      <CheckCircleIcon className="w-6 h-6 text-brand flex-shrink-0 mt-1" />
+                      <span>{service}</span>
+                    </li>
+                  ))}
                 </ul>
                 <div className="pt-4 flex justify-center">
                   <Button
@@ -234,50 +226,82 @@ export default function Home() {
           {/* Section Header */}
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-4">
-              Momentos Especiales
+              {siteConfig.sections.specialMoments.title}
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Experiencias compartidas en nuestros cursos y encuentros
+              {siteConfig.sections.specialMoments.subtitle}
             </p>
           </div>
 
-          {/* Moments Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Card 1 */}
-            <div className="text-center">
-              <Card className="overflow-hidden">
-                <div className="w-full h-60 bg-brand flex items-center justify-center text-white text-xl font-semibold">
-                  Foto 1
-                </div>
-              </Card>
-              <p className="text-gray-600 mt-4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              </p>
-            </div>
+          {/* Moments Carousel */}
+          <div className="relative">
+            <Carousel
+              opts={{
+                align: 'start',
+                loop: true,
+              }}
+              className="w-full max-w-6xl mx-auto"
+            >
+              <CarouselContent className="-ml-2 md:-ml-4">
+                {/* Carousel Item 1 */}
+                <CarouselItem className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
+                  <div className="text-center">
+                    <Card className="overflow-hidden">
+                      <div className="w-full h-60 bg-brand flex items-center justify-center text-white text-xl font-semibold">
+                        Foto 1
+                      </div>
+                    </Card>
+                    <p className="text-gray-600 mt-4">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    </p>
+                  </div>
+                </CarouselItem>
 
-            {/* Card 2 */}
-            <div className="text-center">
-              <Card className="overflow-hidden">
-                <div className="w-full h-60 bg-brand flex items-center justify-center text-white text-xl font-semibold">
-                  Foto 2
-                </div>
-              </Card>
-              <p className="text-gray-600 mt-4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              </p>
-            </div>
+                {/* Carousel Item 2 */}
+                <CarouselItem className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
+                  <div className="text-center">
+                    <Card className="overflow-hidden">
+                      <div className="w-full h-60 bg-brand flex items-center justify-center text-white text-xl font-semibold">
+                        Foto 2
+                      </div>
+                    </Card>
+                    <p className="text-gray-600 mt-4">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    </p>
+                  </div>
+                </CarouselItem>
 
-            {/* Card 3 */}
-            <div className="text-center">
-              <Card className="overflow-hidden">
-                <div className="w-full h-60 bg-brand flex items-center justify-center text-white text-xl font-semibold">
-                  Foto 3
-                </div>
-              </Card>
-              <p className="text-gray-600 mt-4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              </p>
-            </div>
+                {/* Carousel Item 3 */}
+                <CarouselItem className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
+                  <div className="text-center">
+                    <Card className="overflow-hidden">
+                      <div className="w-full h-60 bg-brand flex items-center justify-center text-white text-xl font-semibold">
+                        Foto 3
+                      </div>
+                    </Card>
+                    <p className="text-gray-600 mt-4">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    </p>
+                  </div>
+                </CarouselItem>
+
+                {/* Carousel Item 4 - Additional item for demonstration */}
+                <CarouselItem className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
+                  <div className="text-center">
+                    <Card className="overflow-hidden">
+                      <div className="w-full h-60 bg-brand flex items-center justify-center text-white text-xl font-semibold">
+                        Foto 4
+                      </div>
+                    </Card>
+                    <p className="text-gray-600 mt-4">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    </p>
+                  </div>
+                </CarouselItem>
+              </CarouselContent>
+              <CarouselPrevious />
+              <CarouselNext />
+            </Carousel>
           </div>
         </div>
       </div>

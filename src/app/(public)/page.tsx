@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { siteConfig } from '@/config/site'
+import { CheckCircleIcon } from 'lucide-react'
 
 export default function Home() {
   return (
@@ -158,6 +159,71 @@ export default function Home() {
             >
               Descubre lo ideal para ti
             </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Biography Section */}
+      <div className="relative z-10 py-16 bg-white">
+        <div className="container mx-auto px-6 lg:px-12">
+          <div className="flex flex-col lg:flex-row items-start gap-12">
+            {/* Left Column - Text Content */}
+            <Card className="lg:w-2/3 p-8 shadow-lg rounded-lg">
+              <CardHeader className="pb-6">
+                <CardTitle className="text-4xl font-bold text-gray-800 mb-4">
+                  Un poco de mi
+                </CardTitle>
+                <CardDescription className="text-lg text-gray-600">
+                  Ana María Palau -{' '}
+                  <span className="text-brand font-medium">
+                    @ana.tierrafertil
+                  </span>
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6 text-gray-700 text-lg leading-relaxed">
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat.
+                </p>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat.
+                </p>
+                <ul className="space-y-3 pl-5">
+                  <li className="flex items-start gap-2">
+                    <CheckCircleIcon className="w-6 h-6 text-brand flex-shrink-0 mt-1" />
+                    <span>Certificada en partería profesional</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircleIcon className="w-6 h-6 text-brand flex-shrink-0 mt-1" />
+                    <span>+500 familias acompañadas</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircleIcon className="w-6 h-6 text-brand flex-shrink-0 mt-1" />
+                    <span>Especialista en medicina natural</span>
+                  </li>
+                </ul>
+                <div className="pt-4 flex justify-center">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="border-brand text-brand bg-transparent px-8 py-3 text-base font-medium hover:bg-brand hover:text-white transition-all"
+                  >
+                    Conocer Más
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Right Column - Image Placeholder */}
+            <div className="relative flex-1 w-full lg:w-auto h-[500px] lg:h-[600px] bg-brand rounded-lg shadow-lg overflow-hidden flex items-center justify-center">
+              <span className="text-white text-2xl font-bold">Foto aquí</span>
+              {/* Aquí irá la imagen real más adelante */}
+            </div>
           </div>
         </div>
       </div>

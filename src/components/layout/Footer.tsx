@@ -128,10 +128,10 @@ export default function Footer() {
             <ul className="space-y-3 text-sm" style={{ color: '#9CA3AF' }}>
               <li>
                 <Link
-                  href="mailto:ana@tierrafertil.com"
+                  href={`mailto:${siteConfig.biography.username}`}
                   className="hover:text-foreground transition"
                 >
-                  ana@tierrafertil.com
+                  {siteConfig.biography.username} 
                 </Link>
               </li>
               <li>
@@ -139,7 +139,7 @@ export default function Footer() {
                   href="tel:+525551234567"
                   className="hover:text-foreground transition"
                 >
-                  +52 555 123 4567
+                  {siteConfig.contact.whatsapp}
                 </Link>
               </li>
             </ul>

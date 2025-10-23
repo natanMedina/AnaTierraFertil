@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: 'Ana Tierra Fértil',
   contact: {
-    whatsapp: '573001234567',
+    whatsapp: '+57 3001234567',
   },
   biography: {
     name: 'Ana María Palau',

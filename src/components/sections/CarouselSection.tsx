@@ -60,10 +60,9 @@ export default function CarouselSection() {
         <div className="relative">
           <Carousel
             opts={{
-              align: 'start',
               loop: true,
             }}
-            className={`w-full ${carouselData.maxWidth} mx-auto`}
+            className="w-full max-w-6xl mx-auto"
           >
             <CarouselContent className="-ml-2 md:-ml-4">
               {carouselData.items.map((item, index) => (

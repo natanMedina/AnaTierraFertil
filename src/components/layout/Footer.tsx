@@ -131,7 +131,7 @@ export default function Footer() {
                   href={`mailto:${siteConfig.biography.username}`}
                   className="hover:text-foreground transition"
                 >
-                  {siteConfig.biography.username} 
+                  {siteConfig.biography.username}
                 </Link>
               </li>
               <li>

@@ -54,16 +54,14 @@ const HeroSection = () => (
           >
             Explorar Cursos
           </Button>
-          <Link 
-          href="/biography">
-          <Button
-            variant="outline"
-            size="lg"
-            className="border-brand text-brand bg-transparent px-8 py-3 text-base font-medium hover:bg-brand hover:text-white transition-all"
-            
-          >
-            Conocer Más
-          </Button>
+          <Link href="/biography">
+            <Button
+              variant="outline"
+              size="lg"
+              className="border-brand text-brand bg-transparent px-8 py-3 text-base font-medium hover:bg-brand hover:text-white transition-all"
+            >
+              Conocer Más
+            </Button>
           </Link>
         </div>
       </div>
@@ -164,15 +162,14 @@ const BiographySection = () => (
               ))}
             </ul>
             <div className="pt-4 flex justify-center">
-              <Link 
-              href="/biography" >
-              <Button
-                variant="outline"
-                size="lg"
-                className="border-brand text-brand bg-transparent px-8 py-3 text-base font-medium hover:bg-brand hover:text-white transition-all"
-              >
-                Conocer Más
-              </Button>
+              <Link href="/biography">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="border-brand text-brand bg-transparent px-8 py-3 text-base font-medium hover:bg-brand hover:text-white transition-all"
+                >
+                  Conocer Más
+                </Button>
               </Link>
             </div>
           </CardContent>

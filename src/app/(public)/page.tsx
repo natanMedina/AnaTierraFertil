@@ -1,6 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 import {
   Card,
   CardContent,
@@ -8,27 +9,10 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel'
 import { siteConfig } from '@/config/site'
 import { CheckCircleIcon } from 'lucide-react'
-
-// Componente para el fondo con follaje
-const Background = () => (
-  <div className="absolute inset-0 bg-gradient-to-br from-green-50 via-green-100 to-blue-50">
-    <div className="absolute inset-0 opacity-20">
-      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-green-200/30 via-green-300/20 to-blue-200/30"></div>
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-green-300/20 rounded-full blur-3xl"></div>
-      <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-green-400/15 rounded-full blur-2xl"></div>
-      <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-blue-300/15 rounded-full blur-3xl"></div>
-    </div>
-  </div>
-)
+import { Background } from '@/components/shared/Background'
+import { SpecialMomentsSection } from '@/components/shared/SpecialMoments'
 
 // Componente para la sección hero
 const HeroSection = () => (
@@ -53,13 +37,15 @@ const HeroSection = () => (
           >
             Explorar Cursos
           </Button>
-          <Button
-            variant="outline"
-            size="lg"
-            className="border-brand text-brand bg-transparent px-8 py-3 text-base font-medium hover:bg-brand hover:text-white transition-all"
-          >
-            Conocer Más
-          </Button>
+          <Link href="/biography">
+            <Button
+              variant="outline"
+              size="lg"
+              className="border-brand text-brand bg-transparent px-8 py-3 text-base font-medium hover:bg-brand hover:text-white transition-all"
+            >
+              Conocer Más
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
@@ -159,13 +145,15 @@ const BiographySection = () => (
               ))}
             </ul>
             <div className="pt-4 flex justify-center">
-              <Button
-                variant="outline"
-                size="lg"
-                className="border-brand text-brand bg-transparent px-8 py-3 text-base font-medium hover:bg-brand hover:text-white transition-all"
-              >
-                Conocer Más
-              </Button>
+              <Link href="/biography">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="border-brand text-brand bg-transparent px-8 py-3 text-base font-medium hover:bg-brand hover:text-white transition-all"
+                >
+                  Conocer Más
+                </Button>
+              </Link>
             </div>
           </CardContent>
         </Card>
@@ -175,94 +163,6 @@ const BiographySection = () => (
           <span className="text-white text-2xl font-bold">Foto aquí</span>
           {/* Aquí irá la imagen real más adelante */}
         </div>
-      </div>
-    </div>
-  </div>
-)
-
-// Componente para la sección de momentos especiales
-const SpecialMomentsSection = () => (
-  <div className="relative z-10 py-16 bg-green-50">
-    <div className="container mx-auto px-6 lg:px-12">
-      {/* Encabezado de la Sección */}
-      <div className="text-center mb-12">
-        <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-4">
-          {siteConfig.sections.specialMoments.title}
-        </h2>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          {siteConfig.sections.specialMoments.subtitle}
-        </p>
-      </div>
-
-      {/* Carrusel de Momentos Especiales */}
-      <div className="relative">
-        <Carousel
-          opts={{
-            align: 'start',
-            loop: true,
-          }}
-          className="w-full max-w-6xl mx-auto"
-        >
-          <CarouselContent className="-ml-2 md:-ml-4">
-            {/* Elemento del Carrusel 1 */}
-            <CarouselItem className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
-              <div className="text-center">
-                <Card className="overflow-hidden">
-                  <div className="w-full h-60 bg-brand flex items-center justify-center text-white text-xl font-semibold">
-                    Foto 1
-                  </div>
-                </Card>
-                <p className="text-gray-600 mt-4">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </p>
-              </div>
-            </CarouselItem>
-
-            {/* Elemento del Carrusel 2 */}
-            <CarouselItem className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
-              <div className="text-center">
-                <Card className="overflow-hidden">
-                  <div className="w-full h-60 bg-brand flex items-center justify-center text-white text-xl font-semibold">
-                    Foto 2
-                  </div>
-                </Card>
-                <p className="text-gray-600 mt-4">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </p>
-              </div>
-            </CarouselItem>
-
-            {/* Elemento del Carrusel 3 */}
-            <CarouselItem className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
-              <div className="text-center">
-                <Card className="overflow-hidden">
-                  <div className="w-full h-60 bg-brand flex items-center justify-center text-white text-xl font-semibold">
-                    Foto 3
-                  </div>
-                </Card>
-                <p className="text-gray-600 mt-4">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </p>
-              </div>
-            </CarouselItem>
-
-            {/* Elemento del Carrusel 4 - Elemento adicional para demostración */}
-            <CarouselItem className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
-              <div className="text-center">
-                <Card className="overflow-hidden">
-                  <div className="w-full h-60 bg-brand flex items-center justify-center text-white text-xl font-semibold">
-                    Foto 4
-                  </div>
-                </Card>
-                <p className="text-gray-600 mt-4">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </p>
-              </div>
-            </CarouselItem>
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
       </div>
     </div>
   </div>

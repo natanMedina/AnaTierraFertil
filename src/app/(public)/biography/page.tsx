@@ -99,6 +99,37 @@ const BiographySection = () => (
   </div>
 )
 
+const JourneySection = () => (
+  <div className="relative z-10 py-16 bg-gray-50">
+    <div className="container mx-auto px-6 lg:px-12">
+      <div className="text-center mb-12">
+        <h2 className="text-4xl font-bold text-gray-900 mb-6">Mi recorrido</h2>
+        <p className="max-w-3xl mx-auto text-lg text-gray-700 leading-relaxed">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+          id dolor pellentesque, convallis orci a, aliquam mi.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Placeholder 1 */}
+        <div className="aspect-[4/3] overflow-hidden rounded-lg bg-brand flex items-center justify-center">
+          <span className="text-white text-2xl font-semibold">Imagen 1</span>
+        </div>
+
+        {/* Placeholder 2 */}
+        <div className="aspect-[4/3] overflow-hidden rounded-lg bg-brand flex items-center justify-center">
+          <span className="text-white text-2xl font-semibold">Imagen 2</span>
+        </div>
+
+        {/* Placeholder 3 */}
+        <div className="aspect-[4/3] overflow-hidden rounded-lg bg-brand flex items-center justify-center">
+          <span className="text-white text-2xl font-semibold">Imagen 3</span>
+        </div>
+      </div>
+    </div>
+  </div>
+)
+
 export default function BiographyPage() {
   return (
     <div className="relative min-h-screen overflow-hidden">
@@ -113,6 +144,7 @@ export default function BiographyPage() {
           </p>
         </div>
         <BiographySection />
+        <JourneySection />
         <SpecialMomentsSection />
       </div>
     </div>

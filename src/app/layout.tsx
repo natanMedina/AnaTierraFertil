@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './styles/globals.css'
 import Header from '@/components/layout/Header'
+import Footer from '@/components/layout/Footer'
 
 export const metadata: Metadata = {
   title: 'Ana Tierra Fertil',
@@ -17,6 +18,7 @@ export default function RootLayout({
       <body className="text-gray-900">
         <Header />
         <main className="pt-16">{children}</main>
+        <Footer />
       </body>
     </html>
   )

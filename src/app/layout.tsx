@@ -6,6 +6,9 @@ import Footer from '@/components/layout/Footer'
 export const metadata: Metadata = {
   title: 'Ana Tierra Fertil',
   description: 'Sitio de cuidado femenino',
+  icons: {
+    icon: '/logo.svg',
+  },
 }
 
 export default function RootLayout({

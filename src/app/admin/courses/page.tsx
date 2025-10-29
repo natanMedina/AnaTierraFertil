@@ -1,38 +1,53 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { getCourses, createCourse, updateCourse, deleteCourse } from '@/services/coursesService'
-import { Course } from '@/types/course'
+import {
+  getProducts,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+} from '@/services/productsService'
+import { Product } from '@/types/product'
 
-export default function CoursesPage() {
-  const [courses, setCourses] = useState<Course[]>([])
-  const [form, setForm] = useState<Omit<Course, 'id'>>({
-    title: '',
+export default function ProductsPage() {
+  const [products, setProducts] = useState<Product[]>([])
+  const [form, setForm] = useState<Omit<Product, 'id'>>({
+    name: '',
     description: '',
+    category: '',
     price: 0,
-    photo: '',
+    photo_url: '',
+    video_url: '',
   })
   const [editingId, setEditingId] = useState<number | null>(null)
   const [loading, setLoading] = useState(false)
 
-  // Load courses
+  // Load products
   useEffect(() => {
-    fetchCourses()
+    fetchProducts()
   }, [])
 
-  async function fetchCourses() {
-    const data = await getCourses()
-    setCourses(data)
+  async function fetchProducts() {
+    const data = await getProducts()
+    setProducts(data)
+    console.log(data)
   }
 
   async function handleCreate(e: React.FormEvent) {
     e.preventDefault()
-    if (!form.title || !form.description) return alert('Completa los campos')
+    if (!form.name || !form.description) return alert('Completa los campos')
     setLoading(true)
     try {
-      await createCourse(form)
-      await fetchCourses()
-      setForm({ title: '', description: '', price: 0, photo: '' })
+      await createProduct(form)
+      await fetchProducts()
+      setForm({
+        name: '',
+        description: '',
+        category: '',
+        price: 0,
+        photo_url: '',
+        video_url: '',
+      })
     } catch (err) {
       console.error(err)
     } finally {
@@ -40,13 +55,15 @@ export default function CoursesPage() {
     }
   }
 
-  async function handleEdit(course: Course) {
-    setEditingId(course.id!)
+  async function handleEdit(product: Product) {
+    setEditingId(product.id!)
     setForm({
-      title: course.title,
-      description: course.description,
-      price: course.price,
-      photo: course.photo,
+      name: product.name ?? '',
+      description: product.description ?? '',
+      category: product.category ?? '',
+      price: product.price ?? 0,
+      photo_url: product.photo_url ?? '',
+      video_url: product.video_url ?? '',
     })
   }
 
@@ -55,10 +72,17 @@ export default function CoursesPage() {
     if (!editingId) return
     setLoading(true)
     try {
-      await updateCourse(editingId, form)
+      await updateProduct(editingId, form)
       setEditingId(null)
-      setForm({ title: '', description: '', price: 0, photo: '' })
-      await fetchCourses()
+      setForm({
+        name: '',
+        description: '',
+        category: '',
+        price: 0,
+        photo_url: '',
+        video_url: '',
+      })
+      await fetchProducts()
     } catch (err) {
       console.error(err)
     } finally {
@@ -67,11 +91,11 @@ export default function CoursesPage() {
   }
 
   async function handleDelete(id: number) {
-    if (!confirm('¿Seguro que quieres eliminar este curso?')) return
+    if (!confirm('¿Seguro que quieres eliminar este producto?')) return
     setLoading(true)
     try {
-      await deleteCourse(id)
-      await fetchCourses()
+      await deleteProduct(id)
+      await fetchProducts()
     } catch (err) {
       console.error(err)
     } finally {
@@ -81,7 +105,7 @@ export default function CoursesPage() {
 
   return (
     <div className="p-6 space-y-6">
-      <h1 className="text-2xl font-bold">Gestión de Cursos</h1>
+      <h1 className="text-2xl font-bold">Gestión de Productos</h1>
 
       {/* Formulario */}
       <form
@@ -89,33 +113,58 @@ export default function CoursesPage() {
         className="space-y-3 border p-4 rounded-md bg-gray-50"
       >
         <h2 className="font-semibold">
-          {editingId ? 'Editar curso' : 'Crear nuevo curso'}
+          {editingId ? 'Editar producto' : 'Crear nuevo producto'}
         </h2>
+
         <input
           type="text"
           placeholder="Título"
-          value={form.title}
-          onChange={e => setForm({ ...form, title: e.target.value })}
+          value={form.name ?? ''}
+          onChange={(e) => setForm({ ...form, name: e.target.value })}
           className="border p-2 rounded w-full"
         />
+
         <textarea
           placeholder="Descripción"
-          value={form.description}
-          onChange={e => setForm({ ...form, description: e.target.value })}
+          value={form.description ?? ''}
+          onChange={(e) => setForm({ ...form, description: e.target.value })}
           className="border p-2 rounded w-full"
         />
+
+        <input
+          type="text"
+          placeholder="Categoría"
+          value={form.category ?? ''}
+          onChange={(e) => setForm({ ...form, category: e.target.value })}
+          className="border p-2 rounded w-full"
+        />
+
         <input
           type="number"
           placeholder="Precio"
-          value={form.price}
-          onChange={e => setForm({ ...form, price: parseFloat(e.target.value) })}
+          value={form.price ?? 0}
+          onChange={(e) =>
+            setForm({
+              ...form,
+              price: parseFloat(e.target.value) || 0,
+            })
+          }
           className="border p-2 rounded w-full"
         />
+
         <input
           type="text"
           placeholder="URL de la imagen (por ahora manual)"
-          value={form.photo}
-          onChange={e => setForm({ ...form, photo: e.target.value })}
+          value={form.photo_url ?? ''}
+          onChange={(e) => setForm({ ...form, photo_url: e.target.value })}
+          className="border p-2 rounded w-full"
+        />
+
+        <input
+          type="text"
+          placeholder="URL del video"
+          value={form.video_url ?? ''}
+          onChange={(e) => setForm({ ...form, video_url: e.target.value })}
           className="border p-2 rounded w-full"
         />
 
@@ -127,8 +176,8 @@ export default function CoursesPage() {
           {loading
             ? 'Guardando...'
             : editingId
-            ? 'Actualizar curso'
-            : 'Crear curso'}
+              ? 'Actualizar producto'
+              : 'Crear producto'}
         </button>
 
         {editingId && (
@@ -136,7 +185,14 @@ export default function CoursesPage() {
             type="button"
             onClick={() => {
               setEditingId(null)
-              setForm({ title: '', description: '', price: 0, photo: '' })
+              setForm({
+                name: '',
+                description: '',
+                category: '',
+                price: 0,
+                photo_url: '',
+                video_url: '',
+              })
             }}
             className="ml-2 bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500"
           >
@@ -145,34 +201,36 @@ export default function CoursesPage() {
         )}
       </form>
 
-      {/* Lista de cursos */}
+      {/* Lista de productos */}
       <div className="space-y-4">
-        {courses.map(course => (
+        {products.map((product) => (
           <div
-            key={course.id}
+            key={product.id}
             className="border p-4 rounded-md flex justify-between items-start bg-white"
           >
             <div>
-              <h2 className="font-semibold text-lg">{course.title}</h2>
-              <p className="text-sm text-gray-700">{course.description}</p>
-              <p className="font-medium mt-1">${course.price}</p>
-              {course.photo && (
+              <h2 className="font-semibold text-lg">{product.name}</h2>
+              <p className="text-sm text-gray-700">{product.description}</p>
+              <h2 className="text-sm">{product.category}</h2>
+              <p className="font-medium mt-1">${product.price}</p>
+              <p className="text-sm text-gray-700">{product.video_url}</p>
+              {product.photo_url && (
                 <img
-                  src={course.photo}
-                  alt={course.title}
+                  src={product.photo_url}
+                  alt={product.name}
                   className="mt-2 w-32 h-20 object-cover rounded"
                 />
               )}
             </div>
             <div className="space-x-2">
               <button
-                onClick={() => handleEdit(course)}
+                onClick={() => handleEdit(product)}
                 className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
               >
                 Editar
               </button>
               <button
-                onClick={() => handleDelete(course.id!)}
+                onClick={() => handleDelete(product.id!)}
                 className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
               >
                 Eliminar

@@ -1,12 +1,3 @@
-// export default function ProductsPage() {
-//   return (
-//     <div>
-//       <h1>Admin: Productos</h1>
-//       <p>Página de Productos</p>
-//     </div>
-//   )
-// }
-
 'use client'
 
 import { useEffect, useState } from 'react'

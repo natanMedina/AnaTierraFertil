@@ -32,10 +32,10 @@ export default function Header() {
         {/* Navigation */}
         <nav className="flex items-center gap-9">
           <Link href="/store" className="hover:text-primary transition">
-            Productos
+            Tienda
           </Link>
-          <Link href="/courses" className="hover:text-primary transition">
-            Cursos
+          <Link href="/products" className="hover:text-primary transition">
+            Productos
           </Link>
           <Link href="/services" className="hover:text-primary transition">
             Servicios

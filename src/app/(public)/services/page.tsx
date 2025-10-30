@@ -55,7 +55,7 @@ export default function ServicesPage() {
     startIndex,
     startIndex + servicesPerPage
   )
-  
+
   // Generar array de números de página
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1)
 
@@ -90,19 +90,25 @@ export default function ServicesPage() {
                 />
               ))}
             </div>
-            
+
             {/* Paginación */}
             {totalPages > 1 && (
               <div className="mt-8">
                 <Pagination>
                   <PaginationContent>
                     <PaginationItem>
-                      <PaginationPrevious 
-                        onClick={() => setCurrentPage(curr => Math.max(1, curr - 1))}
-                        className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
+                      <PaginationPrevious
+                        onClick={() =>
+                          setCurrentPage((curr) => Math.max(1, curr - 1))
+                        }
+                        className={
+                          currentPage === 1
+                            ? 'pointer-events-none opacity-50'
+                            : ''
+                        }
                       />
                     </PaginationItem>
-                    
+
                     {pageNumbers.map((pageNumber) => (
                       <PaginationItem key={pageNumber}>
                         <PaginationLink
@@ -113,11 +119,19 @@ export default function ServicesPage() {
                         </PaginationLink>
                       </PaginationItem>
                     ))}
-                    
+
                     <PaginationItem>
                       <PaginationNext
-                        onClick={() => setCurrentPage(curr => Math.min(totalPages, curr + 1))}
-                        className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
+                        onClick={() =>
+                          setCurrentPage((curr) =>
+                            Math.min(totalPages, curr + 1)
+                          )
+                        }
+                        className={
+                          currentPage === totalPages
+                            ? 'pointer-events-none opacity-50'
+                            : ''
+                        }
                       />
                     </PaginationItem>
                   </PaginationContent>

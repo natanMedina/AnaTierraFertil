@@ -7,13 +7,17 @@ import { useRouter } from 'next/navigation'
 
 interface ProductCardProps {
   product: Product
+  basePath?: string // Ruta base para la navegación (e.g., 'products', 'services')
 }
 
-export function ProductCard({ product }: ProductCardProps) {
+export function ProductCard({
+  product,
+  basePath = 'products',
+}: ProductCardProps) {
   const router = useRouter()
 
   const handleExplore = () => {
-    router.push(`/products/${product.id}`)
+    router.push(`/${basePath}/${product.id}`)
   }
 
   return (

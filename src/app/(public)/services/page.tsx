@@ -56,7 +56,10 @@ export default function ServicesPage() {
           <main className="flex-1">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredServices.map((service) => (
-                <ProductCard key={service.id} product={service} />
+                  <ProductCard 
+                  key={service.id}
+                  product={service} 
+                  basePath="services" />
               ))}
             </div>
           </main>

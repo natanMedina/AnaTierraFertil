@@ -39,7 +39,7 @@ export default function AdminLoginPage() {
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
         <button
           type="submit"
-          className="w-full bg-brand text-white rounded-md p-2 hover:bg-blue-700"
+          className="w-full bg-brand text-white rounded-md p-2 hover:bg-brand/80"
         >
           Entrar
         </button>

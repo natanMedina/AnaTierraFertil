@@ -8,12 +8,9 @@ export default function Footer() {
   const year = new Date().getFullYear()
 
   return (
-    <footer
-      className="w-full border-t border-border"
-      style={{ backgroundColor: '#111827' }}
-    >
-      <div className="mx-auto w-full max-w-6xl py-12 px-6 md:px-12">
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
+    <footer className="w-full border-t border-border bg-[#111827]">
+      <div className="mx-auto w-full max-w-7xl py-12 px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-4 lg:gap-12">
           {/* Brand */}
           <div className="space-y-4">
             <Link
@@ -53,7 +50,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/services"
-                  className="hover:text-foreground transition"
+                  className="hover:text-brand transition-colors duration-200"
                 >
                   Salud Femenina
                 </Link>
@@ -61,7 +58,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/services"
-                  className="hover:text-foreground transition"
+                  className="hover:text-brand transition-colors duration-200"
                 >
                   Cuidado Prenatal
                 </Link>
@@ -69,7 +66,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/services"
-                  className="hover:text-foreground transition"
+                  className="hover:text-brand transition-colors duration-200"
                 >
                   Yoga Terapéutico
                 </Link>
@@ -77,7 +74,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/services"
-                  className="hover:text-foreground transition"
+                  className="hover:text-brand transition-colors duration-200"
                 >
                   Consultas
                 </Link>
@@ -95,22 +92,34 @@ export default function Footer() {
             </h3>
             <ul className="space-y-3 text-sm" style={{ color: '#9CA3AF' }}>
               <li>
-                <Link href="/news" className="hover:text-foreground transition">
+                <Link
+                  href="/news"
+                  className="hover:text-brand transition-colors duration-200"
+                >
                   Blog
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-foreground transition">
+                <Link
+                  href="#"
+                  className="hover:text-brand transition-colors duration-200"
+                >
                   Guías
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-foreground transition">
+                <Link
+                  href="#"
+                  className="hover:text-brand transition-colors duration-200"
+                >
                   Recetas
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-foreground transition">
+                <Link
+                  href="#"
+                  className="hover:text-brand transition-colors duration-200"
+                >
                   Testimonios
                 </Link>
               </li>
@@ -129,7 +138,7 @@ export default function Footer() {
               <li>
                 <Link
                   href={`mailto:${siteConfig.biography.username}`}
-                  className="hover:text-foreground transition"
+                  className="hover:text-brand transition-colors duration-200"
                 >
                   {siteConfig.biography.username}
                 </Link>
@@ -137,7 +146,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="tel:+525551234567"
-                  className="hover:text-foreground transition"
+                  className="hover:text-brand transition-colors duration-200"
                 >
                   {siteConfig.contact.whatsapp}
                 </Link>

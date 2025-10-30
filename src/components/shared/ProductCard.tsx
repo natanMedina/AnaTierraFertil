@@ -7,12 +7,14 @@ import { useRouter } from 'next/navigation'
 
 interface ProductCardProps {
   product: Product
+  buttonText?: string
   basePath?: string // Ruta base para la navegación (e.g., 'products', 'services')
 }
 
 export function ProductCard({
   product,
   basePath = 'products',
+  buttonText = 'Explorar',
 }: ProductCardProps) {
   const router = useRouter()
 
@@ -48,7 +50,7 @@ export function ProductCard({
             onClick={handleExplore}
             className="bg-brand text-white w-2/3 text-base font-medium hover:opacity-90 transition-opacity"
           >
-            Explorar
+            {buttonText}
           </Button>
         </CardFooter>
       </Card>

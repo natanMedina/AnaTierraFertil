@@ -5,15 +5,30 @@ import { getServices } from '@/services/services'
 import { Service } from '@/types/service'
 import { SidebarFilter } from '@/components/shared/SidebarFilter'
 import { ProductCard } from '@/components/shared/ProductCard'
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination'
 
 export default function ServicesPage() {
   const [services, setServices] = useState<Service[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string>('')
   const [searchTerm, setSearchTerm] = useState<string>('')
+  const [currentPage, setCurrentPage] = useState(1)
+  const servicesPerPage = 6
 
   useEffect(() => {
     fetchServices()
   }, [])
+
+  useEffect(() => {
+    // Resetear a la primera página cuando cambian los filtros
+    setCurrentPage(1)
+  }, [selectedCategory, searchTerm])
 
   async function fetchServices() {
     const data = await getServices()
@@ -22,7 +37,7 @@ export default function ServicesPage() {
 
   const categories = [...new Set(services.map((service) => service.category))]
 
-  // Filtrar productos según la categoría y término de búsqueda
+  // Filtrar servicios según la categoría y término de búsqueda
   const filteredServices = services.filter((service) => {
     const matchesCategory =
       !selectedCategory || service.category === selectedCategory
@@ -32,6 +47,17 @@ export default function ServicesPage() {
       service.description.toLowerCase().includes(searchTerm.toLowerCase())
     return matchesCategory && matchesSearch
   })
+
+  // Calcular paginación sobre los servicios filtrados
+  const totalPages = Math.ceil(filteredServices.length / servicesPerPage)
+  const startIndex = (currentPage - 1) * servicesPerPage
+  const paginatedServices = filteredServices.slice(
+    startIndex,
+    startIndex + servicesPerPage
+  )
+  
+  // Generar array de números de página
+  const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1)
 
   return (
     // {editMode && (
@@ -55,7 +81,7 @@ export default function ServicesPage() {
           {/* Grid de productos */}
           <main className="flex-1">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredServices.map((service) => (
+              {paginatedServices.map((service) => (
                 <ProductCard
                   key={service.id}
                   product={service}
@@ -64,6 +90,40 @@ export default function ServicesPage() {
                 />
               ))}
             </div>
+            
+            {/* Paginación */}
+            {totalPages > 1 && (
+              <div className="mt-8">
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious 
+                        onClick={() => setCurrentPage(curr => Math.max(1, curr - 1))}
+                        className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
+                      />
+                    </PaginationItem>
+                    
+                    {pageNumbers.map((pageNumber) => (
+                      <PaginationItem key={pageNumber}>
+                        <PaginationLink
+                          onClick={() => setCurrentPage(pageNumber)}
+                          isActive={pageNumber === currentPage}
+                        >
+                          {pageNumber}
+                        </PaginationLink>
+                      </PaginationItem>
+                    ))}
+                    
+                    <PaginationItem>
+                      <PaginationNext
+                        onClick={() => setCurrentPage(curr => Math.min(totalPages, curr + 1))}
+                        className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
+              </div>
+            )}
           </main>
         </div>
       </div>

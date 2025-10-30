@@ -3,12 +3,19 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Product } from '@/types/product'
+import { useRouter } from 'next/navigation'
 
 interface ProductCardProps {
   product: Product
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+  const router = useRouter()
+
+  const handleExplore = () => {
+    router.push(`/products/${product.id}`)
+  }
+
   return (
     console.log(product),
     (
@@ -33,7 +40,10 @@ export function ProductCard({ product }: ProductCardProps) {
           <p className="text-gray-600 line-clamp-2">{product.description}</p>
         </CardContent>
         <CardFooter className="p-4 pt-0 justify-center">
-          <Button className="bg-brand text-white w-2/3 text-base font-medium hover:opacity-90 transition-opacity">
+          <Button
+            onClick={handleExplore}
+            className="bg-brand text-white w-2/3 text-base font-medium hover:opacity-90 transition-opacity"
+          >
             Explorar
           </Button>
         </CardFooter>

@@ -15,7 +15,7 @@ export default function ServicesPage() {
   async function fetchServices() {
     const data = await getServices()
     setServices(data)
-    console.log(data)
+    console.log(data, services)
   }
 
   return <UnderConstruction section="Servicios" />

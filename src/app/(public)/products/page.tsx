@@ -5,15 +5,30 @@ import { getProducts } from '@/services/products'
 import { Product } from '@/types/product'
 import { SidebarFilter } from '@/components/shared/SidebarFilter'
 import { ProductCard } from '@/components/shared/ProductCard'
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination'
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string>('')
   const [searchTerm, setSearchTerm] = useState<string>('')
+  const [currentPage, setCurrentPage] = useState(1)
+  const productsPerPage = 6
 
   useEffect(() => {
     fetchProducts()
   }, [])
+
+  useEffect(() => {
+    // Resetear a la primera página cuando cambian los filtros
+    setCurrentPage(1)
+  }, [selectedCategory, searchTerm])
 
   async function fetchProducts() {
     const data = await getProducts()
@@ -32,6 +47,17 @@ export default function ProductsPage() {
       product.description.toLowerCase().includes(searchTerm.toLowerCase())
     return matchesCategory && matchesSearch
   })
+
+  // Calcular paginación sobre los productos filtrados
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage)
+  const startIndex = (currentPage - 1) * productsPerPage
+  const paginatedProducts = filteredProducts.slice(
+    startIndex,
+    startIndex + productsPerPage
+  )
+
+  // Generar array de números de página
+  const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1)
 
   return (
     // {editMode && (
@@ -55,10 +81,61 @@ export default function ProductsPage() {
           {/* Grid de productos */}
           <main className="flex-1">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
+              {paginatedProducts.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  basePath="products"
+                />
               ))}
             </div>
+            {/* Paginación */}
+            {totalPages > 1 && (
+              <div className="mt-8">
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious
+                        onClick={() =>
+                          setCurrentPage((curr) => Math.max(1, curr - 1))
+                        }
+                        className={
+                          currentPage === 1
+                            ? 'pointer-events-none opacity-50'
+                            : ''
+                        }
+                      />
+                    </PaginationItem>
+
+                    {pageNumbers.map((pageNumber) => (
+                      <PaginationItem key={pageNumber}>
+                        <PaginationLink
+                          onClick={() => setCurrentPage(pageNumber)}
+                          isActive={pageNumber === currentPage}
+                        >
+                          {pageNumber}
+                        </PaginationLink>
+                      </PaginationItem>
+                    ))}
+
+                    <PaginationItem>
+                      <PaginationNext
+                        onClick={() =>
+                          setCurrentPage((curr) =>
+                            Math.min(totalPages, curr + 1)
+                          )
+                        }
+                        className={
+                          currentPage === totalPages
+                            ? 'pointer-events-none opacity-50'
+                            : ''
+                        }
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
+              </div>
+            )}
           </main>
         </div>
       </div>

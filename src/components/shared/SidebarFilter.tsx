@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input'
 import { Search } from 'lucide-react'
 
 interface SidebarFilterProps {
+  title?: string
   placeholder?: string
   categories: string[]
   selectedCategory?: string
@@ -13,6 +14,7 @@ interface SidebarFilterProps {
 }
 
 export function SidebarFilter({
+  title,
   categories,
   selectedCategory,
   onCategorySelect,
@@ -21,6 +23,10 @@ export function SidebarFilter({
 }: SidebarFilterProps) {
   return (
     <div className="w-full lg:w-64 bg-white p-6 rounded-lg shadow-sm">
+      {/* Título del Sidebar */}
+      {title && (
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">{title}</h2>
+      )}
       <div className="space-y-4">
         {/* Buscador */}
         <div className="relative">

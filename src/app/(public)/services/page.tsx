@@ -71,6 +71,7 @@ export default function ServicesPage() {
           {/* Sidebar con filtros */}
           <aside className="lg:w-64 flex-shrink-0">
             <SidebarFilter
+              title="Servicios"
               categories={categories}
               selectedCategory={selectedCategory}
               onCategorySelect={setSelectedCategory}

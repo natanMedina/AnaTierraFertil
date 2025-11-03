@@ -71,6 +71,7 @@ export default function ProductsPage() {
           {/* Sidebar con filtros */}
           <aside className="lg:w-64 flex-shrink-0">
             <SidebarFilter
+              title="Productos"
               categories={categories}
               selectedCategory={selectedCategory}
               onCategorySelect={setSelectedCategory}

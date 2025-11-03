@@ -5,6 +5,7 @@ import { getProducts } from '@/services/products'
 import { Product } from '@/types/product'
 import { SidebarFilter } from '@/components/shared/SidebarFilter'
 import { ProductCard } from '@/components/shared/ProductCard'
+import { Search } from '@/components/shared/Search'
 import {
   Pagination,
   PaginationContent,
@@ -71,15 +72,24 @@ export default function ProductsPage() {
           {/* Sidebar con filtros */}
           <aside className="lg:w-64 flex-shrink-0">
             <SidebarFilter
+              title="Productos"
               categories={categories}
               selectedCategory={selectedCategory}
               onCategorySelect={setSelectedCategory}
-              onSearch={setSearchTerm}
             />
           </aside>
 
-          {/* Grid de productos */}
+          {/* Contenido principal */}
           <main className="flex-1">
+            {/* Buscador en la parte superior */}
+            <div className="mb-6 flex justify-end">
+              <Search
+                placeholder="Buscar productos..."
+                onSearch={setSearchTerm}
+              />
+            </div>
+
+            {/* Grid de productos */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {paginatedProducts.map((product) => (
                 <ProductCard

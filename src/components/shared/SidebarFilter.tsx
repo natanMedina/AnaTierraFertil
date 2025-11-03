@@ -1,36 +1,27 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Search } from 'lucide-react'
 
 interface SidebarFilterProps {
+  title?: string
   categories: string[]
   selectedCategory?: string
   onCategorySelect: (category: string) => void
-  onSearch: (term: string) => void
 }
 
 export function SidebarFilter({
+  title,
   categories,
   selectedCategory,
   onCategorySelect,
-  onSearch,
 }: SidebarFilterProps) {
   return (
     <div className="w-full lg:w-64 bg-white p-6 rounded-lg shadow-sm">
+      {/* Título del Sidebar */}
+      {title && (
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">{title}</h2>
+      )}
       <div className="space-y-4">
-        {/* Buscador */}
-        <div className="relative">
-          <Input
-            type="text"
-            placeholder="Buscar productos..."
-            className="w-full pl-10"
-            onChange={(e) => onSearch(e.target.value)}
-          />
-          <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-        </div>
-
         {/* Categorías */}
         <div className="mt-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">

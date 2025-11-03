@@ -5,6 +5,7 @@ import { getServices } from '@/services/services'
 import { Service } from '@/types/service'
 import { SidebarFilter } from '@/components/shared/SidebarFilter'
 import { ProductCard } from '@/components/shared/ProductCard'
+import { Search } from '@/components/shared/Search'
 import {
   Pagination,
   PaginationContent,
@@ -75,13 +76,20 @@ export default function ServicesPage() {
               categories={categories}
               selectedCategory={selectedCategory}
               onCategorySelect={setSelectedCategory}
-              onSearch={setSearchTerm}
-              placeholder="servicios"
             />
           </aside>
 
-          {/* Grid de productos */}
+          {/* Contenido principal */}
           <main className="flex-1">
+            {/* Buscador en la parte superior */}
+            <div className="mb-6 flex justify-end">
+              <Search
+                placeholder="Buscar servicios..."
+                onSearch={setSearchTerm}
+              />
+            </div>
+
+            {/* Grid de servicios */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {paginatedServices.map((service) => (
                 <ProductCard

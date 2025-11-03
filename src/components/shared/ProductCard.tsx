@@ -41,9 +41,11 @@ export function ProductCard({
             )}
           </div>
         </CardHeader>
-        <CardContent className="p-4 text-center">
+        <CardContent className="p-4 text-center h-[120px] flex flex-col">
           <h3 className="text-lg font-bold mb-2">{product.name}</h3>
-          <p className="text-gray-600 line-clamp-2">{product.description}</p>
+          <p className="text-gray-600 overflow-hidden line-clamp-2 flex-1">
+            {product.description}
+          </p>
         </CardContent>
         <CardFooter className="p-4 pt-0 justify-center">
           <Button

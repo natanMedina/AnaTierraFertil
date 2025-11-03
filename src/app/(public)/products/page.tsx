@@ -75,6 +75,7 @@ export default function ProductsPage() {
               selectedCategory={selectedCategory}
               onCategorySelect={setSelectedCategory}
               onSearch={setSearchTerm}
+              placeholder="productos"
             />
           </aside>
 

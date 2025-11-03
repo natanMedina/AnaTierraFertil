@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input'
 import { Search } from 'lucide-react'
 
 interface SidebarFilterProps {
+  placeholder?: string
   categories: string[]
   selectedCategory?: string
   onCategorySelect: (category: string) => void
@@ -16,6 +17,7 @@ export function SidebarFilter({
   selectedCategory,
   onCategorySelect,
   onSearch,
+  placeholder = 'items', // valor por defecto si no se proporciona
 }: SidebarFilterProps) {
   return (
     <div className="w-full lg:w-64 bg-white p-6 rounded-lg shadow-sm">
@@ -24,7 +26,7 @@ export function SidebarFilter({
         <div className="relative">
           <Input
             type="text"
-            placeholder="Buscar productos..."
+            placeholder={`Buscar ${placeholder}...`}
             className="w-full pl-10"
             onChange={(e) => onSearch(e.target.value)}
           />

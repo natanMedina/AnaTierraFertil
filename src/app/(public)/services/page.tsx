@@ -75,6 +75,7 @@ export default function ServicesPage() {
               selectedCategory={selectedCategory}
               onCategorySelect={setSelectedCategory}
               onSearch={setSearchTerm}
+              placeholder="servicios"
             />
           </aside>
 

@@ -57,15 +57,9 @@ export default function InfoDisplay({
           </Link>
         </div>
 
-        {/* Imagen o video */}
+        {/* Video o imagen */}
         <div className="mt-16 w-full flex justify-center">
-          {photoUrl ? (
-            <img
-              src={photoUrl}
-              alt={title}
-              className="bg-white max-h-80 max-w-full rounded-lg shadow-lg object-contain"
-            />
-          ) : videoUrl ? (
+          {videoUrl ? (
             <div className="aspect-video w-full max-w-xl rounded-lg overflow-hidden shadow-lg">
               <iframe
                 src={videoUrl}
@@ -74,6 +68,12 @@ export default function InfoDisplay({
                 className="w-full h-full"
               ></iframe>
             </div>
+          ) : photoUrl ? (
+            <img
+              src={photoUrl}
+              alt={title}
+              className="bg-white max-h-80 max-w-full rounded-lg shadow-lg object-contain"
+            />
           ) : (
             <p className="text-gray-500 italic">Sin multimedia disponible</p>
           )}

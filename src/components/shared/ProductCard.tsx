@@ -34,7 +34,7 @@ export function ProductCard({
             />
           ) : (
             <div className="w-full h-full bg-brand flex items-center justify-center">
-              <span className="text-white text-xl">Imagen</span>
+              <span className="text-white text-xl">{product.name}</span>
             </div>
           )}
         </div>

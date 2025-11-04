@@ -1,10 +1,14 @@
 'use client'
 
-import Link from 'next/link'
-import { Button } from '../ui/button'
-import { getYouTubeEmbedUrl } from '@/utils/formatters'
 import { useAdmin } from '@/context/AdminContext'
 import { Edit, Trash2, ArrowLeft } from 'lucide-react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { Button } from '../ui/button'
+import { getYouTubeEmbedUrl } from '@/utils/formatters'
+import { deleteProduct } from '@/services/products'
+import ConfirmDialog from './ConfirmDialog'
+import { useState } from 'react'
 
 interface PurchaseOption {
   title: string
@@ -13,25 +17,47 @@ interface PurchaseOption {
 }
 
 interface InfoDisplayProps {
+  id: number
   title: string
   description: string
   category: string
   photoUrl: string
   videoUrl: string
   purchaseOptions: PurchaseOption[]
-  basePath?: string
+  basePath: string
 }
 
 export default function InfoDisplay({
+  id,
   title,
   description,
   category,
   photoUrl,
   videoUrl,
   purchaseOptions,
-  // basePath,
+  basePath,
 }: InfoDisplayProps) {
   const { editMode } = useAdmin()
+  const [isDeleting, setIsDeleting] = useState(false)
+  const router = useRouter()
+
+  const handleDelete = async () => {
+    try {
+      setIsDeleting(true)
+      const success = await deleteProduct(id)
+      if (!success) {
+        alert('❌ Hubo un error al eliminar el producto.')
+        return
+      }
+      alert('✅ Producto eliminado correctamente.')
+      router.push(basePath)
+    } catch (error) {
+      console.error(error)
+      alert('⚠️ Ocurrió un error inesperado.')
+    } finally {
+      setIsDeleting(false)
+    }
+  }
 
   return (
     <div className="w-full flex flex-col md:flex-row bg-white">
@@ -69,10 +95,21 @@ export default function InfoDisplay({
                 <Edit className="w-4 h-4" />
                 Editar
               </Link>
-              <Link href="/products" className="admin-btn admin-btn--danger">
-                <Trash2 className="w-4 h-4" />
-                Borrar
-              </Link>
+              <ConfirmDialog
+                title="¿Eliminar registro?"
+                description="Esta acción eliminará el producto de forma permanente."
+                confirmText="Eliminar"
+                cancelText="Cancelar"
+                onConfirm={handleDelete}
+                icon={<Trash2 className="w-5 h-5 text-red-600" />}
+                iconBg="bg-red-100"
+                trigger={
+                  <Button className="admin-btn admin-btn--danger">
+                    <Trash2 className="w-4 h-4" />
+                    Borrar
+                  </Button>
+                }
+              />
             </>
           )}
         </div>

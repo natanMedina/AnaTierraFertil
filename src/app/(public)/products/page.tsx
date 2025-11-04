@@ -87,7 +87,7 @@ export default function ProductsPage() {
                 onSearch={setSearchTerm}
               />
               {editMode && (
-                <Button variant={'outline'} className="bg-blue-200">
+                <Button className="admin-btn admin-btn--primary">
                   Añadir
                   <CirclePlus className="w-4 h-4" />
                 </Button>

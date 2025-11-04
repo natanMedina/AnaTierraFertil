@@ -58,25 +58,18 @@ export default function InfoDisplay({
         <div className="absolute flex flex-col top-6 right-6 gap-2">
           <Link
             href="/products"
-            className="flex items-center gap-2 text-white font-bold bg-red-300 hover:bg-red-500 px-4 py-2 rounded-md text-sm transition"
+            className="flex items-center ml-auto w-min gap-2 text-white font-bold bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-md text-sm transition"
           >
             <ArrowLeft className="w-4 h-4" />
-            Volver
           </Link>
 
           {editMode && (
             <>
-              <Link
-                href="/products"
-                className="flex items-center gap-2 text-white font-bold bg-red-300 hover:bg-red-500 px-4 py-2 rounded-md text-sm transition"
-              >
+              <Link href="/products" className="admin-btn admin-btn--primary">
                 <Edit className="w-4 h-4" />
                 Editar
               </Link>
-              <Link
-                href="/products"
-                className="flex items-center gap-2 text-white font-bold bg-red-300 hover:bg-red-500 px-4 py-2 rounded-md text-sm transition"
-              >
+              <Link href="/products" className="admin-btn admin-btn--danger">
                 <Trash2 className="w-4 h-4" />
                 Borrar
               </Link>

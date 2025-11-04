@@ -6,6 +6,8 @@ import { Service } from '@/types/service'
 import { SidebarFilter } from '@/components/shared/SidebarFilter'
 import { ProductCard } from '@/components/shared/ProductCard'
 import { Search } from '@/components/shared/Search'
+import { ProductCardSkeleton } from '@/components/shared/ProductCardSkeleton'
+import { SidebarFilterSkeleton } from '@/components/shared/SidebarFilterSkeleton'
 import {
   Pagination,
   PaginationContent,
@@ -20,6 +22,7 @@ export default function ServicesPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('')
   const [searchTerm, setSearchTerm] = useState<string>('')
   const [currentPage, setCurrentPage] = useState(1)
+  const [isLoading, setIsLoading] = useState(true)
   const servicesPerPage = 6
 
   useEffect(() => {
@@ -32,8 +35,12 @@ export default function ServicesPage() {
   }, [selectedCategory, searchTerm])
 
   async function fetchServices() {
-    const data = await getServices()
-    setServices(data)
+    try {
+      const data = await getServices()
+      setServices(data)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const categories = [...new Set(services.map((service) => service.category))]
@@ -71,12 +78,16 @@ export default function ServicesPage() {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar con filtros */}
           <aside className="lg:w-64 flex-shrink-0">
-            <SidebarFilter
-              title="Servicios"
-              categories={categories}
-              selectedCategory={selectedCategory}
-              onCategorySelect={setSelectedCategory}
-            />
+            {isLoading ? (
+              <SidebarFilterSkeleton />
+            ) : (
+              <SidebarFilter
+                title="Servicios"
+                categories={categories}
+                selectedCategory={selectedCategory}
+                onCategorySelect={setSelectedCategory}
+              />
+            )}
           </aside>
 
           {/* Contenido principal */}
@@ -91,14 +102,19 @@ export default function ServicesPage() {
 
             {/* Grid de servicios */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {paginatedServices.map((service) => (
-                <ProductCard
-                  key={service.id}
-                  product={service}
-                  basePath="services"
-                  buttonText="Explorar Curso"
-                />
-              ))}
+              {isLoading
+                ? // Mostrar 6 skeletons durante la carga
+                  Array.from({ length: 6 }).map((_, index) => (
+                    <ProductCardSkeleton key={index} />
+                  ))
+                : paginatedServices.map((service) => (
+                    <ProductCard
+                      key={service.id}
+                      product={service}
+                      basePath="services"
+                      buttonText="Explorar Curso"
+                    />
+                  ))}
             </div>
 
             {/* Paginación */}

@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { Button } from '../ui/button'
+import { getYouTubeEmbedUrl } from '@/utils/formatters'
 
 interface PurchaseOption {
   title: string
@@ -62,7 +63,10 @@ export default function InfoDisplay({
           {videoUrl ? (
             <div className="aspect-video w-full max-w-xl rounded-lg overflow-hidden shadow-lg">
               <iframe
-                src={videoUrl}
+                src={getYouTubeEmbedUrl(videoUrl).replace(
+                  'www.youtube.com',
+                  'www.youtube-nocookie.com'
+                )}
                 title="Video"
                 allowFullScreen
                 className="w-full h-full"

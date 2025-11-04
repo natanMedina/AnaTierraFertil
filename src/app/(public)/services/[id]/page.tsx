@@ -36,7 +36,11 @@ export default function ServiceDetailPage() {
 
   const purchaseOptions = [
     { title: 'Precio compra', buttonText: 'Comprar', price: service.price },
-    { title: 'Precio de clases en vivo', buttonText: 'Inscribirme', price: service.price },
+    {
+      title: 'Precio de clases en vivo',
+      buttonText: 'Inscribirme',
+      price: service.price,
+    },
   ]
 
   return (

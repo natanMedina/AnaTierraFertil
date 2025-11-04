@@ -32,7 +32,6 @@ export default function ServiceDetailPage() {
   }
 
   if (loading) return <InfoDisplaySkeleton />
-  if (error) return <p>Error: {error}</p>
   if (!service) return <p>No se encontró el servicio.</p>
 
   const purchaseOptions = [

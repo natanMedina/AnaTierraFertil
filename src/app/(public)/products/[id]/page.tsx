@@ -32,7 +32,6 @@ export default function ProductDetailPage() {
   }
 
   if (loading) return <InfoDisplaySkeleton />
-  if (error) return <p>Error: {error}</p>
   if (!product) return <p>No se encontró el producto.</p>
 
   const purchaseOptions = [

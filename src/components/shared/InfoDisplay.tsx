@@ -2,13 +2,14 @@
 
 import { useAdmin } from '@/context/AdminContext'
 import { Edit, Trash2, ArrowLeft } from 'lucide-react'
+import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Button } from '../ui/button'
+import { toast } from 'sonner'
 import { getYouTubeEmbedUrl } from '@/utils/formatters'
 import { deleteProduct } from '@/services/products'
 import ConfirmDialog from './ConfirmDialog'
-import { useState } from 'react'
 
 interface PurchaseOption {
   title: string
@@ -45,21 +46,19 @@ export default function InfoDisplay({
     try {
       setIsDeleting(true)
       const success = await deleteProduct(id)
-      if (!success) {
-        alert('❌ Hubo un error al eliminar el producto.')
-        return
+      if (success) {
+        toast.success('Producto eliminado')
+        router.push(basePath)
+      } else {
+        toast.error('Error al eliminar el producto')
       }
-      alert('✅ Producto eliminado correctamente.')
-      router.push(basePath)
     } catch (error) {
       console.error(error)
-      alert('⚠️ Ocurrió un error inesperado.')
+      toast.warning('Ocurrió un error inesperado')
     } finally {
       setIsDeleting(false)
     }
   }
-
-  if (isDeleting) console.log('Borrando elemento')
 
   return (
     <div className="w-full flex flex-col md:flex-row bg-white">
@@ -100,13 +99,16 @@ export default function InfoDisplay({
               <ConfirmDialog
                 title="¿Eliminar registro?"
                 description="Esta acción eliminará el producto de forma permanente."
-                confirmText="Eliminar"
+                confirmText={isDeleting ? 'Eliminando...' : 'Eliminar'}
                 cancelText="Cancelar"
                 onConfirm={handleDelete}
                 icon={<Trash2 className="w-5 h-5 text-red-600" />}
                 iconBg="bg-red-100"
                 trigger={
-                  <Button className="admin-btn admin-btn--danger">
+                  <Button
+                    className="admin-btn admin-btn--danger"
+                    disabled={isDeleting}
+                  >
                     <Trash2 className="w-4 h-4" />
                     Borrar
                   </Button>

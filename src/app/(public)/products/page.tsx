@@ -6,6 +6,8 @@ import { Product } from '@/types/product'
 import { SidebarFilter } from '@/components/shared/SidebarFilter'
 import { ProductCard } from '@/components/shared/ProductCard'
 import { Search } from '@/components/shared/Search'
+import { ProductCardSkeleton } from '@/components/shared/ProductCardSkeleton'
+import { SidebarFilterSkeleton } from '@/components/shared/SidebarFilterSkeleton'
 import {
   Pagination,
   PaginationContent,
@@ -24,6 +26,7 @@ export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('')
   const [searchTerm, setSearchTerm] = useState<string>('')
   const [currentPage, setCurrentPage] = useState(1)
+  const [isLoading, setIsLoading] = useState(true)
   const productsPerPage = 6
 
   useEffect(() => {
@@ -36,8 +39,12 @@ export default function ProductsPage() {
   }, [selectedCategory, searchTerm])
 
   async function fetchProducts() {
-    const data = await getProducts()
-    setProducts(data)
+    try {
+      const data = await getProducts()
+      setProducts(data)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const categories = [...new Set(products.map((product) => product.category))]
@@ -70,12 +77,16 @@ export default function ProductsPage() {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar con filtros */}
           <aside className="lg:w-64 flex-shrink-0">
-            <SidebarFilter
-              title="Productos"
-              categories={categories}
-              selectedCategory={selectedCategory}
-              onCategorySelect={setSelectedCategory}
-            />
+            {isLoading ? (
+              <SidebarFilterSkeleton />
+            ) : (
+              <SidebarFilter
+                title="Productos"
+                categories={categories}
+                selectedCategory={selectedCategory}
+                onCategorySelect={setSelectedCategory}
+              />
+            )}
           </aside>
 
           {/* Contenido principal */}
@@ -96,13 +107,18 @@ export default function ProductsPage() {
 
             {/* Grid de productos */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {paginatedProducts.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  basePath="products"
-                />
-              ))}
+              {isLoading
+                ? // Mostrar 6 skeletons durante la carga
+                  Array.from({ length: 6 }).map((_, index) => (
+                    <ProductCardSkeleton key={index} />
+                  ))
+                : paginatedProducts.map((product) => (
+                    <ProductCard
+                      key={product.id}
+                      product={product}
+                      basePath="products"
+                    />
+                  ))}
             </div>
             {/* Paginación */}
             {totalPages > 1 && (

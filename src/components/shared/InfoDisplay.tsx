@@ -84,7 +84,7 @@ export default function InfoDisplay({
         </div>
 
         {/* Lista de opciones de compra */}
-        <div className="mt-10 flex flex-wrap justify-center gap-6">
+        <div className="mt-10 flex flex-wrap justify-center gap-15">
           {purchaseOptions.map((option, index) => (
             <div
               key={index}

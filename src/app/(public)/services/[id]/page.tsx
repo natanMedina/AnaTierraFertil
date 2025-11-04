@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { getServiceById } from '@/services/services'
 import { Service } from '@/types/service'
 import InfoDisplay from '@/components/shared/InfoDisplay'
+import InfoDisplaySkeleton from '@/components/shared/InfoDisplaySkeleton'
 
 export default function ServiceDetailPage() {
   const [service, setService] = useState<Service | null>(null)
@@ -30,7 +31,7 @@ export default function ServiceDetailPage() {
     }
   }
 
-  if (loading) return <p>Cargando servicio...</p>
+  if (loading) return <InfoDisplaySkeleton />
   if (error) return <p>Error: {error}</p>
   if (!service) return <p>No se encontró el servicio.</p>
 

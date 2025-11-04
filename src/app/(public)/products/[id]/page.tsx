@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { getProductById } from '@/services/products'
 import { Product } from '@/types/product'
 import InfoDisplay from '@/components/shared/InfoDisplay'
+import InfoDisplaySkeleton from '@/components/shared/InfoDisplaySkeleton'
 
 export default function ProductDetailPage() {
   const [product, setProduct] = useState<Product | null>(null)
@@ -30,7 +31,7 @@ export default function ProductDetailPage() {
     }
   }
 
-  if (loading) return <p>Cargando producto...</p>
+  if (loading) return <InfoDisplaySkeleton />
   if (error) return <p>Error: {error}</p>
   if (!product) return <p>No se encontró el producto.</p>
 

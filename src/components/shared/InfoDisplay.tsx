@@ -59,6 +59,8 @@ export default function InfoDisplay({
     }
   }
 
+  if (isDeleting) console.log('Borrando elemento')
+
   return (
     <div className="w-full flex flex-col md:flex-row bg-white">
       {/* Columna izquierda */}

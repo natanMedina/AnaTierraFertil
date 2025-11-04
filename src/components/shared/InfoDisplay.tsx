@@ -3,6 +3,8 @@
 import Link from 'next/link'
 import { Button } from '../ui/button'
 import { getYouTubeEmbedUrl } from '@/utils/formatters'
+import { useAdmin } from '@/context/AdminContext'
+import { Edit, Trash2, ArrowLeft } from 'lucide-react'
 
 interface PurchaseOption {
   title: string
@@ -17,6 +19,7 @@ interface InfoDisplayProps {
   photoUrl: string
   videoUrl: string
   purchaseOptions: PurchaseOption[]
+  basePath?: string
 }
 
 export default function InfoDisplay({
@@ -26,7 +29,10 @@ export default function InfoDisplay({
   photoUrl,
   videoUrl,
   purchaseOptions,
+  // basePath,
 }: InfoDisplayProps) {
+  const { editMode } = useAdmin()
+
   return (
     <div className="w-full flex flex-col md:flex-row bg-white">
       {/* Columna izquierda */}
@@ -49,13 +55,33 @@ export default function InfoDisplay({
         }}
       >
         {/* Botón volver */}
-        <div className="absolute top-6 right-6">
+        <div className="absolute flex flex-col top-6 right-6 gap-2">
           <Link
             href="/products"
-            className="text-white font-bold bg-red-300 hover:bg-red-500 px-4 py-2 rounded-md text-sm transition"
+            className="flex items-center gap-2 text-white font-bold bg-red-300 hover:bg-red-500 px-4 py-2 rounded-md text-sm transition"
           >
-            ← Volver
+            <ArrowLeft className="w-4 h-4" />
+            Volver
           </Link>
+
+          {editMode && (
+            <>
+              <Link
+                href="/products"
+                className="flex items-center gap-2 text-white font-bold bg-red-300 hover:bg-red-500 px-4 py-2 rounded-md text-sm transition"
+              >
+                <Edit className="w-4 h-4" />
+                Editar
+              </Link>
+              <Link
+                href="/products"
+                className="flex items-center gap-2 text-white font-bold bg-red-300 hover:bg-red-500 px-4 py-2 rounded-md text-sm transition"
+              >
+                <Trash2 className="w-4 h-4" />
+                Borrar
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Video o imagen */}

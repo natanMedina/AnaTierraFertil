@@ -45,12 +45,14 @@ export default function ServiceDetailPage() {
 
   return (
     <InfoDisplay
+      id={serviceId}
       title={service.name}
       description={service.description}
       category={service.category}
       photoUrl={service.photo_url}
       videoUrl={service.video_url}
       purchaseOptions={purchaseOptions}
+      basePath="/services"
     />
   )
 }

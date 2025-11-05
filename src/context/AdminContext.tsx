@@ -33,9 +33,7 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const login = (password: string) => {
-    if (
-      password === 'clave012'
-    ) {
+    if (password === 'clave012') {
       setIsAdmin(true)
       localStorage.setItem('isAdmin', 'true')
       return true

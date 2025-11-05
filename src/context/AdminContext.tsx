@@ -8,11 +8,12 @@ import {
   ReactNode,
 } from 'react'
 
-type AdminContextType = {
+interface AdminContextType {
   isAdmin: boolean
   editMode: boolean
-  loginAdmin: () => void
-  logoutAdmin: () => void
+  isLoading: boolean
+  login: (password: string) => boolean
+  logout: () => void
   toggleEditMode: () => void
 }
 
@@ -21,23 +22,31 @@ const AdminContext = createContext<AdminContextType | undefined>(undefined)
 export function AdminProvider({ children }: { children: ReactNode }) {
   const [isAdmin, setIsAdmin] = useState(false)
   const [editMode, setEditMode] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('isAdmin') === 'true'
-      setIsAdmin(stored)
+    const stored = localStorage.getItem('isAdmin')
+    if (stored === 'true') {
+      setIsAdmin(true)
     }
+    setIsLoading(false)
   }, [])
 
-  const loginAdmin = () => {
-    localStorage.setItem('isAdmin', 'true')
-    setIsAdmin(true)
+  const login = (password: string) => {
+    if (
+      password === 'clave012'
+    ) {
+      setIsAdmin(true)
+      localStorage.setItem('isAdmin', 'true')
+      return true
+    }
+    return false
   }
 
-  const logoutAdmin = () => {
-    localStorage.removeItem('isAdmin')
+  const logout = () => {
     setIsAdmin(false)
     setEditMode(false)
+    localStorage.removeItem('isAdmin')
   }
 
   const toggleEditMode = () => {
@@ -46,7 +55,7 @@ export function AdminProvider({ children }: { children: ReactNode }) {
 
   return (
     <AdminContext.Provider
-      value={{ isAdmin, editMode, loginAdmin, logoutAdmin, toggleEditMode }}
+      value={{ isAdmin, editMode, isLoading, login, logout, toggleEditMode }}
     >
       {children}
     </AdminContext.Provider>

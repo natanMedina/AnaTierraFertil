@@ -92,7 +92,10 @@ export default function InfoDisplay({
 
           {editMode && (
             <>
-              <Link href="/products" className="admin-btn admin-btn--primary">
+              <Link
+                href={`/products/form/${id}`}
+                className="admin-btn admin-btn--primary"
+              >
                 <Edit className="w-4 h-4" />
                 Editar
               </Link>

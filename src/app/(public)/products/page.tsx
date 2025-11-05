@@ -19,9 +19,11 @@ import {
 import { Button } from '@/components/ui/button'
 import { useAdmin } from '@/context/AdminContext'
 import { CirclePlus } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 export default function ProductsPage() {
   const { editMode } = useAdmin()
+  const router = useRouter()
   const [products, setProducts] = useState<Product[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string>('')
   const [searchTerm, setSearchTerm] = useState<string>('')
@@ -98,7 +100,10 @@ export default function ProductsPage() {
                 onSearch={setSearchTerm}
               />
               {editMode && (
-                <Button className="admin-btn admin-btn--primary">
+                <Button
+                  className="admin-btn admin-btn--primary"
+                  onClick={() => router.replace('/products/form')}
+                >
                   Añadir
                   <CirclePlus className="w-4 h-4" />
                 </Button>

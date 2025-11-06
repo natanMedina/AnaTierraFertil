@@ -83,12 +83,14 @@ export default function InfoDisplay({
       >
         {/* Botón volver */}
         <div className="absolute flex flex-col top-6 right-6 gap-2">
-          <Link
-            href="/products"
+          <Button
+            type="button"
+            variant="secondary"
             className="flex items-center ml-auto w-min gap-2 text-white font-bold bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-md text-sm transition"
+            onClick={() => router.push('/products')}
           >
             <ArrowLeft className="w-4 h-4" />
-          </Link>
+          </Button>
 
           {editMode && (
             <>

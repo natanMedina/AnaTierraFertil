@@ -1,38 +1,42 @@
 'use client'
 
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { getProductById } from '@/services/products'
 import { Product } from '@/types/product'
 import InfoDisplay from '@/components/shared/InfoDisplay'
 import InfoDisplaySkeleton from '@/components/shared/InfoDisplaySkeleton'
+import { toast } from 'sonner'
 
 export default function ProductDetailPage() {
   const [product, setProduct] = useState<Product | null>(null)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-
+  const router = useRouter()
   const { id } = useParams<{ id: string }>()
+
   const productId = parseInt(id, 10)
 
   useEffect(() => {
-    fetchProduct()
-  }, [])
-
-  async function fetchProduct() {
-    try {
-      setLoading(true)
-      const data = await getProductById(productId)
-      setProduct(data)
-    } catch (err: any) {
-      setError(err.message)
-    } finally {
-      setLoading(false)
+    const fetchProduct = async () => {
+      try {
+        setLoading(true)
+        const data = await getProductById(productId)
+        setProduct(data)
+      } catch {
+        toast.error('El producto no existe o no se pudo cargar.')
+        // Espera antes del redirect
+        setTimeout(() => {
+          router.replace('/products')
+        }, 800)
+      } finally {
+        setLoading(false)
+      }
     }
-  }
 
-  if (loading) return <InfoDisplaySkeleton />
-  if (!product) return <p>No se encontró el producto.</p>
+    fetchProduct()
+  }, [productId, router])
+
+  if (loading || !product) return <InfoDisplaySkeleton />
 
   const purchaseOptions = [
     { title: 'Precio compra', buttonText: 'Comprar', price: product.price },

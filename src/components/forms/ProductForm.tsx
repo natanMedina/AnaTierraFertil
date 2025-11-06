@@ -16,6 +16,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { toast } from 'sonner'
 import { ArrowLeft } from 'lucide-react'
 import { getYouTubeEmbedUrl } from '@/utils/formatters'
+import FormSkeleton from '../shared/FormSkeleton'
 
 interface ProductFormProps {
   id?: number
@@ -142,12 +143,7 @@ export default function ProductForm({ id }: ProductFormProps) {
     }
   }
 
-  if (isLoading)
-    return (
-      <p className="flex justify-center items-center min-h-150 text-gray-500">
-        Cargando...
-      </p>
-    )
+  if (isLoading) return <FormSkeleton />
 
   return (
     <form

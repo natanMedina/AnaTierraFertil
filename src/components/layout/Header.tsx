@@ -9,7 +9,7 @@ import { ContactDialog } from '@/components/shared/ContactDialog'
 import { useAdmin } from '@/context/AdminContext'
 
 export default function Header() {
-  const { isAdmin, editMode, toggleEditMode, logoutAdmin } = useAdmin()
+  const { isAdmin, editMode, toggleEditMode, logout } = useAdmin()
   const [open, setOpen] = useState(false)
 
   return (
@@ -68,7 +68,7 @@ export default function Header() {
                 {editMode ? 'Salir del modo edición' : 'Entrar al modo edición'}
               </Button>
               <Button
-                onClick={logoutAdmin}
+                onClick={logout}
                 className="px-3 py-1 bg-red-400 hover:bg-red-800 text-white rounded-md"
               >
                 Cerrar sesión

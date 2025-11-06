@@ -8,14 +8,13 @@ export default function AdminLoginPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const router = useRouter()
-  const { loginAdmin } = useAdmin()
+  const { login } = useAdmin()
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
-    const ADMIN_KEY = 'clave012'
 
-    if (password === ADMIN_KEY) {
-      loginAdmin()
+    const success = login(password)
+    if (success) {
       router.push('/')
     } else {
       setError('Contraseña incorrecta')

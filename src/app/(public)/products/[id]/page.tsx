@@ -40,12 +40,14 @@ export default function ProductDetailPage() {
 
   return (
     <InfoDisplay
+      id={product.id}
       title={product.name}
       description={product.description}
       category={product.category}
       photoUrl={product.photo_url}
       videoUrl={product.video_url}
       purchaseOptions={purchaseOptions}
+      basePath="/products"
     />
   )
 }

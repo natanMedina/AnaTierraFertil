@@ -3,6 +3,7 @@ import './styles/globals.css'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { AdminProvider } from '@/context/AdminContext'
+import { Toaster } from '@/components/ui/sonner'
 
 export const metadata: Metadata = {
   title: 'Ana Tierra Fertil',
@@ -23,6 +24,7 @@ export default function RootLayout({
         <AdminProvider>
           <Header />
           {children}
+          <Toaster richColors position="bottom-right" />
           <Footer />
         </AdminProvider>
       </body>

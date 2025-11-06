@@ -130,7 +130,7 @@ export default function ProductForm({ id }: ProductFormProps) {
 
       if (success) {
         toast.success(id ? 'Producto actualizado' : 'Producto creado')
-        router.push('/products')
+        router.push(id ? `/products/${id}` : '/products')
       } else {
         toast.error('Error al guardar el producto')
       }

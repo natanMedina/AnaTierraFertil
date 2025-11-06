@@ -153,7 +153,7 @@ export default function InfoDisplay({
           {purchaseOptions.map((option, index) => (
             <div
               key={index}
-              className="flex flex-col items-center bg-white/60 backdrop-blur-sm shadow-lg rounded-xl p-6 w-60"
+              className="flex flex-col items-center bg-white/60 backdrop-blur-sm shadow-lg rounded-xl p-6 w-fit"
             >
               <h3 className="text-lg font-semibold text-gray-800 mb-2">
                 {option.title}

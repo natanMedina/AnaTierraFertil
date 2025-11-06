@@ -25,13 +25,17 @@ export default function FormSkeleton() {
         {/* imagen/video */}
         <div className="mt-10 flex gap-6">
           {[1].map((i) => (
-            <div key={i} className="flex flex-col items-center gap-3 w-60 rounded-2xl bg-white p-4 shadow">
+            <div
+              key={i}
+              className="flex flex-col items-center gap-3 w-60 rounded-2xl bg-white p-4 shadow"
+            >
               <Skeleton className="h-8 w-2/3" />
               <Skeleton className="h-10 w-full rounded-md" />
             </div>
           ))}
         </div>
-        <Skeleton className="absolute h-10 w-40 bottom-6 right-6" /> {/* botón guardar */}
+        <Skeleton className="absolute h-10 w-40 bottom-6 right-6" />{' '}
+        {/* botón guardar */}
       </div>
     </div>
   )

@@ -143,10 +143,7 @@ export default function ProductForm({ id }: ProductFormProps) {
     }
   }
 
-  if (isLoading)
-    return (
-      <FormSkeleton/>
-    )
+  if (isLoading) return <FormSkeleton />
 
   return (
     <form

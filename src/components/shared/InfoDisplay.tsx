@@ -10,6 +10,7 @@ import { toast } from 'sonner'
 import { getYouTubeEmbedUrl } from '@/utils/formatters'
 import { deleteProduct } from '@/services/products'
 import ConfirmDialog from './ConfirmDialog'
+import { ContactDialog } from '@/components/shared/ContactDialog'
 
 interface PurchaseOption {
   title: string
@@ -40,6 +41,9 @@ export default function InfoDisplay({
 }: InfoDisplayProps) {
   const { editMode } = useAdmin()
   const [isDeleting, setIsDeleting] = useState(false)
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const [selectedMessage, setSelectedMessage] = useState('')
+
   const router = useRouter()
 
   const handleDelete = async () => {
@@ -59,6 +63,8 @@ export default function InfoDisplay({
       setIsDeleting(false)
     }
   }
+
+  const elemento = basePath.includes('products') ? 'Producto' : 'Servicio'
 
   return (
     <div className="w-full flex flex-col md:flex-row bg-white">
@@ -161,12 +167,25 @@ export default function InfoDisplay({
               <p className="text-black text-xl font-bold mb-3">
                 ${option.price.toLocaleString() + ' pesos col.'}
               </p>
-              <Button className="bg-brand hover:bg-brand/80 text-white font-medium px-4 py-2 rounded-md transition">
+              <Button
+                className="bg-brand hover:bg-brand/80 text-white font-medium px-4 py-2 rounded-md transition"
+                onClick={() => {
+                  const message = `Hola, quiero pagar y/o saber más información de el ${elemento}: ${title}, que cuesta ${option.price.toLocaleString()} pesos col. por favor.`
+                  setSelectedMessage(message)
+                  setDialogOpen(true)
+                }}
+              >
                 {option.buttonText}
               </Button>
             </div>
           ))}
         </div>
+        {/* Dialogo de contacto */}
+        <ContactDialog
+          open={dialogOpen}
+          onOpenChange={setDialogOpen}
+          message={selectedMessage}
+        />
       </div>
     </div>
   )

@@ -76,7 +76,7 @@ export default function Header() {
             </>
           ) : (
             <Link
-              href="/admin/login"
+              href="/login"
               className="px-3 py-1 bg-gray-300 text-white rounded-md"
             >
               Login

@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { getServices } from '@/services/services'
-import { Service } from '@/types/service'
+import { getProducts } from '@/services/products'
+import { Product } from '@/types/product'
 import { SidebarFilter } from '@/components/shared/SidebarFilter'
 import { ProductCard } from '@/components/shared/ProductCard'
 import { Search } from '@/components/shared/Search'
@@ -16,17 +16,23 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination'
+import { Button } from '@/components/ui/button'
+import { useAdmin } from '@/context/AdminContext'
+import { CirclePlus } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
-export default function ServicesPage() {
-  const [services, setServices] = useState<Service[]>([])
+export default function ProductsPage() {
+  const { editMode } = useAdmin()
+  const router = useRouter()
+  const [products, setProducts] = useState<Product[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string>('')
   const [searchTerm, setSearchTerm] = useState<string>('')
   const [currentPage, setCurrentPage] = useState(1)
   const [isLoading, setIsLoading] = useState(true)
-  const servicesPerPage = 6
+  const productsPerPage = 6
 
   useEffect(() => {
-    fetchServices()
+    fetchProducts()
   }, [])
 
   useEffect(() => {
@@ -34,45 +40,40 @@ export default function ServicesPage() {
     setCurrentPage(1)
   }, [selectedCategory, searchTerm])
 
-  async function fetchServices() {
+  async function fetchProducts() {
     try {
-      const data = await getServices()
-      setServices(data)
+      const data = await getProducts()
+      setProducts(data)
     } finally {
       setIsLoading(false)
     }
   }
 
-  const categories = [...new Set(services.map((service) => service.category))]
+  const categories = [...new Set(products.map((product) => product.category))]
 
-  // Filtrar servicios según la categoría y término de búsqueda
-  const filteredServices = services.filter((service) => {
+  // Filtrar productos según la categoría y término de búsqueda
+  const filteredProducts = products.filter((product) => {
     const matchesCategory =
-      !selectedCategory || service.category === selectedCategory
+      !selectedCategory || product.category === selectedCategory
     const matchesSearch =
       !searchTerm ||
-      service.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      service.description.toLowerCase().includes(searchTerm.toLowerCase())
+      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.description.toLowerCase().includes(searchTerm.toLowerCase())
     return matchesCategory && matchesSearch
   })
 
-  // Calcular paginación sobre los servicios filtrados
-  const totalPages = Math.ceil(filteredServices.length / servicesPerPage)
-  const startIndex = (currentPage - 1) * servicesPerPage
-  const paginatedServices = filteredServices.slice(
+  // Calcular paginación sobre los productos filtrados
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage)
+  const startIndex = (currentPage - 1) * productsPerPage
+  const paginatedProducts = filteredProducts.slice(
     startIndex,
-    startIndex + servicesPerPage
+    startIndex + productsPerPage
   )
 
   // Generar array de números de página
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1)
 
   return (
-    // {editMode && (
-    //     <div className="text-center text-brand font-bold">
-    //       Edición habilitada
-    //     </div>
-    //   )}
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-green-100/50 to-blue-50">
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
@@ -82,7 +83,7 @@ export default function ServicesPage() {
               <SidebarFilterSkeleton />
             ) : (
               <SidebarFilter
-                title="Servicios"
+                title="Productos"
                 categories={categories}
                 selectedCategory={selectedCategory}
                 onCategorySelect={setSelectedCategory}
@@ -93,30 +94,37 @@ export default function ServicesPage() {
           {/* Contenido principal */}
           <main className="flex-1">
             {/* Buscador en la parte superior */}
-            <div className="mb-6 flex justify-end">
+            <div className="mb-6 flex justify-end gap-10">
               <Search
-                placeholder="Buscar servicios..."
+                placeholder="Buscar productos..."
                 onSearch={setSearchTerm}
               />
+              {editMode && (
+                <Button
+                  className="admin-btn admin-btn--primary"
+                  onClick={() => router.replace('/products/form')}
+                >
+                  Añadir
+                  <CirclePlus className="w-4 h-4" />
+                </Button>
+              )}
             </div>
 
-            {/* Grid de servicios */}
+            {/* Grid de productos */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {isLoading
                 ? // Mostrar 6 skeletons durante la carga
                   Array.from({ length: 6 }).map((_, index) => (
                     <ProductCardSkeleton key={index} />
                   ))
-                : paginatedServices.map((service) => (
+                : paginatedProducts.map((product) => (
                     <ProductCard
-                      key={service.id}
-                      product={service}
-                      basePath="services"
-                      buttonText="Explorar Curso"
+                      key={product.id}
+                      product={product}
+                      basePath="products"
                     />
                   ))}
             </div>
-
             {/* Paginación */}
             {totalPages > 1 && (
               <div className="mt-8">

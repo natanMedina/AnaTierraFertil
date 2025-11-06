@@ -6,8 +6,10 @@ import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 import { siteConfig } from '@/config/site'
 import { ContactDialog } from '@/components/shared/ContactDialog'
+import { useAdmin } from '@/context/AdminContext'
 
 export default function Header() {
+  const { isAdmin, editMode, toggleEditMode, logout } = useAdmin()
   const [open, setOpen] = useState(false)
 
   return (
@@ -31,11 +33,11 @@ export default function Header() {
 
         {/* Navigation */}
         <nav className="flex items-center gap-9">
-          <Link href="/store" className="hover:text-primary transition">
-            Productos
+          <Link href="/biography" className="hover:text-primary transition">
+            Conoceme
           </Link>
-          <Link href="/courses" className="hover:text-primary transition">
-            Cursos
+          <Link href="/products" className="hover:text-primary transition">
+            Productos
           </Link>
           <Link href="/services" className="hover:text-primary transition">
             Servicios
@@ -51,9 +53,37 @@ export default function Header() {
           >
             Contacto
           </Button>
+
+          {isAdmin ? (
+            <>
+              <Button
+                variant="outline"
+                onClick={toggleEditMode}
+                className={`w-45 rounded-md ${
+                  editMode
+                    ? 'bg-gray-600 text-white hover:bg-gray-500'
+                    : 'bg-gray-300 hover:bg-gray-400'
+                }`}
+              >
+                {editMode ? 'Salir del modo edición' : 'Entrar al modo edición'}
+              </Button>
+              <Button
+                onClick={logout}
+                className="px-3 py-1 bg-red-400 hover:bg-red-800 text-white rounded-md"
+              >
+                Cerrar sesión
+              </Button>
+            </>
+          ) : (
+            <Link
+              href="/admin/login"
+              className="px-3 py-1 bg-gray-300 text-white rounded-md"
+            >
+              Login
+            </Link>
+          )}
         </nav>
       </div>
-      {/* Dialog */}
       <ContactDialog open={open} onOpenChange={setOpen} />
     </header>
   )

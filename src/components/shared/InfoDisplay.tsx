@@ -150,7 +150,11 @@ export default function InfoDisplay({
               className="bg-white max-h-80 max-w-full rounded-lg shadow-lg object-contain"
             />
           ) : (
-            <p className="text-gray-500 italic">Sin multimedia disponible</p>
+            <div className="flex flex-col justify-center text-center bg-gray-100 h-80 w-2/4 rounded-lg shadow-lg">
+              <p className="text-xl text-gray-500 italic">
+                Sin multimedia disponible
+              </p>
+            </div>
           )}
         </div>
 

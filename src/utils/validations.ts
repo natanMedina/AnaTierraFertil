@@ -1,4 +1,9 @@
 import { Product } from '@/types/product'
+import { getYouTubeEmbedUrl } from '@/utils/formatters'
+
+// expresión regular para URLs de YouTube (youtu.be o youtube.com)
+const YOUTUBE_REGEX =
+  /^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)[\w-]{11}(&.*)?$/
 
 export function validateProduct(
   product: Omit<Product, 'id'>,
@@ -10,6 +15,7 @@ export function validateProduct(
     category: '',
     price: '',
     photo_url: '',
+    video_url: '',
   }
 
   // Nombre
@@ -45,6 +51,15 @@ export function validateProduct(
     errors.price = 'Ingrese un número sin . ,'
   } else if (product.price > 10 ** 7) {
     errors.price = 'Ingrese un valor menor'
+  }
+
+  // Video
+  if (product.video_url && product.video_url.trim() !== '') {
+    if (!YOUTUBE_REGEX.test(product.video_url.trim())) {
+      errors.video_url = 'Debe ser un enlace válido de YouTube'
+    } else if (!getYouTubeEmbedUrl(product.video_url.trim())) {
+      errors.video_url = 'El enlace de YouTube no es válido'
+    }
   }
 
   const isValid = Object.values(errors).every((e) => e === '')

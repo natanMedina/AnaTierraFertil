@@ -11,12 +11,15 @@ import {
 import { Product } from '@/types/product'
 import { useAdmin } from '@/context/AdminContext'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
 import { toast } from 'sonner'
 import { ArrowLeft } from 'lucide-react'
-import { getYouTubeEmbedUrl } from '@/utils/formatters'
 import FormSkeleton from '../shared/FormSkeleton'
+import { validateProduct } from '@/utils/validations'
+import ImageField from './fields/ImageField'
+import VideoField from './fields/VideoField'
+import TextField from './fields/TextField'
+import TextAreaField from './fields/TextAreaField'
+import NumberField from './fields/NumberField'
 
 interface ProductFormProps {
   id?: number
@@ -25,6 +28,18 @@ interface ProductFormProps {
 export default function ProductForm({ id }: ProductFormProps) {
   const router = useRouter()
   const { isAdmin, isLoading } = useAdmin()
+  const [validation, setValidation] = useState({
+    errors: {
+      name: '',
+      description: '',
+      category: '',
+      price: '',
+      photo_url: '',
+      video_url: '',
+    },
+    isValid: false,
+  })
+
   const [product, setProduct] = useState<Omit<Product, 'id'>>({
     name: '',
     description: '',
@@ -33,11 +48,10 @@ export default function ProductForm({ id }: ProductFormProps) {
     photo_url: '',
     video_url: '',
   })
-  const [localImagePreview, setLocalImagePreview] = useState<string | null>(
-    null
-  )
+  const [localImagePreview, setLocalImagePreview] = useState<
+    string | undefined
+  >(undefined)
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null)
-  const [videoLink, setVideoLink] = useState<string>('')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   // Redirigir si no es admin
@@ -54,7 +68,6 @@ export default function ProductForm({ id }: ProductFormProps) {
         const data = await getProductById(Number(id))
         if (data) {
           setProduct(data)
-          setVideoLink(data.video_url || '')
           if (data.photo_url) setLocalImagePreview(data.photo_url)
         }
       }
@@ -62,17 +75,21 @@ export default function ProductForm({ id }: ProductFormProps) {
     fetchProduct()
   }, [id, isAdmin])
 
+  useEffect(() => {
+    setValidation(validateProduct(product, localImagePreview))
+  }, [product, localImagePreview])
+
+  useEffect(
+    () => () =>
+      localImagePreview ? URL.revokeObjectURL(localImagePreview) : undefined,
+    []
+  )
+
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] ?? null
     if (!file) return
 
-    // liberar preview anterior si era object URL
-    if (localImagePreview && localImagePreview.startsWith('blob:')) {
-      URL.revokeObjectURL(localImagePreview)
-    }
-
-    const previewUrl = URL.createObjectURL(file)
-    setLocalImagePreview(previewUrl)
+    setLocalImagePreview(URL.createObjectURL(file))
     setSelectedImageFile(file)
   }
 
@@ -97,31 +114,32 @@ export default function ProductForm({ id }: ProductFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!isAdmin) return
+    if (!isAdmin || !validation.isValid) return
+
     setIsSubmitting(true)
 
     try {
       // 1) Si hay imagen nueva -> subirla y obtener URL
-      let finalPhotoUrl = product.photo_url
-      if (selectedImageFile) {
-        toast('Subiendo imagen...', { id: 'upload-start' })
-        const uploadedUrl = await uploadImageAndGetUrl()
-        if (!uploadedUrl) {
-          toast.error('Error al subir la imagen')
-          setIsSubmitting(false)
-          return
-        }
-        finalPhotoUrl = uploadedUrl
-        // actualizamos el producto local con la url resultante
-        setProduct((prev) => ({ ...prev, photo_url: uploadedUrl }))
-        toast.success('Imagen subida correctamente')
+      const uploadedUrl = selectedImageFile
+        ? await uploadImageAndGetUrl()
+        : product.photo_url
+
+      if (selectedImageFile && !uploadedUrl) {
+        toast.error('Error al subir la imagen')
+        setIsSubmitting(false)
+        return
       }
+
+      setProduct((prev) => ({
+        ...prev,
+        photo_url: uploadedUrl || product.photo_url,
+      }))
+      toast.success('Imagen subida correctamente')
 
       // 2) Preparar payload final
       const payload: Omit<Product, 'id'> = {
         ...product,
-        photo_url: finalPhotoUrl,
-        video_url: videoLink || product.video_url || '',
+        photo_url: uploadedUrl || product.photo_url,
       }
 
       // 3) Crear o actualizar producto
@@ -153,41 +171,37 @@ export default function ProductForm({ id }: ProductFormProps) {
       {/* COLUMNA IZQUIERDA */}
       <div className="w-full md:w-4/12 px-12 py-10 flex flex-col gap-6">
         {/* Nombre */}
-        <div className="flex flex-col gap-2">
-          <label>Nombre</label>
-          <Input
-            placeholder="Nombre del producto"
-            className="text-xl font-semibold"
-            value={product.name}
-            onChange={(e) => setProduct({ ...product, name: e.target.value })}
-          />
-        </div>
+        <TextField
+          label="Nombre"
+          placeholder="Nombre del producto"
+          value={product.name}
+          onChange={(e) => setProduct({ ...product, name: e.target.value })}
+          error={validation.errors.name}
+        />
 
-        {/* Línea separadora */}
         <div className="h-1 w-60 bg-brand mb-6"></div>
 
         {/* Descripción */}
-        <div className="flex flex-col gap-2">
-          <label>Descripción</label>
-          <Textarea
-            placeholder="Descripción del producto"
-            className="h-48 resize-none"
-            value={product.description}
-            onChange={(e) =>
-              setProduct({ ...product, description: e.target.value })
-            }
-          />
-        </div>
+        <TextAreaField
+          label="Descripción"
+          placeholder="Descripción del producto"
+          value={product.description}
+          onChange={(e) =>
+            setProduct({ ...product, description: e.target.value })
+          }
+          error={validation.errors.description}
+        />
 
         {/* Categoría */}
-        <div className="flex flex-col mt-auto gap-2">
-          <label>Categoría</label>
-          <Input
+        <div className="mt-auto">
+          <TextField
+            label="Categoría"
             placeholder="Categoría del producto"
             value={product.category}
             onChange={(e) =>
               setProduct({ ...product, category: e.target.value })
             }
+            error={validation.errors.category}
           />
         </div>
       </div>
@@ -214,68 +228,40 @@ export default function ProductForm({ id }: ProductFormProps) {
         {/* Cuadros de imagen y video */}
         <div className="flex justify-center gap-10 mt-20">
           {/* Imagen */}
-          <div className="flex flex-col gap-4 rounded-2xl bg-white p-4 shadow">
-            <label className="w-60 h-60 rounded-2xl flex items-center justify-center bg-gray-200 cursor-pointer overflow-hidden">
-              {localImagePreview ? (
-                <img
-                  src={localImagePreview}
-                  alt="Imagen"
-                  className="object-cover w-full h-full"
-                />
-              ) : (
-                <span className="text-gray-500">Seleccionar Imagen</span>
-              )}
-              <input
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handleImageChange}
-              />
-            </label>
-            <label className="max-w-sm text-center p-2 border-2 border-gray-200 rounded-sm text-gray-400 text-sm">
-              Pulse la Imagen para cambiarla
-            </label>
-          </div>
+          <ImageField
+            imagePreview={localImagePreview}
+            onChange={handleImageChange}
+            error={validation.errors.photo_url}
+          />
 
           {/* Video */}
-          <div className="flex flex-col gap-4 rounded-2xl bg-white p-4 shadow">
-            <div className="w-60 h-60 rounded-2xl flex flex-col items-center justify-center bg-gray-200 overflow-hidden">
-              {videoLink && getYouTubeEmbedUrl(videoLink) ? (
-                <iframe
-                  src={getYouTubeEmbedUrl(videoLink)!}
-                  className="w-full h-full"
-                  allowFullScreen
-                />
-              ) : (
-                <span className="text-gray-500">Video</span>
-              )}
-              {/* Campo para link de YouTube */}
-            </div>
-            <Input
-              placeholder="Enlace de YouTube"
-              className="max-w-sm text-center"
-              value={videoLink}
-              onChange={(e) => setVideoLink(e.target.value)}
-            />
-          </div>
+          <VideoField
+            video_url={product.video_url}
+            onChange={(e) =>
+              setProduct({
+                ...product,
+                video_url: e.target.value,
+              })
+            }
+            error={validation.errors.video_url}
+          />
         </div>
 
         {/* Cuadro inferior con precio */}
-        <div className="mt-10 mx-auto w-64 bg-white rounded-2xl shadow p-4 flex flex-col items-center gap-3">
-          <label>{'Precio (pesos col.)'}</label>
-          <Input
+        <div className="mt-10 mx-auto w-64">
+          <NumberField
+            label="Precio (pesos col.)"
             placeholder="Valor en pesos (COP)"
-            type="number"
+            value={product.price}
             min={0}
-            max={15000000}
-            className="text-center font-bold text-lg"
-            value={product.price === 0 ? '' : product.price}
+            max={10 ** 6}
             onChange={(e) => {
               setProduct({
                 ...product,
                 price: Number(e.target.value),
               })
             }}
+            error={validation.errors.price}
           />
         </div>
 
@@ -283,7 +269,7 @@ export default function ProductForm({ id }: ProductFormProps) {
         <Button
           type="submit"
           className="absolute bottom-6 right-6 admin-btn admin-btn--primary w-40 mx-auto mt-10"
-          disabled={isSubmitting}
+          disabled={isSubmitting || !validation.isValid}
         >
           {isSubmitting
             ? 'Guardando...'

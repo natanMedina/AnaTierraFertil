@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, ChangeEvent } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   getProductById,
@@ -84,14 +84,6 @@ export default function ProductForm({ id }: ProductFormProps) {
       localImagePreview ? URL.revokeObjectURL(localImagePreview) : undefined,
     []
   )
-
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] ?? null
-    if (!file) return
-
-    setLocalImagePreview(URL.createObjectURL(file))
-    setSelectedImageFile(file)
-  }
 
   const uploadImageAndGetUrl = async (): Promise<string | null> => {
     if (!selectedImageFile) {
@@ -230,7 +222,10 @@ export default function ProductForm({ id }: ProductFormProps) {
           {/* Imagen */}
           <ImageField
             imagePreview={localImagePreview}
-            onChange={handleImageChange}
+            onImageSelect={(file: File, previewUrl: string) => {
+              setSelectedImageFile(file)
+              setLocalImagePreview(previewUrl)
+            }}
             error={validation.errors.photo_url}
           />
 

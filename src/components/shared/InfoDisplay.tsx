@@ -67,14 +67,16 @@ export default function InfoDisplay({
   const elemento = basePath.includes('products') ? 'Producto' : 'Servicio'
 
   return (
-    <div className="w-full flex flex-col md:flex-row bg-white">
+    <div className="w-full flex flex-col min-h-160 md:flex-row bg-white">
       {/* Columna izquierda */}
       <div className="w-full md:w-4/12 px-12 py-10 flex flex-col">
         <h1 className="text-4xl font-bold text-gray-900 mb-4 text-center">
           {title}
         </h1>
         <div className="h-1 w-60 bg-brand mb-6"></div>
-        <p className="text-gray-700 leading-relaxed mb-8">{description}</p>
+        <p className="text-gray-700 leading-relaxed mb-8 overflow-hidden">
+          {description}
+        </p>
         <p className="text-gray-500 text-sm mt-auto mb-1">
           <span className="font-semibold">Categoría:</span> {category}
         </p>
@@ -82,7 +84,7 @@ export default function InfoDisplay({
 
       {/* Columna derecha */}
       <div
-        className="relative w-full md:w-8/12 flex flex-col items-center justify-start p-8 bg-green-100 bg-cover bg-center"
+        className="relative w-full md:w-8/12 flex flex-col items-center justify-start p-8 bg-green-100 bg-cover bg-center gap-10"
         style={{
           backgroundImage: 'url("/images/detail-bg.jpg")',
         }}
@@ -150,16 +152,20 @@ export default function InfoDisplay({
               className="bg-white max-h-80 max-w-full rounded-lg shadow-lg object-contain"
             />
           ) : (
-            <p className="text-gray-500 italic">Sin multimedia disponible</p>
+            <div className="flex flex-col justify-center text-center bg-gray-100 h-80 w-2/4 rounded-lg shadow-lg">
+              <p className="text-xl text-gray-500 italic">
+                Sin multimedia disponible
+              </p>
+            </div>
           )}
         </div>
 
         {/* Lista de opciones de compra */}
-        <div className="mt-10 flex flex-wrap justify-center gap-15">
+        <div className="mt-auto flex flex-wrap justify-center gap-15">
           {purchaseOptions.map((option, index) => (
             <div
               key={index}
-              className="flex flex-col items-center bg-white/60 backdrop-blur-sm shadow-lg rounded-xl p-6 w-fit"
+              className="flex flex-col items-center bg-white/60 backdrop-blur-sm shadow-lg rounded-xl p-6 w-fit min-w-56"
             >
               <h3 className="text-lg font-semibold text-gray-800 mb-2">
                 {option.title}

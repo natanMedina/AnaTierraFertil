@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react'
 import { getProducts } from '@/services/products'
 import { Product } from '@/types/product'
 import { SidebarFilter } from '@/components/shared/SidebarFilter'
-import { ProductCard } from '@/components/shared/ProductCard'
+import { ElementCard } from '@/components/cards/ElementCard'
 import { Search } from '@/components/shared/Search'
-import { ProductCardSkeleton } from '@/components/shared/ProductCardSkeleton'
+import { ProductCardSkeleton } from '@/components/cards/ElementCardSkeleton'
 import { SidebarFilterSkeleton } from '@/components/shared/SidebarFilterSkeleton'
 import {
   Pagination,
@@ -118,9 +118,9 @@ export default function ProductsPage() {
                     <ProductCardSkeleton key={index} />
                   ))
                 : paginatedProducts.map((product) => (
-                    <ProductCard
+                    <ElementCard
                       key={product.id}
-                      product={product}
+                      element={product}
                       basePath="products"
                     />
                   ))}
@@ -128,7 +128,7 @@ export default function ProductsPage() {
             {/* Paginación */}
             {totalPages > 1 && (
               <div className="mt-8">
-                <Pagination>
+                <Pagination className="select-none">
                   <PaginationContent>
                     <PaginationItem>
                       <PaginationPrevious

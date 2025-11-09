@@ -144,3 +144,8 @@
 .admin-btn--primary {
   @apply bg-blue-400 hover:bg-blue-300 text-white;
 }
+
+/* --- Estilos para formularios --- */
+.form-field-error {
+  @apply text-red-500 text-sm mt-1;
+}

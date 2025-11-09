@@ -120,7 +120,7 @@ export default function ServicesPage() {
             {/* Paginación */}
             {totalPages > 1 && (
               <div className="mt-8">
-                <Pagination>
+                <Pagination className="select-none">
                   <PaginationContent>
                     <PaginationItem>
                       <PaginationPrevious

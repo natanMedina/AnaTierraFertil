@@ -128,7 +128,7 @@ export default function ProductsPage() {
             {/* Paginación */}
             {totalPages > 1 && (
               <div className="mt-8">
-                <Pagination>
+                <Pagination className="select-none">
                   <PaginationContent>
                     <PaginationItem>
                       <PaginationPrevious

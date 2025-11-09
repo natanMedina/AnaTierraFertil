@@ -295,7 +295,8 @@ export default function ProductForm({ id }: ProductFormProps) {
         {/* Botón guardar */}
         <Button
           type="submit"
-          className="absolute bottom-6 right-6 admin-btn admin-btn--primary w-40 mx-auto mt-10"
+          variant="admin"
+          className="absolute bottom-6 right-6 w-40 mx-auto mt-10"
           disabled={isSubmitting || !validation.isValid}
         >
           {isSubmitting

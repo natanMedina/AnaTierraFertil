@@ -99,9 +99,10 @@ export default function ProductsPage() {
                 placeholder="Buscar productos..."
                 onSearch={setSearchTerm}
               />
+              {/* Botón añadir */}
               {editMode && (
                 <Button
-                  className="admin-btn admin-btn--primary"
+                  variant="admin"
                   onClick={() => router.replace('/products/form')}
                 >
                   Añadir

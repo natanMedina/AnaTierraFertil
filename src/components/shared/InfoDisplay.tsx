@@ -104,8 +104,7 @@ export default function InfoDisplay({
             <>
               <Button
                 type="button"
-                variant="secondary"
-                className="admin-btn admin-btn--primary"
+                variant="admin"
                 onClick={() => router.push(`/products/form/${id}`)}
                 disabled={isDeleting}
               >
@@ -121,11 +120,7 @@ export default function InfoDisplay({
                 icon={<Trash2 className="w-5 h-5 text-red-600" />}
                 iconBg="bg-red-100"
                 trigger={
-                  <Button
-                    variant="destructive"
-                    className="admin-btn admin-btn--danger"
-                    disabled={isDeleting}
-                  >
+                  <Button variant="admin_destructive" disabled={isDeleting}>
                     <Trash2 className="w-4 h-4" />
                     Borrar
                   </Button>

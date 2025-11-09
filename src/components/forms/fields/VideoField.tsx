@@ -10,7 +10,7 @@ export default function VideoField({
   video_url?: string
   onChange: (e: any) => void
   error?: string
-  disabled?: boolean,
+  disabled?: boolean
 }) {
   return (
     <div className="flex flex-col gap-4 rounded-2xl bg-white p-4 shadow">

@@ -3,7 +3,6 @@
 import { useAdmin } from '@/context/AdminContext'
 import { Edit, Trash2, ArrowLeft } from 'lucide-react'
 import { useState } from 'react'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Button } from '../ui/button'
 import { toast } from 'sonner'
@@ -96,19 +95,23 @@ export default function InfoDisplay({
             variant="secondary"
             className="flex items-center ml-auto w-min gap-2 text-white font-bold bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-md text-sm transition"
             onClick={() => router.push('/products')}
+            disabled={isDeleting}
           >
             <ArrowLeft className="w-4 h-4" />
           </Button>
 
           {editMode && (
             <>
-              <Link
-                href={`/products/form/${id}`}
+              <Button
+                type="button"
+                variant="secondary"
                 className="admin-btn admin-btn--primary"
+                onClick={() => router.push(`/products/form/${id}`)}
+                disabled={isDeleting}
               >
                 <Edit className="w-4 h-4" />
                 Editar
-              </Link>
+              </Button>
               <ConfirmDialog
                 title="¿Eliminar registro?"
                 description="Esta acción eliminará el producto de forma permanente."
@@ -119,6 +122,7 @@ export default function InfoDisplay({
                 iconBg="bg-red-100"
                 trigger={
                   <Button
+                    variant="destructive"
                     className="admin-btn admin-btn--danger"
                     disabled={isDeleting}
                   >
@@ -180,6 +184,7 @@ export default function InfoDisplay({
                   setSelectedMessage(message)
                   setDialogOpen(true)
                 }}
+                disabled={isDeleting}
               >
                 {option.buttonText}
               </Button>

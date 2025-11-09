@@ -74,7 +74,9 @@ export default function InfoDisplay({
           {title}
         </h1>
         <div className="h-1 w-60 bg-brand mb-6"></div>
-        <p className="text-gray-700 leading-relaxed mb-8 overflow-hidden">{description}</p>
+        <p className="text-gray-700 leading-relaxed mb-8 overflow-hidden">
+          {description}
+        </p>
         <p className="text-gray-500 text-sm mt-auto mb-1">
           <span className="font-semibold">Categoría:</span> {category}
         </p>

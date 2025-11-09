@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react'
 import { getProducts } from '@/services/products'
 import { Product } from '@/types/product'
 import { SidebarFilter } from '@/components/shared/SidebarFilter'
-import { ProductCard } from '@/components/shared/ProductCard'
+import { ProductCard } from '@/components/cards/ProductCard'
 import { Search } from '@/components/shared/Search'
-import { ProductCardSkeleton } from '@/components/shared/ProductCardSkeleton'
+import { ProductCardSkeleton } from '@/components/cards/ProductCardSkeleton'
 import { SidebarFilterSkeleton } from '@/components/shared/SidebarFilterSkeleton'
 import {
   Pagination,

@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react'
 import { getServices } from '@/services/services'
 import { Service } from '@/types/service'
 import { SidebarFilter } from '@/components/shared/SidebarFilter'
-import { ProductCard } from '@/components/cards/ProductCard'
+import { ElementCard } from '@/components/cards/ElementCard'
 import { Search } from '@/components/shared/Search'
-import { ProductCardSkeleton } from '@/components/cards/ProductCardSkeleton'
+import { ProductCardSkeleton } from '@/components/cards/ElementCardSkeleton'
 import { SidebarFilterSkeleton } from '@/components/shared/SidebarFilterSkeleton'
 import {
   Pagination,
@@ -108,11 +108,11 @@ export default function ServicesPage() {
                     <ProductCardSkeleton key={index} />
                   ))
                 : paginatedServices.map((service) => (
-                    <ProductCard
+                    <ElementCard
                       key={service.id}
-                      product={service}
+                      element={service}
                       basePath="services"
-                      buttonText="Explorar Curso"
+                      buttonText="Explorar"
                     />
                   ))}
             </div>

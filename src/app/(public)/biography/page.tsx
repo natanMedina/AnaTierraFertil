@@ -30,7 +30,7 @@ const BiographySection = () => (
             <CardDescription className="text-lg text-gray-600">
               {siteConfig.biography.name} -{' '}
               <span className="text-brand font-medium">
-                {siteConfig.biography.username}
+                {siteConfig.contact.username}
               </span>
             </CardDescription>
           </CardHeader>

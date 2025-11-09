@@ -7,6 +7,7 @@ import {
   createProduct,
   updateProduct,
   uploadProductImage,
+  deleteProductImage,
 } from '@/services/products'
 import { Product } from '@/types/product'
 import { useAdmin } from '@/context/AdminContext'
@@ -111,27 +112,30 @@ export default function ProductForm({ id }: ProductFormProps) {
     setIsSubmitting(true)
 
     try {
+      const oldImageUrl = product.photo_url // guardar la imagen actual antes de editar
+      let uploadedUrl: string | null = oldImageUrl
+
       // 1) Si hay imagen nueva -> subirla y obtener URL
-      const uploadedUrl = selectedImageFile
-        ? await uploadImageAndGetUrl()
-        : product.photo_url
+      if (selectedImageFile) {
+        uploadedUrl = await uploadImageAndGetUrl()
 
-      if (selectedImageFile && !uploadedUrl) {
-        toast.error('Error al subir la imagen')
-        setIsSubmitting(false)
-        return
+        if (!uploadedUrl) {
+          toast.error('Error al subir la nueva imagen')
+          setIsSubmitting(false)
+          return
+        }
+
+        setProduct((prev) => ({
+          ...prev,
+          photo_url: uploadedUrl || oldImageUrl,
+        }))
+        toast.success('Nueva imagen subida correctamente')
       }
-
-      setProduct((prev) => ({
-        ...prev,
-        photo_url: uploadedUrl || product.photo_url,
-      }))
-      toast.success('Imagen subida correctamente')
 
       // 2) Preparar payload final
       const payload: Omit<Product, 'id'> = {
         ...product,
-        photo_url: uploadedUrl || product.photo_url,
+        photo_url: uploadedUrl || oldImageUrl,
       }
 
       // 3) Crear o actualizar producto
@@ -141,6 +145,24 @@ export default function ProductForm({ id }: ProductFormProps) {
 
       if (success) {
         toast.success(id ? 'Producto actualizado' : 'Producto creado')
+
+        // Si se actualizó y se cambió la imagen, eliminar la anterior
+        if (
+          id &&
+          selectedImageFile &&
+          oldImageUrl &&
+          oldImageUrl !== uploadedUrl
+        ) {
+          try {
+            await deleteProductImage(oldImageUrl)
+          } catch (deleteErr) {
+            console.warn(
+              '⚠️ No se pudo eliminar la imagen anterior:',
+              deleteErr
+            )
+          }
+        }
+
         router.push(id ? `/products/${id}` : '/products')
       } else {
         toast.error('Error al guardar el producto')

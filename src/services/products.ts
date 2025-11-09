@@ -48,16 +48,42 @@ export async function updateProduct(id: number, product: Partial<Product>) {
 }
 
 export async function deleteProduct(id: number): Promise<boolean> {
-  const { error } = await supabase.from('products').delete().eq('id', id)
+  try {
+    // Obtener el producto para acceder a su imagen
+    const { data: product, error: fetchError } = await supabase
+      .from('products')
+      .select('photo_url')
+      .eq('id', id)
+      .single()
 
-  if (error) {
-    console.error('Error al eliminar producto:', error)
+    if (fetchError) {
+      console.error('Error al obtener producto antes de eliminar:', fetchError)
+      return false
+    }
+
+    // Eliminar el registro del producto
+    const { error: deleteError } = await supabase
+      .from('products')
+      .delete()
+      .eq('id', id)
+    if (deleteError) {
+      console.error('Error al eliminar producto:', deleteError)
+      return false
+    }
+
+    // Si tiene imagen, eliminarla del bucket
+    if (product?.photo_url) {
+      await deleteProductImage(product.photo_url)
+    }
+
+    return true
+  } catch (err) {
+    console.error('Error general al eliminar producto:', err)
     return false
   }
-
-  return true
 }
 
+// Funciones para imagenes en el bucket
 export async function uploadProductImage(file: File): Promise<string | null> {
   const fileExt = file.name.split('.').pop()
   const fileName = `${Math.random().toString(36).substring(2, 15)}${Date.now()}.${fileExt}`
@@ -77,4 +103,37 @@ export async function uploadProductImage(file: File): Promise<string | null> {
 
   const { data } = supabase.storage.from(bucketName).getPublicUrl(filePath)
   return data.publicUrl
+}
+
+export async function deleteProductImage(publicUrl: string): Promise<boolean> {
+  try {
+    const bucketName = 'products'
+
+    const { data } = supabase.storage.from(bucketName).getPublicUrl('')
+
+    // El path base público del bucket, sin incluir archivos
+    const basePublicPath = data.publicUrl.endsWith('/')
+      ? data.publicUrl
+      : `${data.publicUrl}/`
+
+    // Extraer solo el nombre del archivo a partir de la URL completa
+    const filePath = publicUrl.replace(basePublicPath, '')
+
+    if (!filePath || filePath === publicUrl) {
+      console.error('❌ No se pudo determinar el path del archivo a eliminar')
+      return false
+    }
+
+    const { error } = await supabase.storage.from(bucketName).remove([filePath])
+
+    if (error) {
+      console.error('Error al eliminar imagen del bucket:', error)
+      return false
+    }
+
+    return true
+  } catch (err) {
+    console.error('Error general al eliminar imagen:', err)
+    return false
+  }
 }

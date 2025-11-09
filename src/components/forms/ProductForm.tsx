@@ -194,6 +194,7 @@ export default function ProductForm({ id }: ProductFormProps) {
           value={product.name}
           onChange={(e) => setProduct({ ...product, name: e.target.value })}
           error={validation.errors.name}
+          disabled={isSubmitting}
         />
 
         <div className="h-1 w-60 bg-brand mb-6"></div>
@@ -207,6 +208,7 @@ export default function ProductForm({ id }: ProductFormProps) {
             setProduct({ ...product, description: e.target.value })
           }
           error={validation.errors.description}
+          disabled={isSubmitting}
         />
 
         {/* Categoría */}
@@ -219,6 +221,7 @@ export default function ProductForm({ id }: ProductFormProps) {
               setProduct({ ...product, category: e.target.value })
             }
             error={validation.errors.category}
+            disabled={isSubmitting}
           />
         </div>
       </div>
@@ -237,6 +240,7 @@ export default function ProductForm({ id }: ProductFormProps) {
             variant="secondary"
             className="flex items-center ml-auto w-min gap-2 text-white font-bold bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-md text-sm transition"
             onClick={() => router.push(id ? `/products/${id}` : '/products')}
+            disabled={isSubmitting}
           >
             <ArrowLeft className="w-4 h-4" />
           </Button>
@@ -252,6 +256,7 @@ export default function ProductForm({ id }: ProductFormProps) {
               setLocalImagePreview(previewUrl)
             }}
             error={validation.errors.photo_url}
+            disabled={isSubmitting}
           />
 
           {/* Video */}
@@ -264,6 +269,7 @@ export default function ProductForm({ id }: ProductFormProps) {
               })
             }
             error={validation.errors.video_url}
+            disabled={isSubmitting}
           />
         </div>
 
@@ -282,6 +288,7 @@ export default function ProductForm({ id }: ProductFormProps) {
               })
             }}
             error={validation.errors.price}
+            disabled={isSubmitting}
           />
         </div>
 

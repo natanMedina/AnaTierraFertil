@@ -132,19 +132,6 @@
   }
 }
 
-/* --- Estilos para modo administrador --- */
-.admin-btn {
-  @apply flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-md transition bg-gray-200 text-gray-800 hover:bg-blue-300 hover:text-gray-900;
-}
-
-.admin-btn--danger {
-  @apply bg-red-400 hover:bg-red-600 text-white;
-}
-
-.admin-btn--primary {
-  @apply bg-blue-400 hover:bg-blue-300 text-white;
-}
-
 /* --- Estilos para formularios --- */
 .form-field-error {
   @apply text-red-500 text-sm mt-1;

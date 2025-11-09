@@ -3,7 +3,6 @@
 import { useAdmin } from '@/context/AdminContext'
 import { Edit, Trash2, ArrowLeft } from 'lucide-react'
 import { useState } from 'react'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Button } from '../ui/button'
 import { toast } from 'sonner'
@@ -96,19 +95,22 @@ export default function InfoDisplay({
             variant="secondary"
             className="flex items-center ml-auto w-min gap-2 text-white font-bold bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-md text-sm transition"
             onClick={() => router.push('/products')}
+            disabled={isDeleting}
           >
             <ArrowLeft className="w-4 h-4" />
           </Button>
 
           {editMode && (
             <>
-              <Link
-                href={`/products/form/${id}`}
-                className="admin-btn admin-btn--primary"
+              <Button
+                type="button"
+                variant="admin"
+                onClick={() => router.push(`/products/form/${id}`)}
+                disabled={isDeleting}
               >
                 <Edit className="w-4 h-4" />
                 Editar
-              </Link>
+              </Button>
               <ConfirmDialog
                 title="¿Eliminar registro?"
                 description="Esta acción eliminará el producto de forma permanente."
@@ -118,10 +120,7 @@ export default function InfoDisplay({
                 icon={<Trash2 className="w-5 h-5 text-red-600" />}
                 iconBg="bg-red-100"
                 trigger={
-                  <Button
-                    className="admin-btn admin-btn--danger"
-                    disabled={isDeleting}
-                  >
+                  <Button variant="admin_destructive" disabled={isDeleting}>
                     <Trash2 className="w-4 h-4" />
                     Borrar
                   </Button>
@@ -180,6 +179,7 @@ export default function InfoDisplay({
                   setSelectedMessage(message)
                   setDialogOpen(true)
                 }}
+                disabled={isDeleting}
               >
                 {option.buttonText}
               </Button>

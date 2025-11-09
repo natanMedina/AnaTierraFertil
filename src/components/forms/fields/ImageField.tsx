@@ -4,10 +4,12 @@ export default function ImageField({
   imagePreview,
   onImageSelect,
   error,
+  disabled = false,
 }: {
   imagePreview?: string
   onImageSelect: (file: File, previewUrl: string) => void
   error?: string
+  disabled?: boolean
 }) {
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] ?? null
@@ -33,6 +35,7 @@ export default function ImageField({
           accept="image/*"
           className="hidden"
           onChange={handleImageChange}
+          disabled={disabled}
         />
       </label>
       <label className="max-w-sm text-center p-2 border-2 border-gray-200 rounded-sm text-gray-400 text-sm">

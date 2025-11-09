@@ -53,6 +53,7 @@ export default function ProductForm({ id }: ProductFormProps) {
     string | undefined
   >(undefined)
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null)
+  const [isProductLoaded, setIsProductLoaded] = useState(!id)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   // Redirigir si no es admin
@@ -72,12 +73,14 @@ export default function ProductForm({ id }: ProductFormProps) {
           if (data.photo_url) setLocalImagePreview(data.photo_url)
         }
       }
+      setIsProductLoaded(true)
     }
     fetchProduct()
   }, [id, isAdmin])
 
   useEffect(() => {
-    setValidation(validateProduct(product, localImagePreview))
+    if (isProductLoaded)
+      setValidation(validateProduct(product, localImagePreview))
   }, [product, localImagePreview])
 
   useEffect(

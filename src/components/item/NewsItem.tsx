@@ -42,7 +42,6 @@ export function NewsItem({
       {/* Media izquierda */}
       <ItemMedia variant="image" className="size-24 rounded-md overflow-hidden">
         {imageUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
           <img src={imageUrl} alt={title} />
         ) : (
           <div className="size-full bg-gray-300" aria-hidden />

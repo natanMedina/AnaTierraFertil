@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { useState, useEffect } from 'react'
 import { Search } from '@/components/shared/Search'
@@ -38,7 +38,9 @@ export default function NewsPage() {
       <div className="container mx-auto px-6 lg:px-12 py-8">
         {/* Encabezado */}
         <div className="mb-6 flex items-center justify-between">
-          <h1 className="text-3xl lg:text-4xl font-bold text-gray-900">Novedades</h1>
+          <h1 className="text-3xl lg:text-4xl font-bold text-gray-900">
+            Novedades
+          </h1>
           <Search placeholder="Buscar novedades ..." onSearch={setSearchTerm} />
         </div>
 
@@ -47,7 +49,9 @@ export default function NewsPage() {
           {isLoading ? (
             <p className="text-center text-gray-600">Cargando novedades...</p>
           ) : filteredNews.length === 0 ? (
-            <p className="text-center text-gray-600">No se encontraron novedades.</p>
+            <p className="text-center text-gray-600">
+              No se encontraron novedades.
+            </p>
           ) : (
             filteredNews.map((item) => (
               <NewsItem

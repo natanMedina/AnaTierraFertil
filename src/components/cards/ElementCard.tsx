@@ -26,7 +26,8 @@ export function ElementCard({
   return (
     <Card className="overflow-hidden group">
       <CardHeader className="p-0">
-        <div className="relative aspect-square">
+        {/* Fixed image area height so all cards have consistent image size */}
+        <div className="relative w-full h-100 overflow-hidden">
           {element.photo_url ? (
             <img
               src={element.photo_url}

@@ -10,7 +10,6 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { siteConfig } from '@/config/site'
-import { CheckCircleIcon } from 'lucide-react'
 
 const BiographySection = () => (
   <div className="relative z-10 py-16 bg-white">
@@ -34,64 +33,10 @@ const BiographySection = () => (
               </span>
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4 text-gray-700 text-base leading-tight">
-            <p>
-              Soy partera intercultural, socióloga con maestría en Asesoría
-              Familiar, y acompañante de procesos femeninos desde una mirada
-              integral que une la sabiduría ancestral y el conocimiento
-              contemporáneo.
-            </p>
-
-            <p>
-              Acompaño a mujeres en todas las etapas de su vida —menarquia,
-              embarazo, parto, posparto y climaterio— con prácticas de salud
-              natural y holística, que incluyen:
-            </p>
-
-            <ul className="space-y-2 pl-5">
-              {/* Cada item en su propio li con flex para alinear el icono y el texto */}
-              <li className="flex items-start gap-2">
-                <CheckCircleIcon className="w-5 h-5 text-brand flex-shrink-0 mt-1" />
-                <span>
-                  Consultoría en salud Ayurveda y autocuidado femenino.
-                </span>
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckCircleIcon className="w-5 h-5 text-brand flex-shrink-0 mt-1" />
-                <span>
-                  Ginecología natural y acompañamiento en salud sexual y
-                  reproductiva.
-                </span>
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckCircleIcon className="w-5 h-5 text-brand flex-shrink-0 mt-1" />
-                <span>
-                  Masaje terapéutico desde la Medicina Tradicional China y el
-                  Masaje Tradicional Tailandés (como profesora internacional).
-                </span>
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckCircleIcon className="w-5 h-5 text-brand flex-shrink-0 mt-1" />
-                <span>
-                  Yoga prenatal e integral, con enfoque en energía femenina y
-                  embarazo consciente.
-                </span>
-              </li>
-            </ul>
-
-            <p>
-              Soy cofundadora de la Asociación Parir Cali, y desde el 2013
-              acompaño partos en casa con el equipo Aluna Nacer. También soy
-              cofundadora de Matricarias Tejido de Mujeres en Boyacá, espacios
-              que promueven la partería, la salud femenina y los saberes
-              comunitarios.
-            </p>
-
-            <p>
-              Mi propósito es ofrecer un acompañamiento integral, amoroso y
-              respetuoso, que honre la sabiduría del cuerpo femenino y su
-              conexión con la naturaleza en cada etapa de la vida.
-            </p>
+          <CardContent className="space-y-6 text-gray-700 text-lg leading-relaxed">
+            {siteConfig.biography.description.map((paragraph, index) => (
+              <p key={index}>{paragraph}</p>
+            ))}
           </CardContent>
         </Card>
       </div>
@@ -102,12 +47,17 @@ const BiographySection = () => (
 const JourneySection = () => (
   <div className="relative z-10 py-16 bg-gray-50">
     <div className="container mx-auto px-6 lg:px-12">
-      <div className="text-center mb-12">
-        <h2 className="text-4xl font-bold text-gray-900 mb-6">Mi recorrido</h2>
-        <p className="max-w-3xl mx-auto text-lg text-gray-700 leading-relaxed">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-          id dolor pellentesque, convallis orci a, aliquam mi.
-        </p>
+      <div className="text-center mb-12 px-4 sm:px-8 lg:px-24">
+        <div className="max-w-3xl mx-auto space-y-4">
+          <h2 className="text-4xl font-bold text-gray-900 mb-6">
+            Mi recorrido
+          </h2>
+          {siteConfig.biography.experiencie.map((paragraph, index) => (
+            <p key={index} className="mx-auto text-justify">
+              {paragraph}
+            </p>
+          ))}
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -137,10 +87,18 @@ export default function BiographyPage() {
       <div className="relative z-10">
         <div className="flex flex-col items-center justify-center min-h-[95vh] text-center px-4 pt-16">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
-            Conoce a Ana
+            El arte de acompañar
           </h1>
           <p className="max-w-2xl text-lg md:text-xl text-gray-700 leading-relaxed">
-            Lorem ipsum dolor sit amet...
+            Soy partera intercultural, doula, educadora en salud materna,
+            profesora de yoga prenatal y consultora en salud ayurveda para la
+            mujer, además socióloga con una maestría en asesoría familiar.
+            Acompaño los procesos de gestación, parto y posparto desde una
+            mirada integral que une los saberes ancestrales, la medicina natural
+            y las prácticas del yoga. Mi labor se centra en promover el
+            autocuidado, la conexión cuerpo-espíritu y el respeto por los ritmos
+            naturales de la vida femenina, creando espacios de acompañamiento
+            educativos y conscientes para mujeres, familias y comunidades.
           </p>
         </div>
         <BiographySection />

@@ -28,7 +28,9 @@ const HeroSection = () => (
           </h1>
         </div>
         <p className="text-lg lg:text-xl text-black mb-8 max-w-2xl leading-relaxed">
-          Description: Lorem ipsum dolor sit amet...
+          Acompañamiento integral en salud femenina, cuidado prenatal y
+          bienestar natural, con un enfoque personalizado y holístico para cada
+          etapa de tu vida.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 mb-12">
           <Button
@@ -123,27 +125,30 @@ const BiographySection = () => (
         <Card className="lg:w-2/3 p-8 shadow-lg rounded-lg">
           <CardHeader className="pb-6">
             <CardTitle className="text-4xl font-bold text-gray-800 mb-4">
-              {siteConfig.biography.title}
+              {siteConfig.homeBiography.title}
             </CardTitle>
             <CardDescription className="text-lg text-gray-600">
-              {siteConfig.biography.name} -{' '}
+              {siteConfig.homeBiography.name} -{' '}
               <span className="text-brand font-medium">
-                {siteConfig.contact.username}
+                {siteConfig.homeBiography.username}
               </span>
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6 text-gray-700 text-lg leading-relaxed">
-            {siteConfig.biography.description.map((paragraph, index) => (
+            {siteConfig.homeBiography.descriptionP1.map((paragraph, index) => (
               <p key={index}>{paragraph}</p>
             ))}
             <ul className="space-y-3 pl-5">
-              {siteConfig.biography.services.map((service, index) => (
+              {siteConfig.homeBiography.services.map((service, index) => (
                 <li key={index} className="flex items-start gap-2">
                   <CheckCircleIcon className="w-6 h-6 text-brand flex-shrink-0 mt-1" />
                   <span>{service}</span>
                 </li>
               ))}
             </ul>
+            {siteConfig.homeBiography.descriptionP2.map((paragraph, index) => (
+              <p key={index}>{paragraph}</p>
+            ))}
             <div className="pt-4 flex justify-center">
               <Link href="/biography">
                 <Button

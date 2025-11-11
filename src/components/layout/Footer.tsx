@@ -126,7 +126,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Contacto */}
+          {/* Contactoa */}
           <div className="space-y-4">
             <h3
               className="text-sm font-semibold tracking-wide"
@@ -142,7 +142,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="hover:text-brand transition-colors duration-200"
                 >
-                  {siteConfig.biography.username}
+                  {siteConfig.contact.username}
                 </Link>
               </li>
               <li>

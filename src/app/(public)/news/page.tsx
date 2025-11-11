@@ -87,6 +87,7 @@ export default function NewsPage() {
                 title={item.title}
                 description={item.description}
                 imageUrl={item.photo_url}
+                date={item.date}
               />
             ))
           )}

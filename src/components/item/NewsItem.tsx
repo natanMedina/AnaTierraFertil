@@ -15,6 +15,7 @@ type NewsItemProps = {
   title: string
   description: string
   imageUrl?: string
+  date?: string
   className?: string
 }
 
@@ -29,8 +30,22 @@ export function NewsItem({
   title,
   description,
   imageUrl,
+  date,
   className,
 }: NewsItemProps) {
+  // Formatear la fecha si existe
+  // Usar split y crear fecha con componentes locales para evitar problemas de zona horaria
+  const formattedDate = date
+    ? (() => {
+        const [year, month, day] = date.split('-').map(Number)
+        const localDate = new Date(year, month - 1, day)
+        return localDate.toLocaleDateString('es-ES', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        })
+      })()
+    : null
   return (
     <Item
       variant="outline"
@@ -56,10 +71,19 @@ export function NewsItem({
 
       {/* Contenido derecho con título fijo y descripción con scroll */}
       <ItemContent className="flex-1 flex flex-col min-w-0 h-full">
-        {/* Título fijo arriba */}
-        <ItemTitle className="text-xl font-semibold mb-2 flex-shrink-0">
-          {title}
-        </ItemTitle>
+        {/* Encabezado con título y fecha */}
+        <div className="flex flex-col gap-1 mb-2 flex-shrink-0">
+          <div className="flex items-start justify-between gap-4">
+            <ItemTitle className="text-xl font-semibold flex-1 min-w-0">
+              {title}
+            </ItemTitle>
+            {formattedDate && (
+              <span className="text-sm text-gray-500 whitespace-nowrap flex-shrink-0">
+                {formattedDate}
+              </span>
+            )}
+          </div>
+        </div>
 
         {/* Descripción con ScrollArea para overflow */}
         <ScrollArea className="flex-1 overflow-y-auto">

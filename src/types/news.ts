@@ -3,4 +3,5 @@ export interface News {
   title: string
   description: string
   photo_url: string
+  date: string
 }

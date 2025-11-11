@@ -2,6 +2,11 @@
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from '@/components/ui/hover-card'
 import { Product } from '@/types/product'
 import { Service } from '@/types/service'
 import { useRouter } from 'next/navigation'
@@ -42,10 +47,31 @@ export function ElementCard({
         </div>
       </CardHeader>
       <CardContent className="p-4 text-center h-[120px] flex flex-col">
-        <h3 className="text-lg font-bold mb-2">{element.name}</h3>
-        <p className="text-gray-600 overflow-hidden line-clamp-2 flex-1">
-          {element.description}
-        </p>
+        {/* Título con truncado y hover */}
+        <HoverCard openDelay={300}>
+          <HoverCardTrigger asChild>
+            <h3 className="text-lg font-bold mb-2 truncate cursor-help">
+              {element.name}
+            </h3>
+          </HoverCardTrigger>
+          <HoverCardContent className="max-w-xs break-words">
+            <p className="text-sm font-semibold">{element.name}</p>
+          </HoverCardContent>
+        </HoverCard>
+
+        {/* Descripción con truncado y hover */}
+        <HoverCard openDelay={300}>
+          <HoverCardTrigger asChild>
+            <p className="text-gray-600 overflow-hidden line-clamp-2 flex-1 cursor-help">
+              {element.description}
+            </p>
+          </HoverCardTrigger>
+          <HoverCardContent className="max-w-sm break-words">
+            <p className="text-sm text-gray-600 leading-relaxed">
+              {element.description}
+            </p>
+          </HoverCardContent>
+        </HoverCard>
       </CardContent>
       <CardFooter className="p-4 pt-0 justify-center">
         <Button

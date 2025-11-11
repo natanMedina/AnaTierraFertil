@@ -2,6 +2,7 @@ export const siteConfig = {
   name: 'Ana Tierra Fértil',
   contact: {
     whatsapp: '+57 3001234567',
+    username: '@ana.tierrafertil',
   },
   homeBiography: {
     name: 'Ana María Palau',
@@ -24,7 +25,6 @@ export const siteConfig = {
   },
   biography: {
     name: 'Ana María Palau',
-    username: '@ana.tierrafertil',
     title: 'Un poco de mi',
     description: [
       'La maternidad abrió en mí una profunda compuerta hacia el mundo del cuidado prenatal. Durante el embarazo de mi hijo comencé a practicar yoga, y al vivir mi parto y posparto acompañada por parteras, comprendí la importancia del acompañamiento consciente en este momento sagrado de la vida. Desde entonces supe que ese era mi camino: acompañar a otras mujeres en sus procesos de gestación, parto, y posparto, así como a los cuidados de la salud femenina.',

@@ -126,7 +126,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Contacto */}
+          {/* Contactoa */}
           <div className="space-y-4">
             <h3
               className="text-sm font-semibold tracking-wide"
@@ -137,10 +137,10 @@ export default function Footer() {
             <ul className="space-y-3 text-sm" style={{ color: '#9CA3AF' }}>
               <li>
                 <Link
-                  href={`mailto:${siteConfig.biography.username}`}
+                  href={`mailto:${siteConfig.contact.username}`}
                   className="hover:text-brand transition-colors duration-200"
                 >
-                  {siteConfig.biography.username}
+                  {siteConfig.contact.username}
                 </Link>
               </li>
               <li>

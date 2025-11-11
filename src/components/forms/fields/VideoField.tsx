@@ -5,10 +5,12 @@ export default function VideoField({
   video_url,
   onChange,
   error,
+  disabled = false,
 }: {
   video_url?: string
   onChange: (e: any) => void
   error?: string
+  disabled?: boolean
 }) {
   return (
     <div className="flex flex-col gap-4 rounded-2xl bg-white p-4 shadow">
@@ -29,6 +31,7 @@ export default function VideoField({
         className="max-w-sm text-center"
         value={video_url}
         onChange={onChange}
+        disabled={disabled}
       />
       {error && <p className="form-field-error">{error}</p>}
     </div>

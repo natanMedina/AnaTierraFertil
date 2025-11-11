@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Search } from '@/components/shared/Search'
 import { NewsItem } from '@/components/item/NewsItem'
+import { NewsItemSkeleton } from '@/components/item/NewsItemSkeleton'
 import { getNews } from '@/services/news'
 import { News } from '@/types/news'
 import {
@@ -71,7 +72,10 @@ export default function NewsPage() {
         {/* Lista de novedades */}
         <div className="flex flex-col gap-5">
           {isLoading ? (
-            <p className="text-center text-gray-600">Cargando novedades...</p>
+            // Mostrar 6 skeletons mientras carga
+            Array.from({ length: itemsPerPage }).map((_, index) => (
+              <NewsItemSkeleton key={index} />
+            ))
           ) : filteredNews.length === 0 ? (
             <p className="text-center text-gray-600">
               No se encontraron novedades.

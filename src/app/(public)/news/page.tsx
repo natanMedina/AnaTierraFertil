@@ -5,11 +5,21 @@ import { Search } from '@/components/shared/Search'
 import { NewsItem } from '@/components/item/NewsItem'
 import { getNews } from '@/services/news'
 import { News } from '@/types/news'
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination'
 
 export default function NewsPage() {
   const [searchTerm, setSearchTerm] = useState('')
   const [news, setNews] = useState<News[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 6
 
   useEffect(() => {
     async function fetchNews() {
@@ -23,6 +33,11 @@ export default function NewsPage() {
     fetchNews()
   }, [])
 
+  useEffect(() => {
+    // Resetear a la primera página cuando cambian los filtros
+    setCurrentPage(1)
+  }, [searchTerm])
+
   // Filtrar noticias según el término de búsqueda
   const filteredNews = news.filter((item) => {
     if (!searchTerm) return true
@@ -32,6 +47,15 @@ export default function NewsPage() {
       item.description.toLowerCase().includes(searchLower)
     )
   })
+
+  // Calcular paginación
+  const totalPages = Math.ceil(filteredNews.length / itemsPerPage)
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const paginatedNews = filteredNews.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  )
+  const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1)
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-green-100/50 to-blue-50">
@@ -53,17 +77,63 @@ export default function NewsPage() {
               No se encontraron novedades.
             </p>
           ) : (
-            filteredNews.map((item) => (
+            paginatedNews.map((item) => (
               <NewsItem
                 key={item.id}
                 title={item.title}
                 description={item.description}
                 imageUrl={item.photo_url}
-                className="px-4 py-4"
               />
             ))
           )}
         </div>
+
+        {/* Paginación */}
+        {!isLoading && totalPages > 1 && (
+          <div className="mt-8">
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious
+                    onClick={() =>
+                      setCurrentPage((curr) => Math.max(1, curr - 1))
+                    }
+                    className={
+                      currentPage === 1
+                        ? 'pointer-events-none opacity-50 select-none'
+                        : 'cursor-pointer select-none'
+                    }
+                  />
+                </PaginationItem>
+
+                {pageNumbers.map((pageNumber) => (
+                  <PaginationItem key={pageNumber}>
+                    <PaginationLink
+                      onClick={() => setCurrentPage(pageNumber)}
+                      isActive={pageNumber === currentPage}
+                      className="cursor-pointer select-none"
+                    >
+                      {pageNumber}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
+
+                <PaginationItem>
+                  <PaginationNext
+                    onClick={() =>
+                      setCurrentPage((curr) => Math.min(totalPages, curr + 1))
+                    }
+                    className={
+                      currentPage === totalPages
+                        ? 'pointer-events-none opacity-50 select-none'
+                        : 'cursor-pointer select-none'
+                    }
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </div>
+        )}
       </div>
     </div>
   )

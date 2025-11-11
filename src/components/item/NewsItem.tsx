@@ -8,6 +8,7 @@ import {
   ItemTitle,
   ItemDescription,
 } from '@/components/ui/item'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { cn } from '@/lib/utils'
 
 type NewsItemProps = {
@@ -19,10 +20,10 @@ type NewsItemProps = {
 
 /**
  * NewsItem
- * Estructura basada en el diseño adjunto:
- * - Imagen cuadrada a la izquierda
- * - Título y descripción a la derecha
- * - Tarjeta con borde suave y fondo claro
+ * Nuevo diseño:
+ * - Imagen rectangular más grande a la izquierda
+ * - Título fijo en la parte superior derecha
+ * - Descripción con scroll si excede el alto disponible
  */
 export function NewsItem({
   title,
@@ -34,28 +35,38 @@ export function NewsItem({
     <Item
       variant="outline"
       className={cn(
-        'bg-white/95 border-primary/10 shadow-sm',
-        'rounded-md',
+        'bg-white/95 shadow-sm',
+        'h-64', // altura fija para el item
         className
       )}
     >
-      {/* Media izquierda */}
-      <ItemMedia variant="image" className="size-24 rounded-md overflow-hidden">
+      {/* Imagen rectangular a la izquierda - más grande */}
+      <ItemMedia
+        variant="image"
+        className="w-86 h-full rounded-md overflow-hidden"
+      >
         {imageUrl ? (
           <img src={imageUrl} alt={title} />
         ) : (
-          <div className="size-full bg-gray-300" aria-hidden />
+          <div className="w-full h-full flex items-center justify-center text-gray-500 bg-gray-300">
+            Sin imagen
+          </div>
         )}
       </ItemMedia>
 
-      {/* Contenido derecho */}
-      <ItemContent className="min-w-0">
-        <ItemTitle className="text-lg font-semibold text-foreground">
+      {/* Contenido derecho con título fijo y descripción con scroll */}
+      <ItemContent className="flex-1 flex flex-col min-w-0 h-full">
+        {/* Título fijo arriba */}
+        <ItemTitle className="text-xl font-semibold mb-2 flex-shrink-0">
           {title}
         </ItemTitle>
-        <ItemDescription className="text-muted-foreground leading-relaxed line-clamp-none">
-          {description}
-        </ItemDescription>
+
+        {/* Descripción con ScrollArea para overflow */}
+        <ScrollArea className="flex-1 overflow-y-auto">
+          <ItemDescription className="leading-relaxed pr-4 whitespace-normal break-words line-clamp-none">
+            {description}
+          </ItemDescription>
+        </ScrollArea>
       </ItemContent>
     </Item>
   )

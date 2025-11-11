@@ -47,13 +47,13 @@ const BiographySection = () => (
 const JourneySection = () => (
   <div className="relative z-10 py-16 bg-gray-50">
     <div className="container mx-auto px-6 lg:px-12">
-      <div className="text-center mb-12 px-4 sm:px-8 lg:px-24">
-        <div className="max-w-3xl mx-auto space-y-4">
+      <div className="text-center mb-12">
+        <div className="max-w-5xl mx-auto space-y-4">
           <h2 className="text-4xl font-bold text-gray-900 mb-6">
             Mi recorrido
           </h2>
           {siteConfig.biography.experiencie.map((paragraph, index) => (
-            <p key={index} className="mx-auto text-justify">
+            <p key={index} className="text-justify">
               {paragraph}
             </p>
           ))}

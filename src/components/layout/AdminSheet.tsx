@@ -11,12 +11,49 @@ import {
 import { Switch } from '@/components/ui/switch'
 import { Button } from '@/components/ui/button'
 import { useAdmin } from '@/context/AdminContext'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Settings } from 'lucide-react'
+import TextField from '../forms/fields/TextField'
+import { useSiteConfig } from '@/context/SiteConfigContext'
+import { SiteConfig } from '@/types/siteConfig'
+import { validateSiteConfig } from '@/utils/validations'
 
 export function AdminSheet() {
   const { logout, editMode, toggleEditMode } = useAdmin()
+  const { siteConfig, siteConfigLoading } = useSiteConfig()
   const [open, setOpen] = useState(false)
+  const [validation, setValidation] = useState({
+    errors: {
+      contact_username: '',
+      contact_whatsapp: '',
+    },
+    isValid: false,
+  })
+  const [localSiteConfig, setLocalSiteConfig] = useState<
+    Omit<SiteConfig, 'id'>
+  >({
+    contact_username: '',
+    contact_whatsapp: '',
+  })
+
+  // Cargar datos si hay siteConfig
+  useEffect(() => {
+    const fetchSiteConfig = async () => {
+      if (siteConfig) {
+        setLocalSiteConfig({
+          ...siteConfig,
+          contact_whatsapp: siteConfig.contact_whatsapp.substring(3), // remover el +57
+        })
+      }
+    }
+    fetchSiteConfig()
+  }, [siteConfig])
+
+  useEffect(() => {
+    if (!siteConfigLoading) setValidation(validateSiteConfig(localSiteConfig))
+  }, [localSiteConfig])
+
+  if (siteConfigLoading) return
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -39,7 +76,7 @@ export function AdminSheet() {
           herramientas de gestión.
         </SheetDescription>
 
-        <div className="mt-10">
+        <div className="flex flex-col mt-10 gap-10">
           <div className="flex items-center gap-5">
             <Switch
               checked={editMode}
@@ -50,9 +87,41 @@ export function AdminSheet() {
               Modo edición
             </span>
           </div>
+          <div className="flex flex-col gap-5 text-xs">
+            <TextField
+              label="Username"
+              placeholder="Nombre de usuario"
+              onChange={(e) => {
+                setLocalSiteConfig({
+                  ...localSiteConfig,
+                  contact_username: e.target.value,
+                })
+              }}
+              value={localSiteConfig.contact_username}
+              error={validation.errors.contact_username}
+            />
+
+            <TextField
+              label="WhatsApp +57"
+              placeholder="Número de contacto"
+              onChange={(e) => {
+                setLocalSiteConfig({
+                  ...localSiteConfig,
+                  contact_whatsapp: e.target.value,
+                })
+              }}
+              value={localSiteConfig.contact_whatsapp}
+              error={validation.errors.contact_whatsapp}
+            />
+          </div>
         </div>
         <div className="mt-auto flex flex-col gap-2">
-          <Button type="submit" variant="admin" className="w-full">
+          <Button
+            type="submit"
+            variant="admin"
+            className="w-full"
+            disabled={!validation.isValid}
+          >
             Guardar cambios
           </Button>
 

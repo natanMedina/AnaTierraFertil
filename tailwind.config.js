@@ -15,6 +15,7 @@ module.exports = {
         background: 'var(--background)',
         foreground: 'var(--foreground)',
         brand: 'var(--color-brand)',
+        admin: 'var(--admin)',
       },
       fontFamily: {
         sans: 'var(--font-geist-sans)',

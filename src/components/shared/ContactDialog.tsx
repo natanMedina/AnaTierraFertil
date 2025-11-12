@@ -11,6 +11,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { siteConfigBase } from '@/config/site'
 import Image from 'next/image'
+import { useSiteConfig } from '@/context/SiteConfigContext'
 
 interface ContactDialogProps {
   open: boolean
@@ -23,8 +24,11 @@ export function ContactDialog({
   onOpenChange,
   message = '',
 }: ContactDialogProps) {
+  const { siteConfig, siteConfigLoading } = useSiteConfig()
   const encodedMessage = encodeURIComponent(message)
-  const whatsappUrl = `https://wa.me/${siteConfigBase.contact.whatsapp}${encodedMessage ? `?text=${encodedMessage}` : ''}`
+  if (siteConfigLoading) return <p>Cargando...</p>
+
+  const whatsappUrl = `https://wa.me/${siteConfig.contact_whatsapp}${encodedMessage ? `?text=${encodedMessage}` : ''}`
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

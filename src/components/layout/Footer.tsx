@@ -149,10 +149,10 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href={`tel:${siteConfigBase.contact.whatsapp}`}
+                  href={`tel:${siteConfig.contact_whatsapp}`}
                   className="hover:text-brand transition-colors duration-200"
                 >
-                  {siteConfigBase.contact.whatsapp}
+                  {siteConfig.contact_whatsapp}
                 </Link>
               </li>
             </ul>

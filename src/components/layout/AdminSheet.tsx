@@ -17,10 +17,11 @@ import TextField from '../forms/fields/TextField'
 import { useSiteConfig } from '@/context/SiteConfigContext'
 import { SiteConfig } from '@/types/siteConfig'
 import { validateSiteConfig } from '@/utils/validations'
+import { toast } from 'sonner'
 
 export function AdminSheet() {
   const { logout, editMode, toggleEditMode } = useAdmin()
-  const { siteConfig, siteConfigLoading } = useSiteConfig()
+  const { siteConfig, siteConfigLoading, saveSiteConfig } = useSiteConfig()
   const [open, setOpen] = useState(false)
   const [validation, setValidation] = useState({
     errors: {
@@ -35,6 +36,7 @@ export function AdminSheet() {
     contact_username: '',
     contact_whatsapp: '',
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   // Cargar datos si hay siteConfig
   useEffect(() => {
@@ -52,6 +54,28 @@ export function AdminSheet() {
   useEffect(() => {
     if (!siteConfigLoading) setValidation(validateSiteConfig(localSiteConfig))
   }, [localSiteConfig])
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!validation.isValid) return
+
+    setIsSubmitting(true)
+
+    try {
+      const payload = {
+        contact_username: localSiteConfig.contact_username.trim(),
+        contact_whatsapp: `+57${localSiteConfig.contact_whatsapp.trim()}`,
+      }
+
+      await saveSiteConfig(payload)
+      toast.success('Información actualizada correctamente')
+    } catch (err) {
+      console.error(err)
+      toast.error('Error al actualizar la información')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   if (siteConfigLoading) return
 
@@ -120,9 +144,10 @@ export function AdminSheet() {
             type="submit"
             variant="admin"
             className="w-full"
-            disabled={!validation.isValid}
+            disabled={isSubmitting || !validation.isValid}
+            onClick={handleSubmit}
           >
-            Guardar cambios
+            {isSubmitting ? 'Guardando...' : 'Guardar cambios'}
           </Button>
 
           <Button

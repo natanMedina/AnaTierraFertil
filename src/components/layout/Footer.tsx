@@ -146,7 +146,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="hover:text-brand transition-colors duration-200"
                 >
-                  {siteConfig.contact_username}
+                  {siteConfigBase.homeBiography.username}
                 </Link>
               </li>
               <li>

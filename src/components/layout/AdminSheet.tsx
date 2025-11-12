@@ -25,7 +25,7 @@ export function AdminSheet() {
   const [open, setOpen] = useState(false)
   const [validation, setValidation] = useState({
     errors: {
-      contact_username: '',
+      // contact_username: '',
       contact_whatsapp: '',
     },
     isValid: false,
@@ -33,7 +33,7 @@ export function AdminSheet() {
   const [localSiteConfig, setLocalSiteConfig] = useState<
     Omit<SiteConfig, 'id'>
   >({
-    contact_username: '',
+    // contact_username: '',
     contact_whatsapp: '',
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -63,7 +63,7 @@ export function AdminSheet() {
 
     try {
       const payload = {
-        contact_username: localSiteConfig.contact_username.trim(),
+        // contact_username: localSiteConfig.contact_username.trim(),
         contact_whatsapp: `+57${localSiteConfig.contact_whatsapp.trim()}`,
       }
 
@@ -112,7 +112,7 @@ export function AdminSheet() {
             </span>
           </div>
           <div className="flex flex-col gap-5 text-xs">
-            <TextField
+            {/* <TextField
               label="Username"
               placeholder="Nombre de usuario"
               onChange={(e) => {
@@ -123,7 +123,7 @@ export function AdminSheet() {
               }}
               value={localSiteConfig.contact_username}
               error={validation.errors.contact_username}
-            />
+            /> */}
 
             <TextField
               label="WhatsApp +57"

@@ -69,21 +69,21 @@ export function validateProduct(
 
 export function validateSiteConfig(localSiteConfig: Omit<SiteConfig, 'id'>) {
   const errors = {
-    contact_username: '',
+    // contact_username: '',
     contact_whatsapp: '',
   }
 
   // Contacto: Username
-  const usernameRegex = /^@([a-zA-Z][a-zA-Z0-9_-]*)(\.[a-zA-Z0-9_-]+)*$/
-  if (!localSiteConfig.contact_username.trim()) {
-    errors.contact_username = 'El username es obligatorio'
-  } else if (!usernameRegex.test(localSiteConfig.contact_username)) {
-    errors.contact_username = 'Formato no válido. Ejemplo: @juan.nombrepagina'
-  } else if (localSiteConfig.contact_username.trim().length < 3) {
-    errors.contact_username = 'El username debe tener al menos 3 caracteres'
-  } else if (localSiteConfig.contact_username.trim().length > 40) {
-    errors.contact_username = 'El username no puede tener más de 40 caracteres'
-  }
+  // const usernameRegex = /^@([a-zA-Z][a-zA-Z0-9_-]*)(\.[a-zA-Z0-9_-]+)*$/
+  // if (!localSiteConfig.contact_username.trim()) {
+  //   errors.contact_username = 'El username es obligatorio'
+  // } else if (!usernameRegex.test(localSiteConfig.contact_username)) {
+  //   errors.contact_username = 'Formato no válido. Ejemplo: @juan.nombrepagina'
+  // } else if (localSiteConfig.contact_username.trim().length < 3) {
+  //   errors.contact_username = 'El username debe tener al menos 3 caracteres'
+  // } else if (localSiteConfig.contact_username.trim().length > 40) {
+  //   errors.contact_username = 'El username no puede tener más de 40 caracteres'
+  // }
 
   // Contacto: Whatsapp
   const cellphoneRegex = /^\d{10}$/

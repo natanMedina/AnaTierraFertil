@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { siteConfig } from '@/config/site'
+import { siteConfigBase } from '@/config/site'
 
 export default function Footer() {
   const year = new Date().getFullYear()
@@ -19,7 +19,7 @@ export default function Footer() {
             >
               <Image
                 src="/logo.svg"
-                alt={`Logo ${siteConfig.name}`}
+                alt={`Logo ${siteConfigBase.name}`}
                 width={28}
                 height={28}
               />
@@ -27,7 +27,7 @@ export default function Footer() {
                 className="text-base font-semibold"
                 style={{ color: '#FFFFFF' }}
               >
-                {siteConfig.name}
+                {siteConfigBase.name}
               </span>
             </Link>
             <p
@@ -137,18 +137,18 @@ export default function Footer() {
             <ul className="space-y-3 text-sm" style={{ color: '#9CA3AF' }}>
               <li>
                 <Link
-                  href={`mailto:${siteConfig.contact.username}`}
+                  href={`mailto:${siteConfigBase.contact.username}`}
                   className="hover:text-brand transition-colors duration-200"
                 >
-                  {siteConfig.contact.username}
+                  {siteConfigBase.contact.username}
                 </Link>
               </li>
               <li>
                 <Link
-                  href={`tel:${siteConfig.contact.whatsapp}`}
+                  href={`tel:${siteConfigBase.contact.whatsapp}`}
                   className="hover:text-brand transition-colors duration-200"
                 >
-                  {siteConfig.contact.whatsapp}
+                  {siteConfigBase.contact.whatsapp}
                 </Link>
               </li>
             </ul>
@@ -161,7 +161,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="flex items-center justify-center py-6">
           <p className="text-xs" style={{ color: '#9CA3AF' }}>
-            © {year} {siteConfig.name}. Todos los derechos reservados.
+            © {year} {siteConfigBase.name}. Todos los derechos reservados.
           </p>
         </div>
       </div>

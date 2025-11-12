@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { siteConfig } from '@/config/site'
+import { siteConfigBase } from '@/config/site'
 import { CheckCircleIcon } from 'lucide-react'
 import { Background } from '@/components/shared/Background'
 import { SpecialMomentsSection } from '@/components/shared/SpecialMoments'
@@ -24,7 +24,7 @@ const HeroSection = () => (
             <div className="w-8 h-8 rounded-full bg-brand"></div>
           </div>
           <h1 className="text-4xl lg:text-6xl font-black text-black">
-            {siteConfig.name}
+            {siteConfigBase.name}
           </h1>
         </div>
         <p className="text-lg lg:text-xl text-black mb-8 max-w-2xl leading-relaxed">
@@ -80,10 +80,10 @@ const ServicesSection = () => (
     <div className="container mx-auto px-6 lg:px-12">
       <div className="text-center mb-12">
         <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-4">
-          {siteConfig.sections.services.title}
+          {siteConfigBase.sections.services.title}
         </h2>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          {siteConfig.sections.services.subtitle}
+          {siteConfigBase.sections.services.subtitle}
         </p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
@@ -109,7 +109,7 @@ const ServicesSection = () => (
           size="lg"
           className="bg-brand text-white px-8 py-3 text-base font-medium hover:opacity-90 transition-opacity"
         >
-          {siteConfig.sections.services.ctaButton}
+          {siteConfigBase.sections.services.ctaButton}
         </Button>
       </div>
     </div>
@@ -125,28 +125,28 @@ const BiographySection = () => (
         <Card className="lg:w-2/3 p-8 shadow-lg rounded-lg">
           <CardHeader className="pb-6">
             <CardTitle className="text-4xl font-bold text-gray-800 mb-4">
-              {siteConfig.homeBiography.title}
+              {siteConfigBase.homeBiography.title}
             </CardTitle>
             <CardDescription className="text-lg text-gray-600">
-              {siteConfig.homeBiography.name} -{' '}
+              {siteConfigBase.homeBiography.name} -{' '}
               <span className="text-brand font-medium">
-                {siteConfig.homeBiography.username}
+                {siteConfigBase.homeBiography.username}
               </span>
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6 text-gray-700 text-lg leading-relaxed">
-            {siteConfig.homeBiography.descriptionP1.map((paragraph, index) => (
+            {siteConfigBase.homeBiography.descriptionP1.map((paragraph, index) => (
               <p key={index}>{paragraph}</p>
             ))}
             <ul className="space-y-3 pl-5">
-              {siteConfig.homeBiography.services.map((service, index) => (
+              {siteConfigBase.homeBiography.services.map((service, index) => (
                 <li key={index} className="flex items-start gap-2">
                   <CheckCircleIcon className="w-6 h-6 text-brand flex-shrink-0 mt-1" />
                   <span>{service}</span>
                 </li>
               ))}
             </ul>
-            {siteConfig.homeBiography.descriptionP2.map((paragraph, index) => (
+            {siteConfigBase.homeBiography.descriptionP2.map((paragraph, index) => (
               <p key={index}>{paragraph}</p>
             ))}
             <div className="pt-4 flex justify-center">

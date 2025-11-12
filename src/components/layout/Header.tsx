@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
-import { siteConfig } from '@/config/site'
+import { siteConfigBase } from '@/config/site'
 import { ContactDialog } from '@/components/shared/ContactDialog'
 import { useAdmin } from '@/context/AdminContext'
 import { AdminSheet } from './AdminSheet'
@@ -23,12 +23,12 @@ export default function Header() {
         >
           <Image
             src="/logo.svg"
-            alt={`Logo ${siteConfig.name}`}
+            alt={`Logo ${siteConfigBase.name}`}
             width={36}
             height={36}
           />
           <span className="text-xl font-semibold text-foreground">
-            {siteConfig.name}
+            {siteConfigBase.name}
           </span>
         </Link>
 

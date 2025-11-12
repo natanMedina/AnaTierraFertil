@@ -31,7 +31,8 @@ export function ContactDialog({
       <DialogContent className="sm:max-w-md bg-brand py-10">
         <DialogHeader className="flex items-center gap-2">
           <DialogTitle className="text-center text-background text-xl">
-            Serás redirigido a WhatsApp para comunicarte con {siteConfigBase.name}
+            Serás redirigido a WhatsApp para comunicarte con{' '}
+            {siteConfigBase.name}
           </DialogTitle>
           <Image
             src="/whatsapp-svgrepo-com.svg"

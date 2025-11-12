@@ -135,9 +135,11 @@ const BiographySection = () => (
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6 text-gray-700 text-lg leading-relaxed">
-            {siteConfigBase.homeBiography.descriptionP1.map((paragraph, index) => (
-              <p key={index}>{paragraph}</p>
-            ))}
+            {siteConfigBase.homeBiography.descriptionP1.map(
+              (paragraph, index) => (
+                <p key={index}>{paragraph}</p>
+              )
+            )}
             <ul className="space-y-3 pl-5">
               {siteConfigBase.homeBiography.services.map((service, index) => (
                 <li key={index} className="flex items-start gap-2">
@@ -146,9 +148,11 @@ const BiographySection = () => (
                 </li>
               ))}
             </ul>
-            {siteConfigBase.homeBiography.descriptionP2.map((paragraph, index) => (
-              <p key={index}>{paragraph}</p>
-            ))}
+            {siteConfigBase.homeBiography.descriptionP2.map(
+              (paragraph, index) => (
+                <p key={index}>{paragraph}</p>
+              )
+            )}
             <div className="pt-4 flex justify-center">
               <Link href="/biography">
                 <Button

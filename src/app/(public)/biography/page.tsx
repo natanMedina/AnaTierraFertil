@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { siteConfig } from '@/config/site'
+import { siteConfigBase } from '@/config/site'
 
 const BiographySection = () => (
   <div className="relative z-10 py-16 bg-white">
@@ -24,17 +24,17 @@ const BiographySection = () => (
         <Card className="lg:w-2/3 p-8 shadow-lg rounded-lg">
           <CardHeader className="pb-6">
             <CardTitle className="text-4xl font-bold text-gray-800 mb-4">
-              {siteConfig.biography.title}
+              {siteConfigBase.biography.title}
             </CardTitle>
             <CardDescription className="text-lg text-gray-600">
-              {siteConfig.biography.name} -{' '}
+              {siteConfigBase.biography.name} -{' '}
               <span className="text-brand font-medium">
-                {siteConfig.contact.username}
+                {siteConfigBase.homeBiography.username}
               </span>
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6 text-gray-700 text-lg leading-relaxed">
-            {siteConfig.biography.description.map((paragraph, index) => (
+            {siteConfigBase.biography.description.map((paragraph, index) => (
               <p key={index}>{paragraph}</p>
             ))}
           </CardContent>
@@ -52,7 +52,7 @@ const JourneySection = () => (
           <h2 className="text-4xl font-bold text-gray-900 mb-6">
             Mi recorrido
           </h2>
-          {siteConfig.biography.experiencie.map((paragraph, index) => (
+          {siteConfigBase.biography.experiencie.map((paragraph, index) => (
             <p key={index} className="text-justify">
               {paragraph}
             </p>
@@ -102,7 +102,7 @@ const SocialSection = () => (
         <div className="flex flex-col md:flex-row items-center justify-center gap-8 mt-8">
           {/* Instagram */}
           <a
-            href={siteConfig.redes.instagram}
+            href={siteConfigBase.redes.instagram}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-4 group"
@@ -116,13 +116,13 @@ const SocialSection = () => (
               />
             </div>
             <span className="text-lg font-medium text-gray-800 group-hover:text-brand transition-colors">
-              {siteConfig.homeBiography.username}
+              {siteConfigBase.homeBiography.username}
             </span>
           </a>
 
           {/* Blog */}
           <a
-            href={siteConfig.redes.blog}
+            href={siteConfigBase.redes.blog}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-4 group"
@@ -142,7 +142,7 @@ const SocialSection = () => (
 
           {/* Linktree */}
           <a
-            href={siteConfig.redes.linktree}
+            href={siteConfigBase.redes.linktree}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-4 group"

@@ -9,8 +9,9 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-import { siteConfig } from '@/config/site'
+import { siteConfigBase } from '@/config/site'
 import Image from 'next/image'
+import { useSiteConfig } from '@/context/SiteConfigContext'
 
 interface ContactDialogProps {
   open: boolean
@@ -23,19 +24,23 @@ export function ContactDialog({
   onOpenChange,
   message = '',
 }: ContactDialogProps) {
+  const { siteConfig, siteConfigLoading } = useSiteConfig()
   const encodedMessage = encodeURIComponent(message)
-  const whatsappUrl = `https://wa.me/${siteConfig.contact.whatsapp}${encodedMessage ? `?text=${encodedMessage}` : ''}`
+  if (siteConfigLoading) return <p>Cargando...</p>
+
+  const whatsappUrl = `https://wa.me/${siteConfig.contact_whatsapp}${encodedMessage ? `?text=${encodedMessage}` : ''}`
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md bg-brand py-10">
         <DialogHeader className="flex items-center gap-2">
           <DialogTitle className="text-center text-background text-xl">
-            Serás redirigido a WhatsApp para comunicarte con {siteConfig.name}
+            Serás redirigido a WhatsApp para comunicarte con{' '}
+            {siteConfigBase.name}
           </DialogTitle>
           <Image
             src="/whatsapp-svgrepo-com.svg"
-            alt={`Logo ${siteConfig.name}`}
+            alt={`Logo ${siteConfigBase.name}`}
             width={60}
             height={60}
           />

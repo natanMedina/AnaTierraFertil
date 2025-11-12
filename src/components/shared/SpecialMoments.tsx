@@ -8,7 +8,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel'
-import { siteConfig } from '@/config/site'
+import { siteConfigBase } from '@/config/site'
 
 export const SpecialMomentsSection = () => (
   <div className="relative z-10 py-16 bg-green-50">
@@ -16,10 +16,10 @@ export const SpecialMomentsSection = () => (
       {/* Encabezado de la Sección */}
       <div className="text-center mb-12">
         <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-4">
-          {siteConfig.sections.specialMoments.title}
+          {siteConfigBase.sections.specialMoments.title}
         </h2>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          {siteConfig.sections.specialMoments.subtitle}
+          {siteConfigBase.sections.specialMoments.subtitle}
         </p>
       </div>
 

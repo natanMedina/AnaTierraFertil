@@ -1,4 +1,5 @@
 import { Product } from '@/types/product'
+import { SiteConfig } from '@/types/siteConfig'
 import { getYouTubeEmbedUrl } from '@/utils/formatters'
 
 // expresión regular para URLs de YouTube (youtu.be o youtube.com)
@@ -60,6 +61,36 @@ export function validateProduct(
     } else if (!getYouTubeEmbedUrl(product.video_url.trim())) {
       errors.video_url = 'El enlace de YouTube no es válido'
     }
+  }
+
+  const isValid = Object.values(errors).every((e) => e === '')
+  return { errors, isValid }
+}
+
+export function validateSiteConfig(localSiteConfig: Omit<SiteConfig, 'id'>) {
+  const errors = {
+    // contact_username: '',
+    contact_whatsapp: '',
+  }
+
+  // Contacto: Username
+  // const usernameRegex = /^@([a-zA-Z][a-zA-Z0-9_-]*)(\.[a-zA-Z0-9_-]+)*$/
+  // if (!localSiteConfig.contact_username.trim()) {
+  //   errors.contact_username = 'El username es obligatorio'
+  // } else if (!usernameRegex.test(localSiteConfig.contact_username)) {
+  //   errors.contact_username = 'Formato no válido. Ejemplo: @juan.nombrepagina'
+  // } else if (localSiteConfig.contact_username.trim().length < 3) {
+  //   errors.contact_username = 'El username debe tener al menos 3 caracteres'
+  // } else if (localSiteConfig.contact_username.trim().length > 40) {
+  //   errors.contact_username = 'El username no puede tener más de 40 caracteres'
+  // }
+
+  // Contacto: Whatsapp
+  const cellphoneRegex = /^\d{10}$/
+  if (!localSiteConfig.contact_whatsapp.trim()) {
+    errors.contact_whatsapp = 'El WhatsApp es obligatorio'
+  } else if (!cellphoneRegex.test(localSiteConfig.contact_whatsapp)) {
+    errors.contact_whatsapp = 'Número no válido. Debe tener 10 dígitos'
   }
 
   const isValid = Object.values(errors).every((e) => e === '')

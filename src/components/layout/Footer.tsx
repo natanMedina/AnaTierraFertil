@@ -141,7 +141,7 @@ export default function Footer() {
             <ul className="space-y-3 text-sm" style={{ color: '#9CA3AF' }}>
               <li>
                 <Link
-                  href={siteConfigBase.redes.instagram}
+                  href={siteConfig.redes.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-brand transition-colors duration-200"

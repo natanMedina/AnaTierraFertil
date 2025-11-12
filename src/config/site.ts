@@ -37,6 +37,11 @@ export const siteConfigBase = {
       'Mi recorrido es una constante búsqueda por tejer puentes entre la tradición y la contemporaneidad, honrando la sabiduría del cuerpo, la naturaleza y los ciclos de la vida.',
     ],
   },
+  redes: {
+    instagram: 'https://www.instagram.com/ana.tierrafertil',
+    blog: 'https://parteramestiza.blogspot.com/',
+    linktree: 'https://linktr.ee/ana.tierrafertil',
+  },
   sections: {
     services: {
       title: 'Servicios Especializados',

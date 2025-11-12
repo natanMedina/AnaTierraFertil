@@ -86,6 +86,91 @@ const JourneySection = () => (
   </div>
 )
 
+const SocialSection = () => (
+  <div className="relative z-10 py-16 bg-brand-light">
+    <div className="container mx-auto px-6 lg:px-12">
+      <div className="max-w-4xl mx-auto">
+        {/* Imagen de la sección */}
+        <div className="relative w-full h-[400px] lg:h-[500px] rounded-lg overflow-hidden flex flex-col items-center justify-center p-8">
+          <h2 className="text-4xl font-bold text-gray-900 mb-6">
+            Conoce un poco más
+          </h2>
+          <p className="max-w-2xl text-lg text-gray-700 leading-relaxed text-center">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+            id dolor pellentesque, convallis orci a, aliquam mi. Aenean
+            tristique, ligula eu elementum suscipit, lacus cursus massa, eu
+            cursus diam tellus sed neque. Mauris venenatis gravida sodales.
+            Integer sollicitudin dapibus ornare.
+          </p>
+        </div>
+
+        {/* Íconos de redes sociales */}
+        <div className="flex flex-col md:flex-row items-center justify-center gap-8 mt-8">
+          {/* Instagram */}
+          <a
+            href={siteConfig.redes.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-4 group"
+          >
+            <div className="w-12 h-12 flex items-center justify-center transition-transform group-hover:scale-110">
+              <img
+                src="/instagram-svgrepo-com.svg"
+                alt="Instagram"
+                width={48}
+                height={48}
+              />
+            </div>
+            <span className="text-lg font-medium text-gray-800 group-hover:text-brand transition-colors">
+              {siteConfig.homeBiography.username}
+            </span>
+          </a>
+
+          {/* Blog */}
+          <a
+            href={siteConfig.redes.blog}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-4 group"
+          >
+            <div className="w-12 h-12 flex items-center justify-center transition-transform group-hover:scale-110">
+              <img
+                src="/blogger-round-svgrepo-com.svg"
+                alt="Blog"
+                width={48}
+                height={48}
+              />
+            </div>
+            <span className="text-lg font-medium text-gray-800 group-hover:text-brand transition-colors">
+              Explora mi blog
+            </span>
+          </a>
+
+          {/* Linktree */}
+          <a
+            href={siteConfig.redes.linktree}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-4 group"
+          >
+            <div className="w-12 h-12 flex items-center justify-center transition-transform group-hover:scale-110">
+              <img
+                src="/linktree-svgrepo-com.svg"
+                alt="Linktree"
+                width={48}
+                height={48}
+              />
+            </div>
+            <span className="text-lg font-medium text-gray-800 group-hover:text-brand transition-colors">
+              Linktree
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+)
+
 export default function BiographyPage() {
   const { siteConfig, siteConfigLoading } = useSiteConfig()
   if (siteConfigLoading) return <p>Cargando...</p>
@@ -111,6 +196,7 @@ export default function BiographyPage() {
         </div>
         <BiographySection siteConfigData={siteConfig} />
         <JourneySection />
+        <SocialSection />
         <SpecialMomentsSection />
       </div>
     </div>

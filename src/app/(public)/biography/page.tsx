@@ -10,8 +10,14 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { siteConfigBase } from '@/config/site'
+import { useSiteConfig } from '@/context/SiteConfigContext'
+import { SiteConfig } from '@/types/siteConfig'
 
-const BiographySection = () => (
+const BiographySection = ({
+  siteConfigData,
+}: {
+  siteConfigData: SiteConfig
+}) => (
   <div className="relative z-10 py-16 bg-white">
     <div className="container mx-auto px-6 lg:px-12">
       <div className="flex flex-col lg:flex-row items-stretch gap-12">
@@ -29,7 +35,7 @@ const BiographySection = () => (
             <CardDescription className="text-lg text-gray-600">
               {siteConfigBase.biography.name} -{' '}
               <span className="text-brand font-medium">
-                {siteConfigBase.contact.username}
+                {siteConfigData.contact_username}
               </span>
             </CardDescription>
           </CardHeader>
@@ -81,6 +87,8 @@ const JourneySection = () => (
 )
 
 export default function BiographyPage() {
+  const { siteConfig, siteConfigLoading } = useSiteConfig()
+  if (siteConfigLoading) return <p>Cargando...</p>
   return (
     <div className="relative min-h-screen overflow-hidden">
       <Background />
@@ -101,7 +109,7 @@ export default function BiographyPage() {
             educativos y conscientes para mujeres, familias y comunidades.
           </p>
         </div>
-        <BiographySection />
+        <BiographySection siteConfigData={siteConfig} />
         <JourneySection />
         <SpecialMomentsSection />
       </div>

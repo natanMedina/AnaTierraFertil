@@ -3,9 +3,13 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { siteConfigBase } from '@/config/site'
+import { useSiteConfig } from '@/context/SiteConfigContext'
 
 export default function Footer() {
+  const { siteConfig, siteConfigLoading } = useSiteConfig()
   const year = new Date().getFullYear()
+
+  if (siteConfigLoading) return <p>Cargando...</p>
 
   return (
     <footer className="w-full border-t border-border bg-[#111827]">
@@ -137,10 +141,10 @@ export default function Footer() {
             <ul className="space-y-3 text-sm" style={{ color: '#9CA3AF' }}>
               <li>
                 <Link
-                  href={`mailto:${siteConfigBase.contact.username}`}
+                  href={`mailto:${siteConfig.contact_username}`}
                   className="hover:text-brand transition-colors duration-200"
                 >
-                  {siteConfigBase.contact.username}
+                  {siteConfig.contact_username}
                 </Link>
               </li>
               <li>

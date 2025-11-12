@@ -2,7 +2,6 @@ export const siteConfigBase = {
   name: 'Ana Tierra Fértil',
   contact: {
     whatsapp: '+57 3001234567',
-    username: '@ana.tierrafertil',
   },
   homeBiography: {
     name: 'Ana María Palau',

@@ -9,7 +9,7 @@ export default function Footer() {
   const { siteConfig, siteConfigLoading } = useSiteConfig()
   const year = new Date().getFullYear()
 
-  if (siteConfigLoading) return <p>Cargando...</p>
+  if (siteConfigLoading) return
 
   return (
     <footer className="w-full border-t border-border bg-[#111827]">

@@ -26,7 +26,7 @@ export function ContactDialog({
 }: ContactDialogProps) {
   const { siteConfig, siteConfigLoading } = useSiteConfig()
   const encodedMessage = encodeURIComponent(message)
-  if (siteConfigLoading) return <p>Cargando...</p>
+  if (siteConfigLoading) return
 
   const whatsappUrl = `https://wa.me/${siteConfig.contact_whatsapp}${encodedMessage ? `?text=${encodedMessage}` : ''}`
 

@@ -177,7 +177,7 @@ export default function InfoDisplay({
               <Button
                 className="bg-brand hover:bg-brand/80 text-white font-medium px-4 py-2 rounded-md transition"
                 onClick={() => {
-                  const message = `Hola, quiero pagar y/o saber más información de el ${elemento}: ${title}, que cuesta ${option.price.toLocaleString()} pesos col. por favor.`
+                  const message = `Hola, quiero pagar y/o saber más información de el ${elemento}: ${title}, cuyo ${option.title.toLowerCase()} es ${option.price.toLocaleString()} pesos col. por favor.`
                   setSelectedMessage(message)
                   setDialogOpen(true)
                 }}

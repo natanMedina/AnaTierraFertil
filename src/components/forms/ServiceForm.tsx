@@ -37,6 +37,7 @@ export default function ServiceForm({ id }: ServiceFormProps) {
       price: '',
       photo_url: '',
       video_url: '',
+      price_live_class: '',
     },
     isValid: false,
   })
@@ -274,23 +275,42 @@ export default function ServiceForm({ id }: ServiceFormProps) {
           />
         </div>
 
-        {/* Cuadro inferior con precio */}
-        <div className="mt-10 mx-auto w-64">
-          <NumberField
-            label="Precio (pesos col.)"
-            placeholder="Valor en pesos (COP)"
-            value={service.price}
-            min={0}
-            max={10 ** 6}
-            onChange={(e) => {
-              setService({
-                ...service,
-                price: Number(e.target.value),
-              })
-            }}
-            error={validation.errors.price}
-            disabled={isSubmitting}
-          />
+        {/* Cuadros inferiores con precios */}
+        <div className="mt-10 flex justify-center gap-10">
+          <div className="w-68">
+            <NumberField
+              label="Precio de compra (pesos col.)"
+              placeholder="Valor en pesos (COP)"
+              value={service.price}
+              min={0}
+              max={10 ** 6}
+              onChange={(e) => {
+                setService({
+                  ...service,
+                  price: Number(e.target.value),
+                })
+              }}
+              error={validation.errors.price}
+              disabled={isSubmitting}
+            />
+          </div>
+          <div className="w-68">
+            <NumberField
+              label="Precio clases en vivo (pesos col.)"
+              placeholder="Valor en pesos (COP)"
+              value={service.price_live_class || 0}
+              min={0}
+              max={10 ** 6}
+              onChange={(e) => {
+                setService({
+                  ...service,
+                  price_live_class: Number(e.target.value),
+                })
+              }}
+              error={validation.errors.price_live_class}
+              disabled={isSubmitting}
+            />
+          </div>
         </div>
 
         {/* Botón guardar */}

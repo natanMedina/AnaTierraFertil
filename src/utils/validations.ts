@@ -79,6 +79,7 @@ export function validateService(
     price: '',
     photo_url: '',
     video_url: '',
+    price_live_class: '',
   }
 
   // Nombre
@@ -107,13 +108,23 @@ export function validateService(
     errors.photo_url = 'La imagen es obligatoria'
   }
 
-  // Precio
+  // Precio compra
   if (!service.price || service.price <= 1) {
     errors.price = 'Ingrese un valor mayor a 1'
   } else if (!Number.isInteger(service.price)) {
     errors.price = 'Ingrese un número sin . ,'
   } else if (service.price > 10 ** 7) {
     errors.price = 'Ingrese un valor menor'
+  }
+
+  // Precio clases en vivo
+  if (!service.price_live_class) {
+  } else if (service.price_live_class <= 1) {
+    errors.price_live_class = 'Ingrese un valor mayor a 1'
+  } else if (!Number.isInteger(service.price_live_class)) {
+    errors.price_live_class = 'Ingrese un número sin . ,'
+  } else if (service.price_live_class > 10 ** 7) {
+    errors.price_live_class = 'Ingrese un valor menor'
   }
 
   // Video

@@ -107,7 +107,7 @@ export default function InfoDisplay({
               <Button
                 type="button"
                 variant="admin"
-                onClick={() => router.push(`/${basePath}/form/${id}`)}
+                onClick={() => router.push(`${basePath}/form/${id}`)}
                 disabled={isDeleting}
               >
                 <Edit className="w-4 h-4" />

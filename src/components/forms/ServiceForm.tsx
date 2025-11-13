@@ -48,6 +48,7 @@ export default function ServiceForm({ id }: ServiceFormProps) {
     price: 0,
     photo_url: '',
     video_url: '',
+    price_live_class: 0,
   })
   const [localImagePreview, setLocalImagePreview] = useState<
     string | undefined

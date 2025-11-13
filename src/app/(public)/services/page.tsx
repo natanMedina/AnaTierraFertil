@@ -74,11 +74,6 @@ export default function ServicesPage() {
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1)
 
   return (
-    // {editMode && (
-    //     <div className="text-center text-brand font-bold">
-    //       Edición habilitada
-    //     </div>
-    //   )}
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-green-100/50 to-blue-50">
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row gap-8">

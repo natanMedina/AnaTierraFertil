@@ -16,8 +16,12 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination'
+import { Button } from '@/components/ui/button'
+import { useAdmin } from '@/context/AdminContext'
+import { CirclePlus } from 'lucide-react'
 
 export default function ServicesPage() {
+  const { editMode } = useAdmin()
   const [services, setServices] = useState<Service[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string>('')
   const [searchTerm, setSearchTerm] = useState<string>('')
@@ -93,11 +97,21 @@ export default function ServicesPage() {
           {/* Contenido principal */}
           <main className="flex-1">
             {/* Buscador en la parte superior */}
-            <div className="mb-6 flex justify-end">
+            <div className="mb-6 flex justify-end gap-10">
               <Search
                 placeholder="Buscar servicios..."
                 onSearch={setSearchTerm}
               />
+              {/* Botón añadir */}
+              {editMode && (
+                <Button
+                  variant="admin"
+                  // onClick={() => router.replace('/products/form')}
+                >
+                  Añadir
+                  <CirclePlus className="w-4 h-4" />
+                </Button>
+              )}
             </div>
 
             {/* Grid de servicios */}

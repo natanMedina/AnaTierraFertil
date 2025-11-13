@@ -6,4 +6,5 @@ export interface Service {
   photo_url: string
   video_url: string
   price: number
+  price_live_class: number
 }

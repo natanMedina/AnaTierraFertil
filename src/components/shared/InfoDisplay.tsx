@@ -10,6 +10,7 @@ import { getYouTubeEmbedUrl } from '@/utils/formatters'
 import { deleteProduct } from '@/services/products'
 import ConfirmDialog from './ConfirmDialog'
 import { ContactDialog } from '@/components/shared/ContactDialog'
+import { deleteService } from '@/services/services'
 
 interface PurchaseOption {
   title: string
@@ -44,16 +45,19 @@ export default function InfoDisplay({
   const [selectedMessage, setSelectedMessage] = useState('')
 
   const router = useRouter()
+  const elemento = basePath.includes('products') ? 'Producto' : 'Servicio'
 
   const handleDelete = async () => {
     try {
       setIsDeleting(true)
-      const success = await deleteProduct(id)
+      const success = basePath.includes('products')
+        ? await deleteProduct(id)
+        : await deleteService(id)
       if (success) {
-        toast.success('Producto eliminado')
+        toast.success(`${elemento} eliminado`)
         router.push(basePath)
       } else {
-        toast.error('Error al eliminar el producto')
+        toast.error(`Error al eliminar el ${elemento.toLowerCase()}`)
       }
     } catch (error) {
       console.error(error)
@@ -62,8 +66,6 @@ export default function InfoDisplay({
       setIsDeleting(false)
     }
   }
-
-  const elemento = basePath.includes('products') ? 'Producto' : 'Servicio'
 
   return (
     <div className="w-full flex flex-col min-h-160 md:flex-row bg-white">
@@ -94,7 +96,7 @@ export default function InfoDisplay({
             type="button"
             variant="secondary"
             className="flex items-center ml-auto w-min gap-2 text-white font-bold bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-md text-sm transition"
-            onClick={() => router.push('/products')}
+            onClick={() => router.push(basePath)}
             disabled={isDeleting}
           >
             <ArrowLeft className="w-4 h-4" />
@@ -105,7 +107,7 @@ export default function InfoDisplay({
               <Button
                 type="button"
                 variant="admin"
-                onClick={() => router.push(`/products/form/${id}`)}
+                onClick={() => router.push(`/${basePath}/form/${id}`)}
                 disabled={isDeleting}
               >
                 <Edit className="w-4 h-4" />
@@ -113,7 +115,7 @@ export default function InfoDisplay({
               </Button>
               <ConfirmDialog
                 title="¿Eliminar registro?"
-                description="Esta acción eliminará el producto de forma permanente."
+                description={`Esta acción eliminará el ${elemento.toLowerCase()} de forma permanente.`}
                 confirmText={isDeleting ? 'Eliminando...' : 'Eliminar'}
                 cancelText="Cancelar"
                 onConfirm={handleDelete}

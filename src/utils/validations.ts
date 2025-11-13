@@ -1,4 +1,5 @@
 import { Product } from '@/types/product'
+import { Service } from '@/types/service'
 import { SiteConfig } from '@/types/siteConfig'
 import { getYouTubeEmbedUrl } from '@/utils/formatters'
 
@@ -59,6 +60,78 @@ export function validateProduct(
     if (!YOUTUBE_REGEX.test(product.video_url.trim())) {
       errors.video_url = 'Debe ser un enlace válido de YouTube'
     } else if (!getYouTubeEmbedUrl(product.video_url.trim())) {
+      errors.video_url = 'El enlace de YouTube no es válido'
+    }
+  }
+
+  const isValid = Object.values(errors).every((e) => e === '')
+  return { errors, isValid }
+}
+
+export function validateService(
+  service: Omit<Service, 'id'>,
+  localImagePreview?: string
+) {
+  const errors = {
+    name: '',
+    description: '',
+    category: '',
+    price: '',
+    photo_url: '',
+    video_url: '',
+    price_live_class: '',
+  }
+
+  // Nombre
+  if (!service.name.trim()) {
+    errors.name = 'El nombre es obligatorio'
+  } else if (service.name.trim().length < 3) {
+    errors.name = 'El nombre debe tener al menos 3 caracteres'
+  } else if (service.name.trim().length > 100) {
+    errors.name = 'El nombre no puede tener más de 100 caracteres'
+  }
+
+  // Descripción
+  if (!service.description.trim()) {
+    errors.description = 'La descripción es obligatoria'
+  } else if (service.description.trim().length > 500) {
+    errors.description = 'La descripción no puede tener más de 500 caracteres'
+  }
+
+  // Categoría
+  if (!service.category.trim()) {
+    errors.category = 'La categoría es obligatoria'
+  }
+
+  // Imagen
+  if (!localImagePreview) {
+    errors.photo_url = 'La imagen es obligatoria'
+  }
+
+  // Precio compra
+  if (!service.price || service.price <= 1) {
+    errors.price = 'Ingrese un valor mayor a 1'
+  } else if (!Number.isInteger(service.price)) {
+    errors.price = 'Ingrese un número sin . ,'
+  } else if (service.price > 10 ** 7) {
+    errors.price = 'Ingrese un valor menor'
+  }
+
+  // Precio clases en vivo
+  if (!service.price_live_class) {
+  } else if (service.price_live_class <= 1) {
+    errors.price_live_class = 'Ingrese un valor mayor a 1'
+  } else if (!Number.isInteger(service.price_live_class)) {
+    errors.price_live_class = 'Ingrese un número sin . ,'
+  } else if (service.price_live_class > 10 ** 7) {
+    errors.price_live_class = 'Ingrese un valor menor'
+  }
+
+  // Video
+  if (service.video_url && service.video_url.trim() !== '') {
+    if (!YOUTUBE_REGEX.test(service.video_url.trim())) {
+      errors.video_url = 'Debe ser un enlace válido de YouTube'
+    } else if (!getYouTubeEmbedUrl(service.video_url.trim())) {
       errors.video_url = 'El enlace de YouTube no es válido'
     }
   }

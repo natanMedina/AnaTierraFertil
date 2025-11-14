@@ -1,6 +1,8 @@
 'use client'
 
 import * as React from 'react'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 import {
   Item,
   ItemMedia,
@@ -14,13 +16,19 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from '@/components/ui/hover-card'
+import { Button } from '@/components/ui/button'
+import ConfirmDialog from '@/components/shared/ConfirmDialog'
+import { Pencil, Trash2 } from 'lucide-react'
 
 type NewsItemProps = {
+  id: number
   title: string
   description: string
   imageUrl?: string
   date?: string
   className?: string
+  showActions?: boolean
+  onDeleted?: (id: number) => void
 }
 
 /**
@@ -31,12 +39,16 @@ type NewsItemProps = {
  * - Descripción con scroll si excede el alto disponible
  */
 export function NewsItem({
+  id,
   title,
   description,
   imageUrl,
   date,
   className,
+  showActions = false,
+  onDeleted,
 }: NewsItemProps) {
+  const router = useRouter()
   // Detectar si el título se truncó a una sola línea para mostrar hover condicional
   const titleRef = React.useRef<HTMLDivElement>(null)
   const [isTitleTruncated, setIsTitleTruncated] = React.useState(false)
@@ -113,11 +125,59 @@ export function NewsItem({
                 {title}
               </div>
             )}
-            {formattedDate && (
-              <span className="text-sm text-gray-500 whitespace-nowrap flex-shrink-0">
-                {formattedDate}
-              </span>
-            )}
+            <div className="flex items-center gap-2 flex-shrink-0">
+              {formattedDate && (
+                <span className="text-sm text-gray-500 whitespace-nowrap">
+                  {formattedDate}
+                </span>
+              )}
+              {showActions && (
+                <div className="flex items-center gap-2 ml-2">
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    className="h-7 px-2"
+                    onClick={() => router.push(`/news/form/${id}`)}
+                    title="Editar"
+                  >
+                    <Pencil className="w-4 h-4" />
+                  </Button>
+                  <ConfirmDialog
+                    title="Eliminar noticia"
+                    description="Esta acción eliminará la noticia de forma permanente."
+                    confirmText="Eliminar"
+                    cancelText="Cancelar"
+                    onConfirm={async () => {
+                      try {
+                        const { deleteNews } = require('@/services/news')
+                        const ok = await deleteNews(id)
+                        if (ok) {
+                          onDeleted?.(id)
+                          toast.success('Noticia eliminada')
+                        } else {
+                          toast.error('No se pudo eliminar la noticia')
+                        }
+                      } catch (err) {
+                        console.error(err)
+                        toast.error('Error al eliminar la noticia')
+                      }
+                    }}
+                    trigger={
+                      <Button
+                        variant="destructive"
+                        size="sm"
+                        className="h-7 px-2"
+                        title="Eliminar"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    }
+                    icon={<Trash2 className="w-5 h-5 text-red-600" />}
+                    iconBg="bg-red-50"
+                  />
+                </div>
+              )}
+            </div>
           </div>
         </div>
 

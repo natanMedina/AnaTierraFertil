@@ -159,7 +159,7 @@ export default function NewsForm({ id }: NewsFormProps) {
           }
         }
 
-        router.push(id ? `/news/${id}` : '/news')
+        router.push('/news')
       } else {
         toast.error('Error al guardar la noticia')
       }
@@ -236,7 +236,7 @@ export default function NewsForm({ id }: NewsFormProps) {
             type="button"
             variant="secondary"
             className="flex items-center ml-auto w-min gap-2 text-white font-bold bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-md text-sm transition"
-            onClick={() => router.push(id ? `/news/${id}` : '/news')}
+            onClick={() => router.push('/news')}
             disabled={isSubmitting}
           >
             <ArrowLeft className="w-4 h-4" />

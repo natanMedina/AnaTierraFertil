@@ -109,10 +109,15 @@ export default function NewsPage() {
             paginatedNews.map((item) => (
               <NewsItem
                 key={item.id}
+                id={item.id}
                 title={item.title}
                 description={item.description}
                 imageUrl={item.photo_url}
                 date={item.date}
+                showActions={editMode}
+                onDeleted={(deleteId) => {
+                  setNews((prev) => prev.filter((n) => n.id !== deleteId))
+                }}
               />
             ))
           )}

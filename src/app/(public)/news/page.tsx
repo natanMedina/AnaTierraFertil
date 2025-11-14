@@ -84,7 +84,7 @@ export default function NewsPage() {
             {editMode && (
               <Button
                 variant="admin"
-                onClick={() => router.replace('/news/form')}
+                onClick={() => router.replace('/news/forms')}
                 className="whitespace-nowrap"
               >
                 Añadir

@@ -1,6 +1,10 @@
 import NewsForm from '@/components/forms/NewsForm'
 
-export default function EditNewsPage({ params }: { params: { id: string } }) {
-  const idNum = Number(params.id)
-  return <NewsForm id={idNum} />
+interface Props {
+  params: Promise<{ id: string }>
+}
+
+export default async function EditNewsPage({ params }: Props) {
+  const { id } = await params
+  return <NewsForm id={Number(id)} />
 }

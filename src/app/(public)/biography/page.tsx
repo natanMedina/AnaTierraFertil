@@ -16,8 +16,12 @@ const BiographySection = () => (
     <div className="container mx-auto px-6 lg:px-12">
       <div className="flex flex-col lg:flex-row items-stretch gap-12">
         {/* Columna Izquierda - Imagen */}
-        <div className="relative lg:w-1/3 w-full h-[500px] lg:h-auto bg-brand rounded-lg shadow-lg overflow-hidden flex items-center justify-center">
-          <span className="text-white text-2xl font-bold">Foto aquí</span>
+        <div className="relative lg:w-1/3 w-full h-[500px] lg:h-auto rounded-lg shadow-lg overflow-hidden">
+          <img
+            src="/images/biografia.png"
+            alt="Biografía"
+            className="w-full h-full object-cover"
+          />
         </div>
 
         {/* Columna Derecha - Contenido de Texto */}
@@ -61,19 +65,31 @@ const JourneySection = () => (
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* Placeholder 1 */}
-        <div className="aspect-[4/3] overflow-hidden rounded-lg bg-brand flex items-center justify-center">
-          <span className="text-white text-2xl font-semibold">Imagen 1</span>
+        {/* Imagen 1 */}
+        <div className="aspect-[4/3] overflow-hidden rounded-lg shadow-lg">
+          <img
+            src="/images/recorrido1.png"
+            alt="Recorrido 1"
+            className="w-full h-full object-cover"
+          />
         </div>
 
-        {/* Placeholder 2 */}
-        <div className="aspect-[4/3] overflow-hidden rounded-lg bg-brand flex items-center justify-center">
-          <span className="text-white text-2xl font-semibold">Imagen 2</span>
+        {/* Imagen 2 */}
+        <div className="aspect-[4/3] overflow-hidden rounded-lg shadow-lg">
+          <img
+            src="/images/recorrido2.png"
+            alt="Recorrido 2"
+            className="w-full h-full object-cover"
+          />
         </div>
 
-        {/* Placeholder 3 */}
-        <div className="aspect-[4/3] overflow-hidden rounded-lg bg-brand flex items-center justify-center">
-          <span className="text-white text-2xl font-semibold">Imagen 3</span>
+        {/* Imagen 3 */}
+        <div className="aspect-[4/3] overflow-hidden rounded-lg shadow-lg">
+          <img
+            src="/images/recorrido3.png"
+            alt="Recorrido 3"
+            className="w-full h-full object-cover"
+          />
         </div>
       </div>
     </div>

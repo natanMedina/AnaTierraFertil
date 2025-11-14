@@ -1,5 +1,6 @@
 import { Product } from '@/types/product'
 import { Service } from '@/types/service'
+import { News } from '@/types/news'
 import { SiteConfig } from '@/types/siteConfig'
 import { getYouTubeEmbedUrl } from '@/utils/formatters'
 
@@ -164,6 +165,57 @@ export function validateSiteConfig(localSiteConfig: Omit<SiteConfig, 'id'>) {
     errors.contact_whatsapp = 'El WhatsApp es obligatorio'
   } else if (!cellphoneRegex.test(localSiteConfig.contact_whatsapp)) {
     errors.contact_whatsapp = 'Número no válido. Debe tener 10 dígitos'
+  }
+
+  const isValid = Object.values(errors).every((e) => e === '')
+  return { errors, isValid }
+}
+
+export function validateNews(
+  news: Omit<News, 'id'>,
+  localImagePreview?: string
+) {
+  const errors = {
+    title: '',
+    description: '',
+    photo_url: '',
+    date: '',
+  }
+
+  // Título
+  if (!news.title.trim()) {
+    errors.title = 'El título es obligatorio'
+  } else if (news.title.trim().length < 3) {
+    errors.title = 'El título debe tener al menos 3 caracteres'
+  } else if (news.title.trim().length > 100) {
+    errors.title = 'El título no puede tener más de 100 caracteres'
+  }
+
+  // Descripción
+  if (!news.description.trim()) {
+    errors.description = 'La descripción es obligatoria'
+  } else if (news.description.trim().length < 10) {
+    errors.description = 'La descripción debe tener al menos 10 caracteres'
+  } else if (news.description.trim().length > 1000) {
+    errors.description = 'La descripción no puede tener más de 1000 caracteres'
+  }
+
+  // Imagen
+  if (!localImagePreview) {
+    errors.photo_url = 'La imagen es obligatoria'
+  }
+
+  // Fecha
+  if (!news.date) {
+    errors.date = 'La fecha es obligatoria'
+  } else {
+    const selectedDate = new Date(news.date)
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+
+    if (selectedDate > today) {
+      errors.date = 'La fecha no puede ser futura'
+    }
   }
 
   const isValid = Object.values(errors).every((e) => e === '')

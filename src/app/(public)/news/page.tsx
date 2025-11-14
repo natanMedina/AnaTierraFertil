@@ -6,6 +6,10 @@ import { NewsItem } from '@/components/item/NewsItem'
 import { NewsItemSkeleton } from '@/components/item/NewsItemSkeleton'
 import { getNews } from '@/services/news'
 import { News } from '@/types/news'
+import { Button } from '@/components/ui/button'
+import { useAdmin } from '@/context/AdminContext'
+import { CirclePlus } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import {
   Pagination,
   PaginationContent,
@@ -16,6 +20,8 @@ import {
 } from '@/components/ui/pagination'
 
 export default function NewsPage() {
+  const { editMode } = useAdmin()
+  const router = useRouter()
   const [searchTerm, setSearchTerm] = useState('')
   const [news, setNews] = useState<News[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -58,15 +64,34 @@ export default function NewsPage() {
   )
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1)
 
+// Debug: verificar si editMode está activo
+  console.log('Edit Mode:', editMode)
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-green-100/50 to-blue-50">
       <div className="container mx-auto px-6 lg:px-12 py-8">
         {/* Encabezado */}
-        <div className="mb-6 flex items-center justify-between">
+        <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <h1 className="text-3xl lg:text-4xl font-bold text-gray-900">
             Novedades
           </h1>
-          <Search placeholder="Buscar novedades ..." onSearch={setSearchTerm} />
+          <div className="flex gap-3 items-center">
+            <Search
+              placeholder="Buscar novedades ..."
+              onSearch={setSearchTerm}
+            />
+            {/* Botón añadir */}
+            {editMode && (
+              <Button
+                variant="admin"
+                onClick={() => router.replace('/news/form')}
+                className="whitespace-nowrap"
+              >
+                Añadir
+                <CirclePlus className="w-4 h-4" />
+              </Button>
+            )}
+          </div>
         </div>
 
         {/* Lista de novedades */}

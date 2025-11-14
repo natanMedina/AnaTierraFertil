@@ -5,7 +5,7 @@ export async function getNews(): Promise<News[]> {
   const { data, error } = await supabase
     .from('news')
     .select('*')
-    .order('id', { ascending: true })
+    .order('date', { ascending: false })
 
   if (error) throw new Error(`Error al obtener noticias: ${error.message}`)
   return data || []

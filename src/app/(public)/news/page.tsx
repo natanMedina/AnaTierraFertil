@@ -64,7 +64,7 @@ export default function NewsPage() {
   )
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1)
 
-// Debug: verificar si editMode está activo
+  // Debug: verificar si editMode está activo
   console.log('Edit Mode:', editMode)
 
   return (

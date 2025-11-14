@@ -137,7 +137,7 @@ export function NewsItem({
                     variant="secondary"
                     size="sm"
                     className="h-7 px-2"
-                    onClick={() => router.push(`/news/forms/${id}`)}
+                    onClick={() => router.push(`/news/form/${id}`)}
                     title="Editar"
                   >
                     <Pencil className="w-4 h-4" />

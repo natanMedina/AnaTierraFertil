@@ -18,6 +18,7 @@ import { useSiteConfig } from '@/context/SiteConfigContext'
 import { SiteConfig } from '@/types/siteConfig'
 import { validateSiteConfig } from '@/utils/validations'
 import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 export function AdminSheet() {
   const { logout, editMode, toggleEditMode } = useAdmin()
@@ -37,6 +38,7 @@ export function AdminSheet() {
     contact_whatsapp: '',
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const router = useRouter()
 
   // Cargar datos si hay siteConfig
   useEffect(() => {
@@ -138,8 +140,6 @@ export function AdminSheet() {
               error={validation.errors.contact_whatsapp}
             />
           </div>
-        </div>
-        <div className="mt-auto flex flex-col gap-2">
           <Button
             type="submit"
             variant="admin"
@@ -148,6 +148,17 @@ export function AdminSheet() {
             onClick={handleSubmit}
           >
             {isSubmitting ? 'Guardando...' : 'Guardar cambios'}
+          </Button>
+        </div>
+        <div className="mt-auto flex flex-col gap-2">
+          <Button
+            variant="outline"
+            onClick={() => {
+              setOpen(false)
+              router.push('/metrics')
+            }}
+          >
+            Métricas
           </Button>
 
           <Button

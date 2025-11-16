@@ -168,9 +168,12 @@ const BiographySection = () => (
         </Card>
 
         {/* Columna Derecha - Marcador de Posición de Imagen */}
-        <div className="relative lg:w-1/3 w-full h-[500px] lg:h-auto bg-brand rounded-lg shadow-lg overflow-hidden flex items-center justify-center">
-          <span className="text-white text-2xl font-bold">Foto aquí</span>
-          {/* Aquí irá la imagen real más adelante */}
+        <div className="relative lg:w-1/3 w-full h-[500px] lg:h-auto rounded-lg shadow-lg overflow-hidden">
+          <img
+            src="/images/biografia.png"
+            alt="Biografía"
+            className="w-full h-full object-cover"
+          />
         </div>
       </div>
     </div>

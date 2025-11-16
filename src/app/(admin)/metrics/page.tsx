@@ -1,5 +1,6 @@
 'use client'
 
+import MetricsAreaChart from '@/components/charts/MetricsAreaChart'
 import {
   Card,
   CardDescription,
@@ -16,13 +17,10 @@ import {
   getMostUsedDeviceLastNDays,
 } from '@/services/metrics'
 import { MetricsResponse } from '@/types/metrics'
+import { resolvePath } from '@/utils/formatters'
 import { TrendingDown, TrendingUp } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-
-interface HeaderCardsProps {
-  metrics: MetricsResponse
-}
 
 async function getMetrics() {
   const now = new Date()
@@ -58,23 +56,7 @@ async function getMetrics() {
   return metrics
 }
 
-const resolvePathAux = (path: string | null): string => {
-  if (!path) return 'No hay datos'
-  switch (path) {
-    case '/biography':
-      return 'Biografía'
-    case '/products':
-      return 'Productos'
-    case '/services':
-      return 'Servicios'
-    case '/news':
-      return 'Novedades'
-    default:
-      return 'Inicio'
-  }
-}
-
-const HeaderCards = ({ metrics }: HeaderCardsProps) => {
+const HeaderCards = ({ metrics }: { metrics: MetricsResponse }) => {
   const headerCardsInfo = [
     {
       title: 'Visitas totales',
@@ -88,7 +70,7 @@ const HeaderCards = ({ metrics }: HeaderCardsProps) => {
     },
     {
       title: 'Sección más visitada',
-      value: resolvePathAux(metrics.topSection.pathname),
+      value: resolvePath(metrics.topSection.pathname),
       description: (
         <span className="flex gap-2 items-center">
           {`${metrics.topSection.visits} visitas este mes`}
@@ -130,7 +112,7 @@ const HeaderCards = ({ metrics }: HeaderCardsProps) => {
   ]
 
   return (
-    <div className="flex flex-row p-10 gap-15 justify-center">
+    <div className="flex flex-row gap-15 justify-center">
       {headerCardsInfo.map((info, index) => (
         <Card key={index} className="border-brand border-2 w-1/4">
           <CardHeader>
@@ -179,10 +161,15 @@ export default function MetricsPage() {
       </p>
     )
 
-  // return <pre className="text-black">{JSON.stringify(metrics, null, 2)}</pre>
   return (
     <div>
-      <HeaderCards metrics={metrics}></HeaderCards>
+      <div className="p-10">
+        <HeaderCards metrics={metrics}></HeaderCards>
+      </div>
+      <div className="p-10">
+        <MetricsAreaChart charts={metrics.charts} />
+      </div>
+      <pre className="text-black">{JSON.stringify(metrics, null, 2)}</pre>
     </div>
   )
 }

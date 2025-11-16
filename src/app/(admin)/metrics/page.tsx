@@ -20,7 +20,7 @@ import { MetricsResponse } from '@/types/metrics'
 import { resolvePath } from '@/utils/formatters'
 import { TrendingDown, TrendingUp } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { JSX, useEffect, useState } from 'react'
 
 async function getMetrics() {
   const now = new Date()
@@ -57,26 +57,23 @@ async function getMetrics() {
 }
 
 const HeaderCards = ({ metrics }: { metrics: MetricsResponse }) => {
-  const headerCardsInfo = [
+  const headerCardsInfo: {
+    title: string
+    value: string
+    description: string
+    footer: string
+    desc_icon?: JSX.Element
+  }[] = [
     {
       title: 'Visitas totales',
       value: `${metrics.totals.last180Days} visitas`,
-      description: (
-        <span className="flex gap-2 items-center">
-          En aumento <TrendingUp className="size-4" />
-        </span>
-      ),
+      description: 'En aumento',
       footer: 'Visitantes en los últimos 6 meses',
     },
     {
       title: 'Sección más visitada',
       value: resolvePath(metrics.topSection.pathname),
-      description: (
-        <span className="flex gap-2 items-center">
-          {`${metrics.topSection.visits} visitas este mes`}
-          <TrendingUp className="size-4" />
-        </span>
-      ),
+      description: `${metrics.topSection.visits} visitas este mes`,
       footer: 'Sección más visitada por los usuarios',
     },
     {
@@ -84,29 +81,23 @@ const HeaderCards = ({ metrics }: { metrics: MetricsResponse }) => {
       value: metrics.mostUsedDevice.device.includes('desktop')
         ? 'Escritorio'
         : 'Móvil',
-      description: (
-        <span className="flex gap-2 items-center">
-          {metrics.mostUsedDevice.count} usos este mes{' '}
-          <TrendingUp className="size-4" />
-        </span>
-      ),
+      description: `${metrics.mostUsedDevice.count} usos este mes`,
       footer: 'Dispositivo más usado por los usuarios',
     },
     {
       title: 'Ratio de crecimiento',
       value: `${metrics.growth.growth}%`,
-      description: (
-        <span className="flex gap-2 items-center">
-          {metrics.growth.growth > 0
-            ? '¡Las visitas están creciendo!'
-            : 'Las estadísticas pueden mejorar'}
-          {metrics.growth.growth > 0 ? (
-            <TrendingUp className="size-4" />
-          ) : (
-            <TrendingDown className="size-4" />
-          )}
-        </span>
-      ),
+      description: `${
+        metrics.growth.growth > 0
+          ? '¡Las visitas están creciendo!'
+          : 'Las estadísticas pueden mejorar'
+      }`,
+      desc_icon:
+        metrics.growth.growth > 0 ? (
+          <TrendingUp className="size-4" />
+        ) : (
+          <TrendingDown className="size-4" />
+        ),
       footer: 'Crecimiento de visitas en este mes',
     },
   ]
@@ -122,7 +113,10 @@ const HeaderCards = ({ metrics }: { metrics: MetricsResponse }) => {
             </CardTitle>
           </CardHeader>
           <CardFooter className="flex-col items-start gap-1.5 text-sm">
-            <div className="font-medium">{info.description}</div>
+            <div className="font-medium flex gap-2 items-center">
+              {info.description}
+              {info.desc_icon || <TrendingUp className="size-4" />}
+            </div>
             <div className="text-muted-foreground">{info.footer}</div>
           </CardFooter>
         </Card>

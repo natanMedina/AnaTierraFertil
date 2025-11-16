@@ -1,12 +1,12 @@
 'use client'
 
-// import {
-//   Card,
-//   CardDescription,
-//   CardFooter,
-//   CardHeader,
-//   CardTitle,
-// } from '@/components/ui/card'
+import {
+  Card,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import { useAdmin } from '@/context/AdminContext'
 import {
   getVisitsLastNDays,
@@ -16,9 +16,13 @@ import {
   getMostUsedDeviceLastNDays,
 } from '@/services/metrics'
 import { MetricsResponse } from '@/types/metrics'
-// import { TrendingUp } from 'lucide-react'
+import { TrendingDown, TrendingUp } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+
+interface HeaderCardsProps {
+  metrics: MetricsResponse
+}
 
 async function getMetrics() {
   const now = new Date()
@@ -54,10 +58,101 @@ async function getMetrics() {
   return metrics
 }
 
+const resolvePathAux = (path: string | null): string => {
+  if (!path) return 'No hay datos'
+  switch (path) {
+    case '/biography':
+      return 'Biografía'
+    case '/products':
+      return 'Productos'
+    case '/services':
+      return 'Servicios'
+    case '/news':
+      return 'Novedades'
+    default:
+      return 'Inicio'
+  }
+}
+
+const HeaderCards = ({ metrics }: HeaderCardsProps) => {
+  const headerCardsInfo = [
+    {
+      title: 'Visitas totales',
+      value: `${metrics.totals.last180Days} visitas`,
+      description: (
+        <span className="flex gap-2 items-center">
+          En aumento <TrendingUp className="size-4" />
+        </span>
+      ),
+      footer: 'Visitantes en los últimos 6 meses',
+    },
+    {
+      title: 'Sección más visitada',
+      value: resolvePathAux(metrics.topSection.pathname),
+      description: (
+        <span className="flex gap-2 items-center">
+          {`${metrics.topSection.visits} visitas este mes`}
+          <TrendingUp className="size-4" />
+        </span>
+      ),
+      footer: 'Sección más visitada por los usuarios',
+    },
+    {
+      title: 'Dispositivo más usado',
+      value: metrics.mostUsedDevice.device.includes('desktop')
+        ? 'Escritorio'
+        : 'Móvil',
+      description: (
+        <span className="flex gap-2 items-center">
+          {metrics.mostUsedDevice.count} usos este mes{' '}
+          <TrendingUp className="size-4" />
+        </span>
+      ),
+      footer: 'Dispositivo más usado por los usuarios',
+    },
+    {
+      title: 'Ratio de crecimiento',
+      value: `${metrics.growth.growth}%`,
+      description: (
+        <span className="flex gap-2 items-center">
+          {metrics.growth.growth > 0
+            ? '¡Las visitas están creciendo!'
+            : 'Las estadísticas pueden mejorar'}
+          {metrics.growth.growth > 0 ? (
+            <TrendingUp className="size-4" />
+          ) : (
+            <TrendingDown className="size-4" />
+          )}
+        </span>
+      ),
+      footer: 'Crecimiento de visitas en este mes',
+    },
+  ]
+
+  return (
+    <div className="flex flex-row p-10 gap-15 justify-center">
+      {headerCardsInfo.map((info, index) => (
+        <Card key={index} className="border-brand border-2 w-1/4">
+          <CardHeader>
+            <CardDescription>{info.title}</CardDescription>
+            <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+              {info.value}
+            </CardTitle>
+          </CardHeader>
+          <CardFooter className="flex-col items-start gap-1.5 text-sm">
+            <div className="font-medium">{info.description}</div>
+            <div className="text-muted-foreground">{info.footer}</div>
+          </CardFooter>
+        </Card>
+      ))}
+    </div>
+  )
+}
+
 export default function MetricsPage() {
   const { isAdmin, isLoading } = useAdmin()
   const router = useRouter()
-  const [metrics, setMetrics] = useState<MetricsResponse | null>(null)
+  const [metrics, setMetrics] = useState<MetricsResponse>()
 
   // Redirigir si no es admin
   useEffect(() => {
@@ -84,27 +179,10 @@ export default function MetricsPage() {
       </p>
     )
 
-  return <pre className="text-black">{JSON.stringify(metrics, null, 2)}</pre>
-  /* return (
+  // return <pre className="text-black">{JSON.stringify(metrics, null, 2)}</pre>
+  return (
     <div>
-      <div>
-        <Card className="border-black w-fit">
-          <CardHeader>
-            <CardDescription>Total Revenue</CardDescription>
-            <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-              {metrics.totals.last7Days}
-            </CardTitle>
-          </CardHeader>
-          <CardFooter className="flex-col items-start gap-1.5 text-sm">
-            <div className="line-clamp-1 flex gap-2 font-medium">
-              Trending up this month <TrendingUp className="size-4" />
-            </div>
-            <div className="text-muted-foreground">
-              Visitors for the last 6 months
-            </div>
-          </CardFooter>
-        </Card>
-      </div>
+      <HeaderCards metrics={metrics}></HeaderCards>
     </div>
-  ) */
+  )
 }

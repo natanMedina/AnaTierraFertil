@@ -1,5 +1,12 @@
 'use client'
 
+// import {
+//   Card,
+//   CardDescription,
+//   CardFooter,
+//   CardHeader,
+//   CardTitle,
+// } from '@/components/ui/card'
 import { useAdmin } from '@/context/AdminContext'
 import {
   getVisitsLastNDays,
@@ -8,6 +15,8 @@ import {
   getTopSectionLastNDays,
   getMostUsedDeviceLastNDays,
 } from '@/services/metrics'
+import { MetricsResponse } from '@/types/metrics'
+// import { TrendingUp } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
@@ -24,7 +33,7 @@ async function getMetrics() {
   last90.setDate(now.getDate() - 90)
 
   // Llamada al servicio
-  const metrics = {
+  const metrics: MetricsResponse = {
     totals: {
       last7Days: await getVisitsLastNDays(7),
       last30Days: await getVisitsLastNDays(30),
@@ -48,7 +57,7 @@ async function getMetrics() {
 export default function MetricsPage() {
   const { isAdmin, isLoading } = useAdmin()
   const router = useRouter()
-  const [metrics, setMetrics] = useState<{} | null>(null)
+  const [metrics, setMetrics] = useState<MetricsResponse | null>(null)
 
   // Redirigir si no es admin
   useEffect(() => {
@@ -76,4 +85,26 @@ export default function MetricsPage() {
     )
 
   return <pre className="text-black">{JSON.stringify(metrics, null, 2)}</pre>
+  /* return (
+    <div>
+      <div>
+        <Card className="border-black w-fit">
+          <CardHeader>
+            <CardDescription>Total Revenue</CardDescription>
+            <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+              {metrics.totals.last7Days}
+            </CardTitle>
+          </CardHeader>
+          <CardFooter className="flex-col items-start gap-1.5 text-sm">
+            <div className="line-clamp-1 flex gap-2 font-medium">
+              Trending up this month <TrendingUp className="size-4" />
+            </div>
+            <div className="text-muted-foreground">
+              Visitors for the last 6 months
+            </div>
+          </CardFooter>
+        </Card>
+      </div>
+    </div>
+  ) */
 }

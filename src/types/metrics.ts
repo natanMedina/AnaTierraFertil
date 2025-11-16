@@ -6,3 +6,45 @@ export interface MetricRow {
   pathname: string
   device: DeviceType
 }
+
+export interface ChartData {
+  date: string
+  total: number
+  mobile: number
+  desktop: number
+}
+
+export interface Totals {
+  last7Days: number
+  last30Days: number
+  last90Days: number
+  last180Days: number
+}
+
+export interface Growth {
+  current: number
+  previous: number
+  growth: number
+}
+
+export interface TopSection {
+  pathname: string | null
+  visits: number
+}
+
+export interface MostUsedDevice {
+  device: string
+  count: number
+}
+
+export interface MetricsResponse {
+  totals: Totals
+  charts: {
+    last7Days: ChartData[]
+    last30Days: ChartData[]
+    last90Days: ChartData[]
+  }
+  growth: Growth
+  topSection: TopSection
+  mostUsedDevice: MostUsedDevice
+}

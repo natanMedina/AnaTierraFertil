@@ -1,6 +1,13 @@
 // services/metricsService.ts
 import { supabase } from '@/lib/supabaseClient'
-import { DeviceType, MetricRow } from '@/types/metrics'
+import {
+  ChartData,
+  DeviceType,
+  Growth,
+  MetricRow,
+  MostUsedDevice,
+  TopSection,
+} from '@/types/metrics'
 
 export async function createVisit({
   pathname,
@@ -51,7 +58,10 @@ export async function getMetricsByRange(
   return data
 }
 
-export async function getDailyVisits(start: Date, end: Date) {
+export async function getDailyVisits(
+  start: Date,
+  end: Date
+): Promise<ChartData[]> {
   const { data, error } = await supabase
     .from('metrics')
     .select('created_at, device')
@@ -87,7 +97,7 @@ export async function getDailyVisits(start: Date, end: Date) {
   }))
 }
 
-export async function getVisitsLastNDays(days: number) {
+export async function getVisitsLastNDays(days: number): Promise<number> {
   const start = new Date()
   start.setDate(start.getDate() - days)
 
@@ -100,7 +110,9 @@ export async function getVisitsLastNDays(days: number) {
   return data.length
 }
 
-export async function getTopSectionLastNDays(days: number) {
+export async function getTopSectionLastNDays(
+  days: number
+): Promise<TopSection> {
   const start = new Date()
   start.setDate(start.getDate() - days)
 
@@ -124,7 +136,9 @@ export async function getTopSectionLastNDays(days: number) {
     : { pathname: null, visits: 0 }
 }
 
-export async function getMostUsedDeviceLastNDays(days: number) {
+export async function getMostUsedDeviceLastNDays(
+  days: number
+): Promise<MostUsedDevice> {
   const start = new Date()
   start.setDate(start.getDate() - days)
 
@@ -143,7 +157,7 @@ export async function getMostUsedDeviceLastNDays(days: number) {
     : { device: 'desktop', count: desktop }
 }
 
-export async function getMonthlyGrowth() {
+export async function getMonthlyGrowth(): Promise<Growth> {
   const now = new Date()
 
   const startThisMonth = new Date(now.getFullYear(), now.getMonth(), 1)

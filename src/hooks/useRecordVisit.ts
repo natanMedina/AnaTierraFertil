@@ -1,13 +1,6 @@
 import { useEffect } from 'react'
+import { getDeviceType } from '@/utils/device'
 // import { createVisit } from '@/services/metrics'
-
-export function getDeviceType() {
-  const ua = navigator.userAgent.toLowerCase()
-  const isMobile =
-    /iphone|ipad|android|blackberry|windows phone|opera mini|mobile/.test(ua)
-
-  return isMobile ? 'mobile' : 'desktop'
-}
 
 export function useCreateVisit() {
   useEffect(() => {

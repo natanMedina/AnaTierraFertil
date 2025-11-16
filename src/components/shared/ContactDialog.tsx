@@ -32,7 +32,10 @@ export function ContactDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md bg-brand py-10">
+      <DialogContent
+        className="sm:max-w-md bg-brand py-10"
+        closeButtonColor="bg-red-400 hover:bg-red-700 text-white"
+      >
         <DialogHeader className="flex items-center gap-2">
           <DialogTitle className="text-center text-background text-xl">
             Serás redirigido a WhatsApp para comunicarte con{' '}

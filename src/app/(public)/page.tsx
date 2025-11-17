@@ -13,6 +13,7 @@ import { siteConfigBase } from '@/config/site'
 import { CheckCircleIcon } from 'lucide-react'
 import { Background } from '@/components/shared/Background'
 import { SpecialMomentsSection } from '@/components/shared/SpecialMoments'
+import { useCreateVisit } from '@/hooks/useRecordVisit'
 
 // Componente para la sección hero
 const HeroSection = () => (
@@ -182,6 +183,8 @@ const BiographySection = () => (
 
 // Componente principal
 export default function Home() {
+  useCreateVisit()
+
   return (
     <div className="relative min-h-screen overflow-hidden">
       <Background />

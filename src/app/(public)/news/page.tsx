@@ -18,8 +18,10 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination'
+import { useCreateVisit } from '@/hooks/useRecordVisit'
 
 export default function NewsPage() {
+  useCreateVisit()
   const { editMode } = useAdmin()
   const router = useRouter()
   const [searchTerm, setSearchTerm] = useState('')

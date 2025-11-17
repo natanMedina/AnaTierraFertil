@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { siteConfigBase } from '@/config/site'
+import { useCreateVisit } from '@/hooks/useRecordVisit'
 
 const BiographySection = () => (
   <div className="relative z-10 py-16 bg-white">
@@ -182,6 +183,7 @@ const SocialSection = () => (
 )
 
 export default function BiographyPage() {
+  useCreateVisit()
   return (
     <div className="relative min-h-screen overflow-hidden">
       <Background />

@@ -21,7 +21,7 @@ const buttonVariants = cva(
         link: 'text-primary underline-offset-4 hover:underline',
         admin: 'bg-admin hover:bg-admin/70 hover:text-gray-900 text-white',
         admin_destructive:
-          'bg-red-400 hover:bg-red-600 hover:text-gray-900 text-white',
+          'bg-destructive hover:bg-red-400 hover:text-gray-900 text-white',
       },
       size: {
         default: 'h-9 px-4 py-2',

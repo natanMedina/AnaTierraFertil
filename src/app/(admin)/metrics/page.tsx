@@ -156,13 +156,9 @@ export default function MetricsPage() {
     )
 
   return (
-    <div>
-      <div className="p-10">
-        <HeaderCards metrics={metrics}></HeaderCards>
-      </div>
-      <div className="p-10">
-        <MetricsAreaChart charts={metrics.charts} totals={metrics.totals} />
-      </div>
+    <div className="flex flex-col p-10 gap-7">
+      <HeaderCards metrics={metrics}></HeaderCards>
+      <MetricsAreaChart charts={metrics.charts} totals={metrics.totals} />
       <pre className="text-black">{JSON.stringify(metrics, null, 2)}</pre>
     </div>
   )

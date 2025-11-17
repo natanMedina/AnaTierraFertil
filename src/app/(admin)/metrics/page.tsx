@@ -161,7 +161,7 @@ export default function MetricsPage() {
         <HeaderCards metrics={metrics}></HeaderCards>
       </div>
       <div className="p-10">
-        <MetricsAreaChart charts={metrics.charts} />
+        <MetricsAreaChart charts={metrics.charts} totals={metrics.totals} />
       </div>
       <pre className="text-black">{JSON.stringify(metrics, null, 2)}</pre>
     </div>

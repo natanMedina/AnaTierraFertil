@@ -43,8 +43,10 @@ const chartConfig = {
 
 export default function MetricsAreaChart({
   charts,
+  totals,
 }: {
   charts: MetricsResponse['charts']
+  totals: MetricsResponse['totals']
 }) {
   const isMobile = getDeviceType().includes('mobile')
   const [timeRange, setTimeRange] = useState('90d')
@@ -64,16 +66,29 @@ export default function MetricsAreaChart({
         ? charts.last30Days
         : charts.last90Days
 
+  // Obtener total según el rango seleccionado
+  const selectedTotal =
+    timeRange === '7d'
+      ? totals.last7Days
+      : timeRange === '30d'
+        ? totals.last30Days
+        : totals.last90Days
+
   return (
     <Card className="@container/card">
-      <CardHeader>
-        <CardTitle>Visitantes totales</CardTitle>
-        <CardDescription>
-          <span className="hidden @[540px]/card:block">
-            Total de visitantes por periodo seleccionado
-          </span>
-          <span className="@[540px]/card:hidden">Visitantes</span>
-        </CardDescription>
+      <CardHeader className="flex flex-row justify-between">
+        <div>
+          <CardTitle>
+            <span>Visitantes totales</span>
+          </CardTitle>
+          <CardDescription className="flex flex-col gap-3">
+            <span className="hidden @[540px]/card:block">
+              Total de visitantes por periodo seleccionado
+            </span>
+            <span>{selectedTotal} visitas</span>
+            <span className="@[540px]/card:hidden">Visitantes</span>
+          </CardDescription>
+        </div>
         <CardAction>
           <ToggleGroup
             type="single"

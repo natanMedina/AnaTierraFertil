@@ -189,6 +189,10 @@ export default function NewsForm({ id }: NewsFormProps) {
       </Button>
 
       <form onSubmit={handleSubmit} className="space-y-4">
+        <p className="text-sm text-gray-600 mb-2">
+          Los campos con <span className="text-red-600">*</span> son
+          obligatorios
+        </p>
         <div className="bg-white/95 shadow-sm border border-gray-200 rounded-lg overflow-hidden h-64">
           <div className="flex h-full">
             {/* Imagen rectangular a la izquierda - similar a NewsItem */}
@@ -212,7 +216,7 @@ export default function NewsForm({ id }: NewsFormProps) {
                   {/* Campo de título */}
                   <div className="flex-1 min-w-0">
                     <label className="text-sm font-medium text-gray-600 mb-1 block">
-                      Título
+                      Título <span className="text-red-600">*</span>
                     </label>
                     <Input
                       type="text"
@@ -234,7 +238,7 @@ export default function NewsForm({ id }: NewsFormProps) {
                   {/* Campo de fecha */}
                   <div className="flex-shrink-0">
                     <label className="text-sm font-medium text-gray-600 mb-1 block">
-                      Fecha
+                      Fecha <span className="text-red-600">*</span>
                     </label>
                     <Input
                       type="date"
@@ -258,7 +262,7 @@ export default function NewsForm({ id }: NewsFormProps) {
               {/* Descripción con ScrollArea similar a NewsItem */}
               <div className="flex-1 flex flex-col min-h-0">
                 <label className="text-sm font-medium text-gray-600 mb-1 flex-shrink-0">
-                  Descripción
+                  Descripción <span className="text-red-600">*</span>
                 </label>
                 <ScrollArea className="flex-1">
                   <div className="pr-4">

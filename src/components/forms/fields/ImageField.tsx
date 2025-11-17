@@ -39,7 +39,7 @@ export default function ImageField({
         />
       </label>
       <label className="max-w-sm text-center p-2 border-2 border-gray-200 rounded-sm text-gray-400 text-sm">
-        Pulse la Imagen para cambiarla
+        Pulse la Imagen para cambiarla <span className="text-red-600">*</span>
       </label>
       {error && <p className="text-center form-field-error">{error}</p>}
     </div>

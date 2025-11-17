@@ -188,10 +188,12 @@ export default function NewsForm({ id }: NewsFormProps) {
       </Button>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        <p className="text-sm text-gray-600 mb-2">
-          Los campos con <span className="text-red-600">*</span> son
-          obligatorios
-        </p>
+        <div className="bg-white/95 shadow-sm border border-gray-200 rounded-lg p-3 mb-2">
+          <p className="text-sm text-gray-600">
+            Los campos con <span className="text-red-600">*</span> son
+            obligatorios
+          </p>
+        </div>
         <div className="bg-white/95 shadow-sm border border-gray-200 rounded-lg overflow-hidden h-64">
           <div className="flex h-full">
             {/* Imagen rectangular a la izquierda - similar a NewsItem */}

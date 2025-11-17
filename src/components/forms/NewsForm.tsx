@@ -228,11 +228,6 @@ export default function NewsForm({ id }: NewsFormProps) {
                       disabled={isSubmitting}
                       className="text-xl font-semibold"
                     />
-                    {validation.errors.title && (
-                      <p className="mt-1 text-sm text-red-600">
-                        {validation.errors.title}
-                      </p>
-                    )}
                   </div>
 
                   {/* Campo de fecha */}
@@ -250,11 +245,6 @@ export default function NewsForm({ id }: NewsFormProps) {
                       disabled={isSubmitting}
                       className="text-sm"
                     />
-                    {validation.errors.date && (
-                      <p className="mt-1 text-sm text-red-600">
-                        {validation.errors.date}
-                      </p>
-                    )}
                   </div>
                 </div>
               </div>
@@ -278,14 +268,24 @@ export default function NewsForm({ id }: NewsFormProps) {
                     />
                   </div>
                 </ScrollArea>
-                {validation.errors.description && (
-                  <p className="mt-2 text-sm text-red-600 flex-shrink-0">
-                    {validation.errors.description}
-                  </p>
-                )}
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Mensajes de error debajo de la tarjeta */}
+        <div className="flex flex-col gap-2">
+          {validation.errors.title && (
+            <p className="text-sm text-red-600">{validation.errors.title}</p>
+          )}
+          {validation.errors.description && (
+            <p className="text-sm text-red-600">
+              {validation.errors.description}
+            </p>
+          )}
+          {validation.errors.date && (
+            <p className="text-sm text-red-600">{validation.errors.date}</p>
+          )}
         </div>
 
         {/* Botón guardar fuera de la tarjeta */}

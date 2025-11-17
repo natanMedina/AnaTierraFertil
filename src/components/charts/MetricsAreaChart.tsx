@@ -77,7 +77,7 @@ export default function MetricsAreaChart({
   return (
     <Card className="@container/card">
       <CardHeader className="flex flex-row justify-between">
-        <div>
+        <div className="flex flex-col gap-2">
           <CardTitle>
             <span>Visitantes totales</span>
           </CardTitle>
@@ -93,7 +93,11 @@ export default function MetricsAreaChart({
           <ToggleGroup
             type="single"
             value={timeRange}
-            onValueChange={setTimeRange}
+            onValueChange={(value) => {
+              if (value) {
+                setTimeRange(value)
+              }
+            }}
             variant="outline"
             className="hidden *:data-[slot=toggle-group-item]:!px-4 @[767px]/card:flex"
           >

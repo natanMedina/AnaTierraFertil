@@ -30,19 +30,6 @@ export async function createVisit({
 // =========================
 
 /**
- * Obtener todas las métricas crudas (para debug)
- */
-// export async function getAllMetrics(): Promise<MetricRow[]> {
-//   const { data, error } = await supabase
-//     .from('metrics')
-//     .select('*')
-//     .order('created_at', { ascending: false })
-
-//   if (error) throw error
-//   return data
-// }
-
-/**
  * Obtener métricas en un rango de fechas
  */
 export async function getMetricsByRange(

@@ -18,6 +18,8 @@ import FormSkeleton from './FormSkeleton'
 import { validateNews } from '@/utils/validations'
 import ImageField from './fields/ImageField'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 
 interface NewsFormProps {
   id?: number
@@ -212,7 +214,7 @@ export default function NewsForm({ id }: NewsFormProps) {
                     <label className="text-sm font-medium text-gray-600 mb-1 block">
                       Título
                     </label>
-                    <input
+                    <Input
                       type="text"
                       placeholder="Título de la noticia"
                       value={news.title}
@@ -220,7 +222,7 @@ export default function NewsForm({ id }: NewsFormProps) {
                         setNews({ ...news, title: e.target.value })
                       }
                       disabled={isSubmitting}
-                      className="w-full text-xl font-semibold border-none focus:outline-none focus:ring-2 focus:ring-brand px-2 py-1 rounded bg-gray-100 placeholder:text-gray-400"
+                      className="text-xl font-semibold"
                     />
                     {validation.errors.title && (
                       <p className="mt-1 text-sm text-red-600">
@@ -234,7 +236,7 @@ export default function NewsForm({ id }: NewsFormProps) {
                     <label className="text-sm font-medium text-gray-600 mb-1 block">
                       Fecha
                     </label>
-                    <input
+                    <Input
                       type="date"
                       value={news.date}
                       max={new Date().toISOString().split('T')[0]}
@@ -242,7 +244,7 @@ export default function NewsForm({ id }: NewsFormProps) {
                         setNews({ ...news, date: e.target.value })
                       }
                       disabled={isSubmitting}
-                      className="text-sm text-gray-500 border-none rounded px-2 py-1 focus:ring-2 focus:ring-brand bg-gray-100"
+                      className="text-sm"
                     />
                     {validation.errors.date && (
                       <p className="mt-1 text-sm text-red-600">
@@ -260,14 +262,14 @@ export default function NewsForm({ id }: NewsFormProps) {
                 </label>
                 <ScrollArea className="flex-1">
                   <div className="pr-4">
-                    <textarea
+                    <Textarea
                       placeholder="Descripción de la noticia"
                       value={news.description}
                       onChange={(e) =>
                         setNews({ ...news, description: e.target.value })
                       }
                       disabled={isSubmitting}
-                      className="w-full min-h-[120px] leading-relaxed border-none focus:outline-none focus:ring-2 focus:ring-brand p-2 rounded bg-gray-100 resize-none placeholder:text-gray-400 overflow-hidden break-all whitespace-pre-wrap"
+                      className="min-h-[120px] leading-relaxed resize-none overflow-hidden break-all whitespace-pre-wrap"
                       rows={8}
                     />
                   </div>

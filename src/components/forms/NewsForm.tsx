@@ -17,8 +17,6 @@ import { ArrowLeft } from 'lucide-react'
 import FormSkeleton from './FormSkeleton'
 import { validateNews } from '@/utils/validations'
 import ImageField from './fields/ImageField'
-import TextField from './fields/TextField'
-import TextAreaField from './fields/TextAreaField'
 import { ScrollArea } from '@/components/ui/scroll-area'
 
 interface NewsFormProps {

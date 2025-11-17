@@ -20,7 +20,7 @@ export default function TextAreaField({
       <label>{label}</label>
       <Textarea
         placeholder={placeholder}
-        className="h-48 resize-none"
+        className="h-48 resize-none custom-scrollbar whitespace-pre-wrap break-words"
         value={value}
         onChange={onChange}
         disabled={disabled}

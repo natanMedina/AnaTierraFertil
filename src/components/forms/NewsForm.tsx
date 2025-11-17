@@ -17,7 +17,6 @@ import { ArrowLeft } from 'lucide-react'
 import FormSkeleton from './FormSkeleton'
 import { validateNews } from '@/utils/validations'
 import ImageField from './fields/ImageField'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 
@@ -249,25 +248,22 @@ export default function NewsForm({ id }: NewsFormProps) {
                 </div>
               </div>
 
-              {/* Descripción con ScrollArea similar a NewsItem */}
+              {/* Descripción */}
               <div className="flex-1 flex flex-col min-h-0">
                 <label className="text-sm font-medium text-gray-600 mb-1 flex-shrink-0">
                   Descripción <span className="text-red-600">*</span>
                 </label>
-                <ScrollArea className="flex-1">
-                  <div className="pr-4">
-                    <Textarea
-                      placeholder="Descripción de la noticia"
-                      value={news.description}
-                      onChange={(e) =>
-                        setNews({ ...news, description: e.target.value })
-                      }
-                      disabled={isSubmitting}
-                      className="min-h-[120px] leading-relaxed resize-none overflow-hidden break-all whitespace-pre-wrap"
-                      rows={8}
-                    />
-                  </div>
-                </ScrollArea>
+                <div className="flex-1 border border-input rounded-md bg-white overflow-hidden p-3 shadow-sm">
+                  <Textarea
+                    placeholder="Descripción de la noticia"
+                    value={news.description}
+                    onChange={(e) =>
+                      setNews({ ...news, description: e.target.value })
+                    }
+                    disabled={isSubmitting}
+                    className="w-full h-full leading-relaxed resize-none border-none focus-visible:ring-0 p-0 shadow-none custom-scrollbar whitespace-pre-wrap break-words"
+                  />
+                </div>
               </div>
             </div>
           </div>

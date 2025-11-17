@@ -19,6 +19,7 @@ import { validateNews } from '@/utils/validations'
 import ImageField from './fields/ImageField'
 import TextField from './fields/TextField'
 import TextAreaField from './fields/TextAreaField'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 interface NewsFormProps {
   id?: number
@@ -202,7 +203,6 @@ export default function NewsForm({ id }: NewsFormProps) {
               }}
               error={validation.errors.photo_url}
               disabled={isSubmitting}
-              className="w-full h-full"
             />
           </div>
 
@@ -249,23 +249,26 @@ export default function NewsForm({ id }: NewsFormProps) {
               </div>
             </div>
 
-            {/* Descripción con scroll similar a NewsItem */}
-            <div className="flex-1 overflow-y-auto pr-2">
-              <textarea
-                placeholder="Descripción de la noticia"
-                value={news.description}
-                onChange={(e) =>
-                  setNews({ ...news, description: e.target.value })
-                }
-                disabled={isSubmitting}
-                className="w-full h-full leading-relaxed border-none focus:outline-none focus:ring-0 px-0 bg-transparent resize-none placeholder:text-gray-400"
-              />
-              {validation.errors.description && (
-                <p className="mt-1 text-sm text-red-600">
-                  {validation.errors.description}
-                </p>
-              )}
-            </div>
+            {/* Descripción con ScrollArea similar a NewsItem */}
+            <ScrollArea className="flex-1">
+              <div className="pr-4 whitespace-normal break-words">
+                <textarea
+                  placeholder="Descripción de la noticia"
+                  value={news.description}
+                  onChange={(e) =>
+                    setNews({ ...news, description: e.target.value })
+                  }
+                  disabled={isSubmitting}
+                  className="w-full min-h-[120px] leading-relaxed border-none focus:outline-none focus:ring-0 p-0 bg-transparent resize-none placeholder:text-gray-400 overflow-hidden"
+                  rows={8}
+                />
+                {validation.errors.description && (
+                  <p className="mt-1 text-sm text-red-600">
+                    {validation.errors.description}
+                  </p>
+                )}
+              </div>
+            </ScrollArea>
 
             {/* Botón guardar */}
             <div className="flex justify-end mt-4 flex-shrink-0">

@@ -219,7 +219,7 @@ export default function NewsForm({ id }: NewsFormProps) {
                       setNews({ ...news, title: e.target.value })
                     }
                     disabled={isSubmitting}
-                    className="w-full text-xl font-semibold border-none focus:outline-none focus:ring-0 px-0 bg-transparent placeholder:text-gray-400"
+                    className="w-full text-xl font-semibold border-none focus:outline-none focus:ring-2 focus:ring-brand px-2 py-1 rounded bg-gray-100 placeholder:text-gray-400"
                   />
                   {validation.errors.title && (
                     <p className="mt-1 text-sm text-red-600">
@@ -236,7 +236,7 @@ export default function NewsForm({ id }: NewsFormProps) {
                     max={new Date().toISOString().split('T')[0]}
                     onChange={(e) => setNews({ ...news, date: e.target.value })}
                     disabled={isSubmitting}
-                    className="text-sm text-gray-500 border border-gray-300 rounded px-2 py-1 focus:ring-2 focus:ring-brand focus:border-transparent"
+                    className="text-sm text-gray-500 border-none rounded px-2 py-1 focus:ring-2 focus:ring-brand bg-gray-100"
                   />
                   {validation.errors.date && (
                     <p className="mt-1 text-sm text-red-600">
@@ -257,7 +257,7 @@ export default function NewsForm({ id }: NewsFormProps) {
                     setNews({ ...news, description: e.target.value })
                   }
                   disabled={isSubmitting}
-                  className="w-full min-h-[120px] leading-relaxed border-none focus:outline-none focus:ring-0 p-0 bg-transparent resize-none placeholder:text-gray-400 overflow-hidden break-all whitespace-pre-wrap"
+                  className="w-full min-h-[120px] leading-relaxed border-none focus:outline-none focus:ring-2 focus:ring-brand p-2 rounded bg-gray-100 resize-none placeholder:text-gray-400 overflow-hidden break-all whitespace-pre-wrap"
                   rows={8}
                 />
                 {validation.errors.description && (

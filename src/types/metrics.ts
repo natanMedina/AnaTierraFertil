@@ -14,6 +14,13 @@ export interface ChartData {
   desktop: number
 }
 
+export interface SectionChartData {
+  section: string
+  pathname: string
+  desktop: number
+  mobile: number
+}
+
 export interface Totals {
   last7Days: number
   last30Days: number
@@ -40,9 +47,16 @@ export interface MostUsedDevice {
 export interface MetricsResponse {
   totals: Totals
   charts: {
-    last7Days: ChartData[]
-    last30Days: ChartData[]
-    last90Days: ChartData[]
+    visits: {
+      last7Days: ChartData[]
+      last30Days: ChartData[]
+      last90Days: ChartData[]
+    }
+    sections: {
+      last7Days: SectionChartData[]
+      last30Days: SectionChartData[]
+      last90Days: SectionChartData[]
+    }
   }
   growth: Growth
   topSection: TopSection

@@ -6,8 +6,10 @@ import {
   Growth,
   MetricRow,
   MostUsedDevice,
+  SectionChartData,
   TopSection,
 } from '@/types/metrics'
+import { resolvePath } from '@/utils/formatters'
 
 export async function createVisit({
   pathname,
@@ -179,4 +181,42 @@ export async function getMonthlyGrowth(): Promise<Growth> {
     previous: visitsLast.length,
     growth: Math.round(growth),
   }
+}
+
+const SECTIONS = ['/', '/biography', '/products', '/services', '/news']
+
+export async function getSectionVisitsLastNDays(
+  days: number
+): Promise<SectionChartData[]> {
+  const start = new Date()
+  start.setDate(start.getDate() - days)
+
+  const { data, error } = await supabase
+    .from('metrics')
+    .select('pathname, device')
+    .gte('created_at', start.toISOString())
+
+  if (error) throw error
+
+  // Inicializar conteos
+  const map: Record<string, { desktop: number; mobile: number }> = {}
+
+  SECTIONS.forEach((section) => {
+    map[section] = { desktop: 0, mobile: 0 }
+  })
+
+  // Contar datos
+  for (const row of data) {
+    const path = SECTIONS.includes(row.pathname) ? row.pathname : '/'
+    const device = row.device === 'mobile' ? 'mobile' : 'desktop'
+    map[path][device]++
+  }
+
+  // Convertir a array
+  return SECTIONS.map((path) => ({
+    pathname: path,
+    section: resolvePath(path),
+    desktop: map[path].desktop,
+    mobile: map[path].mobile,
+  }))
 }

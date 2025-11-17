@@ -1,6 +1,7 @@
 'use client'
 
 import MetricsAreaChart from '@/components/charts/MetricsAreaChart'
+// import SectionRadarLabelChart from '@/components/charts/SectionRadarLabelChart'
 import {
   Card,
   CardDescription,
@@ -15,6 +16,7 @@ import {
   getMonthlyGrowth,
   getTopSectionLastNDays,
   getMostUsedDeviceLastNDays,
+  getSectionVisitsLastNDays,
 } from '@/services/metrics'
 import { MetricsResponse } from '@/types/metrics'
 import { resolvePath } from '@/utils/formatters'
@@ -44,9 +46,16 @@ async function getMetrics() {
     },
 
     charts: {
-      last7Days: await getDailyVisits(last7, now),
-      last30Days: await getDailyVisits(last30, now),
-      last90Days: await getDailyVisits(last90, now),
+      visits: {
+        last7Days: await getDailyVisits(last7, now),
+        last30Days: await getDailyVisits(last30, now),
+        last90Days: await getDailyVisits(last90, now),
+      },
+      sections: {
+        last7Days: await getSectionVisitsLastNDays(7),
+        last30Days: await getSectionVisitsLastNDays(30),
+        last90Days: await getSectionVisitsLastNDays(90),
+      },
     },
 
     growth: await getMonthlyGrowth(),
@@ -158,7 +167,11 @@ export default function MetricsPage() {
   return (
     <div className="flex flex-col p-10 gap-7">
       <HeaderCards metrics={metrics}></HeaderCards>
-      <MetricsAreaChart charts={metrics.charts} totals={metrics.totals} />
+      <MetricsAreaChart
+        visitCharts={metrics.charts.visits}
+        totals={metrics.totals}
+      />
+      {/* <SectionRadarLabelChart /> */}
       <pre className="text-black">{JSON.stringify(metrics, null, 2)}</pre>
     </div>
   )

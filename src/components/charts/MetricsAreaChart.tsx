@@ -42,10 +42,10 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export default function MetricsAreaChart({
-  charts,
+  visitCharts,
   totals,
 }: {
-  charts: MetricsResponse['charts']
+  visitCharts: MetricsResponse['charts']['visits']
   totals: MetricsResponse['totals']
 }) {
   const isMobile = getDeviceType().includes('mobile')
@@ -61,10 +61,10 @@ export default function MetricsAreaChart({
   // Obtener data según el rango seleccionado
   const selectedData =
     timeRange === '7d'
-      ? charts.last7Days
+      ? visitCharts.last7Days
       : timeRange === '30d'
-        ? charts.last30Days
-        : charts.last90Days
+        ? visitCharts.last30Days
+        : visitCharts.last90Days
 
   // Obtener total según el rango seleccionado
   const selectedTotal =

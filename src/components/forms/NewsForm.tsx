@@ -214,9 +214,16 @@ export default function NewsForm({ id }: NewsFormProps) {
                 <div className="flex items-start justify-between gap-4">
                   {/* Campo de título */}
                   <div className="flex-1 min-w-0">
-                    <label className="text-sm font-medium text-gray-600 mb-1 block">
-                      Título <span className="text-red-600">*</span>
-                    </label>
+                    <div className="flex items-center gap-2 mb-1">
+                      <label className="text-sm font-medium text-gray-600">
+                        Título <span className="text-red-600">*</span>
+                      </label>
+                      {validation.errors.title && (
+                        <span className="text-sm text-red-600">
+                          {validation.errors.title}
+                        </span>
+                      )}
+                    </div>
                     <Input
                       type="text"
                       placeholder="Título de la noticia"
@@ -231,9 +238,16 @@ export default function NewsForm({ id }: NewsFormProps) {
 
                   {/* Campo de fecha */}
                   <div className="flex-shrink-0">
-                    <label className="text-sm font-medium text-gray-600 mb-1 block">
-                      Fecha <span className="text-red-600">*</span>
-                    </label>
+                    <div className="flex items-center gap-2 mb-1">
+                      <label className="text-sm font-medium text-gray-600">
+                        Fecha <span className="text-red-600">*</span>
+                      </label>
+                      {validation.errors.date && (
+                        <span className="text-sm text-red-600">
+                          {validation.errors.date}
+                        </span>
+                      )}
+                    </div>
                     <Input
                       type="date"
                       value={news.date}
@@ -250,9 +264,16 @@ export default function NewsForm({ id }: NewsFormProps) {
 
               {/* Descripción */}
               <div className="flex-1 flex flex-col min-h-0">
-                <label className="text-sm font-medium text-gray-600 mb-1 flex-shrink-0">
-                  Descripción <span className="text-red-600">*</span>
-                </label>
+                <div className="flex items-center gap-2 mb-1">
+                  <label className="text-sm font-medium text-gray-600 flex-shrink-0">
+                    Descripción <span className="text-red-600">*</span>
+                  </label>
+                  {validation.errors.description && (
+                    <span className="text-sm text-red-600">
+                      {validation.errors.description}
+                    </span>
+                  )}
+                </div>
                 <div className="flex-1 border border-input rounded-md bg-white overflow-hidden p-3 shadow-sm">
                   <Textarea
                     placeholder="Descripción de la noticia"
@@ -269,20 +290,7 @@ export default function NewsForm({ id }: NewsFormProps) {
           </div>
         </div>
 
-        {/* Mensajes de error debajo de la tarjeta */}
-        <div className="flex flex-col gap-2">
-          {validation.errors.title && (
-            <p className="text-sm text-red-600">{validation.errors.title}</p>
-          )}
-          {validation.errors.description && (
-            <p className="text-sm text-red-600">
-              {validation.errors.description}
-            </p>
-          )}
-          {validation.errors.date && (
-            <p className="text-sm text-red-600">{validation.errors.date}</p>
-          )}
-        </div>
+        {/* Mensajes de error integrados en los labels (arriba) */}
 
         {/* Botón guardar fuera de la tarjeta */}
         <div className="flex justify-end">

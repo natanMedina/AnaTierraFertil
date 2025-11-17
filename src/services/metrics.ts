@@ -90,11 +90,13 @@ export async function getDailyVisits(
     map[day][device]++
   }
 
-  // convierte el map a array listo para Recharts
-  return Object.keys(map).map((date) => ({
-    date,
-    ...map[date],
-  }))
+  // convierte el map a array ordenado listo para Recharts
+  return Object.keys(map)
+    .sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
+    .map((date) => ({
+      date,
+      ...map[date],
+    }))
 }
 
 export async function getVisitsLastNDays(days: number): Promise<number> {

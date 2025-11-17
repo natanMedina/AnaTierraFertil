@@ -84,7 +84,7 @@ export default function MetricsAreaChart({
           >
             <ToggleGroupItem value="90d">Últimos 3 meses</ToggleGroupItem>
             <ToggleGroupItem value="30d">Últimos 30 días</ToggleGroupItem>
-            <ToggleGroupItem value="7d">Últimas 7 días</ToggleGroupItem>
+            <ToggleGroupItem value="7d">Últimos 7 días</ToggleGroupItem>
           </ToggleGroup>
 
           {/* Para mobile */}

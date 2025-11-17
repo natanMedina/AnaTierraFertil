@@ -1,6 +1,7 @@
 'use client'
 
 import MetricsAreaChart from '@/components/charts/MetricsAreaChart'
+import MetricsSkeleton from '@/components/charts/MetricsSkeleton'
 import SectionRadarLabelChart from '@/components/charts/SectionRadarLabelChart'
 import {
   Card,
@@ -114,7 +115,7 @@ const HeaderCards = ({ metrics }: { metrics: MetricsResponse }) => {
   return (
     <div className="flex flex-row gap-15 justify-center">
       {headerCardsInfo.map((info, index) => (
-        <Card key={index} className="border-brand border-2 w-1/4">
+        <Card key={index} className="w-1/4">
           <CardHeader>
             <CardDescription>{info.title}</CardDescription>
             <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
@@ -157,15 +158,10 @@ export default function MetricsPage() {
     fetchMetrics()
   }, [isAdmin])
 
-  if (isLoading || !metrics)
-    return (
-      <p className="flex items-center justify-center h-screen font-extrabold">
-        Cargando...
-      </p>
-    )
+  if (isLoading || !metrics) return <MetricsSkeleton />
 
   return (
-    <div className="flex flex-col p-10 gap-7">
+    <div className="flex flex-col p-10 gap-7 bg-brand/25">
       <HeaderCards metrics={metrics}></HeaderCards>
       <MetricsAreaChart
         visitCharts={metrics.charts.visits}

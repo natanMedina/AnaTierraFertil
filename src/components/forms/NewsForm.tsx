@@ -186,103 +186,104 @@ export default function NewsForm({ id }: NewsFormProps) {
         Volver
       </Button>
 
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white/95 shadow-sm border border-gray-200 rounded-lg overflow-hidden h-64"
-      >
-        <div className="flex h-full">
-          {/* Imagen rectangular a la izquierda - similar a NewsItem */}
-          <div className="w-86 h-full flex-shrink-0">
-            <ImageField
-              imagePreview={localImagePreview}
-              onImageSelect={(file: File, previewUrl: string) => {
-                setSelectedImageFile(file)
-                setLocalImagePreview(previewUrl)
-              }}
-              error={validation.errors.photo_url}
-              disabled={isSubmitting}
-            />
-          </div>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="bg-white/95 shadow-sm border border-gray-200 rounded-lg overflow-hidden h-64">
+          <div className="flex h-full">
+            {/* Imagen rectangular a la izquierda - similar a NewsItem */}
+            <div className="w-86 h-full flex-shrink-0">
+              <ImageField
+                imagePreview={localImagePreview}
+                onImageSelect={(file: File, previewUrl: string) => {
+                  setSelectedImageFile(file)
+                  setLocalImagePreview(previewUrl)
+                }}
+                error={validation.errors.photo_url}
+                disabled={isSubmitting}
+              />
+            </div>
 
-          {/* Contenido derecho - similar a NewsItem */}
-          <div className="flex-1 flex flex-col min-w-0 h-full p-6">
-            {/* Encabezado con título y fecha */}
-            <div className="flex flex-col gap-2 mb-4 flex-shrink-0">
-              <div className="flex items-start justify-between gap-4">
-                {/* Campo de título */}
-                <div className="flex-1 min-w-0">
-                  <input
-                    type="text"
-                    placeholder="Título de la noticia"
-                    value={news.title}
+            {/* Contenido derecho - similar a NewsItem */}
+            <div className="flex-1 flex flex-col min-w-0 h-full p-6">
+              {/* Encabezado con título y fecha */}
+              <div className="flex flex-col gap-2 mb-4 flex-shrink-0">
+                <div className="flex items-start justify-between gap-4">
+                  {/* Campo de título */}
+                  <div className="flex-1 min-w-0">
+                    <input
+                      type="text"
+                      placeholder="Título de la noticia"
+                      value={news.title}
+                      onChange={(e) =>
+                        setNews({ ...news, title: e.target.value })
+                      }
+                      disabled={isSubmitting}
+                      className="w-full text-xl font-semibold border-none focus:outline-none focus:ring-2 focus:ring-brand px-2 py-1 rounded bg-gray-100 placeholder:text-gray-400"
+                    />
+                    {validation.errors.title && (
+                      <p className="mt-1 text-sm text-red-600">
+                        {validation.errors.title}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Campo de fecha */}
+                  <div className="flex-shrink-0">
+                    <input
+                      type="date"
+                      value={news.date}
+                      max={new Date().toISOString().split('T')[0]}
+                      onChange={(e) =>
+                        setNews({ ...news, date: e.target.value })
+                      }
+                      disabled={isSubmitting}
+                      className="text-sm text-gray-500 border-none rounded px-2 py-1 focus:ring-2 focus:ring-brand bg-gray-100"
+                    />
+                    {validation.errors.date && (
+                      <p className="mt-1 text-sm text-red-600">
+                        {validation.errors.date}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Descripción con ScrollArea similar a NewsItem */}
+              <ScrollArea className="flex-1">
+                <div className="pr-4">
+                  <textarea
+                    placeholder="Descripción de la noticia"
+                    value={news.description}
                     onChange={(e) =>
-                      setNews({ ...news, title: e.target.value })
+                      setNews({ ...news, description: e.target.value })
                     }
                     disabled={isSubmitting}
-                    className="w-full text-xl font-semibold border-none focus:outline-none focus:ring-2 focus:ring-brand px-2 py-1 rounded bg-gray-100 placeholder:text-gray-400"
+                    className="w-full min-h-[120px] leading-relaxed border-none focus:outline-none focus:ring-2 focus:ring-brand p-2 rounded bg-gray-100 resize-none placeholder:text-gray-400 overflow-hidden break-all whitespace-pre-wrap"
+                    rows={8}
                   />
-                  {validation.errors.title && (
+                  {validation.errors.description && (
                     <p className="mt-1 text-sm text-red-600">
-                      {validation.errors.title}
+                      {validation.errors.description}
                     </p>
                   )}
                 </div>
-
-                {/* Campo de fecha */}
-                <div className="flex-shrink-0">
-                  <input
-                    type="date"
-                    value={news.date}
-                    max={new Date().toISOString().split('T')[0]}
-                    onChange={(e) => setNews({ ...news, date: e.target.value })}
-                    disabled={isSubmitting}
-                    className="text-sm text-gray-500 border-none rounded px-2 py-1 focus:ring-2 focus:ring-brand bg-gray-100"
-                  />
-                  {validation.errors.date && (
-                    <p className="mt-1 text-sm text-red-600">
-                      {validation.errors.date}
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Descripción con ScrollArea similar a NewsItem */}
-            <ScrollArea className="flex-1">
-              <div className="pr-4">
-                <textarea
-                  placeholder="Descripción de la noticia"
-                  value={news.description}
-                  onChange={(e) =>
-                    setNews({ ...news, description: e.target.value })
-                  }
-                  disabled={isSubmitting}
-                  className="w-full min-h-[120px] leading-relaxed border-none focus:outline-none focus:ring-2 focus:ring-brand p-2 rounded bg-gray-100 resize-none placeholder:text-gray-400 overflow-hidden break-all whitespace-pre-wrap"
-                  rows={8}
-                />
-                {validation.errors.description && (
-                  <p className="mt-1 text-sm text-red-600">
-                    {validation.errors.description}
-                  </p>
-                )}
-              </div>
-            </ScrollArea>
-
-            {/* Botón guardar */}
-            <div className="flex justify-end mt-4 flex-shrink-0">
-              <Button
-                type="submit"
-                variant="admin"
-                disabled={isSubmitting || !validation.isValid}
-              >
-                {isSubmitting
-                  ? 'Guardando...'
-                  : id
-                    ? 'Guardar cambios'
-                    : 'Crear noticia'}
-              </Button>
+              </ScrollArea>
             </div>
           </div>
+        </div>
+
+        {/* Botón guardar fuera de la tarjeta */}
+        <div className="flex justify-end">
+          <Button
+            type="submit"
+            variant="admin"
+            disabled={isSubmitting || !validation.isValid}
+          >
+            {isSubmitting
+              ? 'Guardando...'
+              : id
+                ? 'Guardar cambios'
+                : 'Crear noticia'}
+          </Button>
         </div>
       </form>
     </div>

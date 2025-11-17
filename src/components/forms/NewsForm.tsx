@@ -251,7 +251,7 @@ export default function NewsForm({ id }: NewsFormProps) {
 
             {/* Descripción con ScrollArea similar a NewsItem */}
             <ScrollArea className="flex-1">
-              <div className="pr-4 whitespace-normal break-words">
+              <div className="pr-4">
                 <textarea
                   placeholder="Descripción de la noticia"
                   value={news.description}
@@ -259,7 +259,7 @@ export default function NewsForm({ id }: NewsFormProps) {
                     setNews({ ...news, description: e.target.value })
                   }
                   disabled={isSubmitting}
-                  className="w-full min-h-[120px] leading-relaxed border-none focus:outline-none focus:ring-0 p-0 bg-transparent resize-none placeholder:text-gray-400 overflow-hidden"
+                  className="w-full min-h-[120px] leading-relaxed border-none focus:outline-none focus:ring-0 p-0 bg-transparent resize-none placeholder:text-gray-400 overflow-hidden break-all whitespace-pre-wrap"
                   rows={8}
                 />
                 {validation.errors.description && (

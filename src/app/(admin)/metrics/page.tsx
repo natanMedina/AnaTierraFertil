@@ -1,7 +1,7 @@
 'use client'
 
 import MetricsAreaChart from '@/components/charts/MetricsAreaChart'
-// import SectionRadarLabelChart from '@/components/charts/SectionRadarLabelChart'
+import SectionRadarLabelChart from '@/components/charts/SectionRadarLabelChart'
 import {
   Card,
   CardDescription,
@@ -171,8 +171,7 @@ export default function MetricsPage() {
         visitCharts={metrics.charts.visits}
         totals={metrics.totals}
       />
-      {/* <SectionRadarLabelChart /> */}
-      <pre className="text-black">{JSON.stringify(metrics, null, 2)}</pre>
+      <SectionRadarLabelChart sectionCharts={metrics.charts.sections} />
     </div>
   )
 }

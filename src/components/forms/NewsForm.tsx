@@ -209,6 +209,9 @@ export default function NewsForm({ id }: NewsFormProps) {
                 <div className="flex items-start justify-between gap-4">
                   {/* Campo de título */}
                   <div className="flex-1 min-w-0">
+                    <label className="text-sm font-medium text-gray-600 mb-1 block">
+                      Título
+                    </label>
                     <input
                       type="text"
                       placeholder="Título de la noticia"
@@ -228,6 +231,9 @@ export default function NewsForm({ id }: NewsFormProps) {
 
                   {/* Campo de fecha */}
                   <div className="flex-shrink-0">
+                    <label className="text-sm font-medium text-gray-600 mb-1 block">
+                      Fecha
+                    </label>
                     <input
                       type="date"
                       value={news.date}
@@ -248,25 +254,30 @@ export default function NewsForm({ id }: NewsFormProps) {
               </div>
 
               {/* Descripción con ScrollArea similar a NewsItem */}
-              <ScrollArea className="flex-1">
-                <div className="pr-4">
-                  <textarea
-                    placeholder="Descripción de la noticia"
-                    value={news.description}
-                    onChange={(e) =>
-                      setNews({ ...news, description: e.target.value })
-                    }
-                    disabled={isSubmitting}
-                    className="w-full min-h-[120px] leading-relaxed border-none focus:outline-none focus:ring-2 focus:ring-brand p-2 rounded bg-gray-100 resize-none placeholder:text-gray-400 overflow-hidden break-all whitespace-pre-wrap"
-                    rows={8}
-                  />
-                  {validation.errors.description && (
-                    <p className="mt-1 text-sm text-red-600">
-                      {validation.errors.description}
-                    </p>
-                  )}
-                </div>
-              </ScrollArea>
+              <div className="flex-1 flex flex-col min-h-0">
+                <label className="text-sm font-medium text-gray-600 mb-1 flex-shrink-0">
+                  Descripción
+                </label>
+                <ScrollArea className="flex-1">
+                  <div className="pr-4">
+                    <textarea
+                      placeholder="Descripción de la noticia"
+                      value={news.description}
+                      onChange={(e) =>
+                        setNews({ ...news, description: e.target.value })
+                      }
+                      disabled={isSubmitting}
+                      className="w-full min-h-[120px] leading-relaxed border-none focus:outline-none focus:ring-2 focus:ring-brand p-2 rounded bg-gray-100 resize-none placeholder:text-gray-400 overflow-hidden break-all whitespace-pre-wrap"
+                      rows={8}
+                    />
+                  </div>
+                </ScrollArea>
+                {validation.errors.description && (
+                  <p className="mt-2 text-sm text-red-600 flex-shrink-0">
+                    {validation.errors.description}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
         </div>

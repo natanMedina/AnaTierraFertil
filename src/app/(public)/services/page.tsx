@@ -20,8 +20,10 @@ import { Button } from '@/components/ui/button'
 import { useAdmin } from '@/context/AdminContext'
 import { CirclePlus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { useCreateVisit } from '@/hooks/useRecordVisit'
 
 export default function ServicesPage() {
+  useCreateVisit()
   const { editMode } = useAdmin()
   const router = useRouter()
   const [services, setServices] = useState<Service[]>([])

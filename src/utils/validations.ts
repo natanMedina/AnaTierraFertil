@@ -110,7 +110,8 @@ export function validateService(
   }
 
   // Precio compra
-  if (!service.price || service.price <= 1) {
+  if (!service.price) {
+  } else if (service.price <= 1) {
     errors.price = 'Ingrese un valor mayor a 1'
   } else if (!Number.isInteger(service.price)) {
     errors.price = 'Ingrese un número sin . ,'

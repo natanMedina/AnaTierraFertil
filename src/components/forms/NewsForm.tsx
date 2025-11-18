@@ -19,6 +19,7 @@ import { validateNews } from '@/utils/validations'
 import ImageField from './fields/ImageField'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import { Item, ItemMedia, ItemContent } from '@/components/ui/item'
 
 interface NewsFormProps {
   id?: number
@@ -194,103 +195,102 @@ export default function NewsForm({ id }: NewsFormProps) {
             obligatorios
           </p>
         </div>
-        <div className="bg-white/95 shadow-sm border border-gray-200 rounded-lg overflow-hidden h-64">
-          <div className="flex h-full">
-            {/* Imagen rectangular a la izquierda - similar a NewsItem */}
-            <div className="w-86 h-full flex-shrink-0">
-              <ImageField
-                imagePreview={localImagePreview}
-                onImageSelect={(file: File, previewUrl: string) => {
-                  setSelectedImageFile(file)
-                  setLocalImagePreview(previewUrl)
-                }}
-                error={validation.errors.photo_url}
-                disabled={isSubmitting}
-              />
-            </div>
+        <Item variant="outline" className="bg-white/95 shadow-sm h-64">
+          {/* Imagen rectangular a la izquierda - igual que NewsItem */}
+          <ItemMedia
+            variant="image"
+            className="w-86 h-full rounded-md overflow-hidden [&>div]:h-full [&>div]:w-full [&>div]:flex [&>div]:p-0 [&>div]:gap-0 [&>div]:shadow-none [&>div]:rounded-none [&>div>label]:w-full [&>div>label]:h-full [&>div>label]:rounded-none [&>div>label:nth-child(2)]:hidden"
+          >
+            <ImageField
+              imagePreview={localImagePreview}
+              onImageSelect={(file: File, previewUrl: string) => {
+                setSelectedImageFile(file)
+                setLocalImagePreview(previewUrl)
+              }}
+              error={validation.errors.photo_url}
+              disabled={isSubmitting}
+            />
+          </ItemMedia>
 
-            {/* Contenido derecho - similar a NewsItem */}
-            <div className="flex-1 flex flex-col min-w-0 h-full p-6">
-              {/* Encabezado con título y fecha */}
-              <div className="flex flex-col gap-2 mb-4 flex-shrink-0">
-                <div className="flex items-start justify-between gap-4">
-                  {/* Campo de título */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <label className="text-sm font-medium text-gray-600">
-                        Título <span className="text-red-600">*</span>
-                      </label>
-                      {validation.errors.title && (
-                        <span className="text-sm text-red-600">
-                          {validation.errors.title}
-                        </span>
-                      )}
-                    </div>
-                    <Input
-                      type="text"
-                      placeholder="Título de la noticia"
-                      value={news.title}
-                      onChange={(e) =>
-                        setNews({ ...news, title: e.target.value })
-                      }
-                      disabled={isSubmitting}
-                      className="text-xl font-semibold"
-                    />
+          {/* Contenido derecho - igual que NewsItem */}
+          <ItemContent className="flex-1 flex flex-col min-w-0 h-full">
+            {/* Encabezado con título y fecha */}
+            <div className="flex flex-col gap-2 mb-4 flex-shrink-0">
+              <div className="flex items-start justify-between gap-4">
+                {/* Campo de título */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <label className="text-sm font-medium text-gray-600">
+                      Título <span className="text-red-600">*</span>
+                    </label>
+                    {validation.errors.title && (
+                      <span className="text-sm text-red-600">
+                        {validation.errors.title}
+                      </span>
+                    )}
                   </div>
-
-                  {/* Campo de fecha */}
-                  <div className="flex-shrink-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <label className="text-sm font-medium text-gray-600">
-                        Fecha <span className="text-red-600">*</span>
-                      </label>
-                      {validation.errors.date && (
-                        <span className="text-sm text-red-600">
-                          {validation.errors.date}
-                        </span>
-                      )}
-                    </div>
-                    <Input
-                      type="date"
-                      value={news.date}
-                      max={new Date().toISOString().split('T')[0]}
-                      onChange={(e) =>
-                        setNews({ ...news, date: e.target.value })
-                      }
-                      disabled={isSubmitting}
-                      className="text-sm"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Descripción */}
-              <div className="flex-1 flex flex-col min-h-0">
-                <div className="flex items-center gap-2 mb-1">
-                  <label className="text-sm font-medium text-gray-600 flex-shrink-0">
-                    Descripción <span className="text-red-600">*</span>
-                  </label>
-                  {validation.errors.description && (
-                    <span className="text-sm text-red-600">
-                      {validation.errors.description}
-                    </span>
-                  )}
-                </div>
-                <div className="flex-1 border border-input rounded-md bg-white overflow-hidden p-3 shadow-sm">
-                  <Textarea
-                    placeholder="Descripción de la noticia"
-                    value={news.description}
+                  <Input
+                    type="text"
+                    placeholder="Título de la noticia"
+                    value={news.title}
                     onChange={(e) =>
-                      setNews({ ...news, description: e.target.value })
+                      setNews({ ...news, title: e.target.value })
                     }
                     disabled={isSubmitting}
-                    className="w-full h-full leading-relaxed resize-none border-none focus-visible:ring-0 p-0 shadow-none custom-scrollbar whitespace-pre-wrap break-words"
+                    className="text-xl font-semibold"
+                  />
+                </div>
+
+                {/* Campo de fecha */}
+                <div className="flex-shrink-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <label className="text-sm font-medium text-gray-600">
+                      Fecha <span className="text-red-600">*</span>
+                    </label>
+                    {validation.errors.date && (
+                      <span className="text-sm text-red-600">
+                        {validation.errors.date}
+                      </span>
+                    )}
+                  </div>
+                  <Input
+                    type="date"
+                    value={news.date}
+                    max={new Date().toISOString().split('T')[0]}
+                    onChange={(e) => setNews({ ...news, date: e.target.value })}
+                    disabled={isSubmitting}
+                    className="text-sm"
                   />
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+
+            {/* Descripción */}
+            <div className="flex-1 flex flex-col min-h-0">
+              <div className="flex items-center gap-2 mb-1">
+                <label className="text-sm font-medium text-gray-600 flex-shrink-0">
+                  Descripción <span className="text-red-600">*</span>
+                </label>
+                {validation.errors.description && (
+                  <span className="text-sm text-red-600">
+                    {validation.errors.description}
+                  </span>
+                )}
+              </div>
+              <div className="flex-1 border border-input rounded-md bg-white overflow-hidden p-3 shadow-sm">
+                <Textarea
+                  placeholder="Descripción de la noticia"
+                  value={news.description}
+                  onChange={(e) =>
+                    setNews({ ...news, description: e.target.value })
+                  }
+                  disabled={isSubmitting}
+                  className="w-full h-full leading-relaxed resize-none border-none focus-visible:ring-0 p-0 shadow-none custom-scrollbar whitespace-pre-wrap break-words"
+                />
+              </div>
+            </div>
+          </ItemContent>
+        </Item>
 
         {/* Mensajes de error integrados en los labels (arriba) */}
 

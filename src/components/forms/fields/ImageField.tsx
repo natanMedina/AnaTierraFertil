@@ -19,8 +19,8 @@ export default function ImageField({
   }
 
   return (
-    <div className="flex flex-col gap-4 rounded-2xl bg-white p-4 shadow">
-      <label className="w-60 h-60 rounded-2xl flex items-center justify-center bg-gray-200 cursor-pointer overflow-hidden">
+    <div className="flex flex-col gap-4 p-4">
+      <label className="w-86 h-56 rounded-md flex items-center justify-center bg-gray-200 cursor-pointer overflow-hidden">
         {imagePreview ? (
           <img
             src={imagePreview}
@@ -39,7 +39,7 @@ export default function ImageField({
         />
       </label>
       <label className="max-w-sm text-center p-2 border-2 border-gray-200 rounded-sm text-gray-400 text-sm">
-        Pulse la Imagen para cambiarla
+        Pulse la Imagen para cambiarla <span className="text-red-600">*</span>
       </label>
       {error && <p className="text-center form-field-error">{error}</p>}
     </div>

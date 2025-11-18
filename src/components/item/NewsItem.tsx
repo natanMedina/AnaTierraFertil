@@ -183,7 +183,7 @@ export function NewsItem({
 
         {/* Descripción con ScrollArea para overflow */}
         <ScrollArea className="flex-1 overflow-y-auto">
-          <ItemDescription className="leading-relaxed pr-4 whitespace-normal break-words line-clamp-none">
+          <ItemDescription className="leading-relaxed pr-4 break-all whitespace-pre-wrap line-clamp-none">
             {description}
           </ItemDescription>
         </ScrollArea>

@@ -17,8 +17,8 @@ import { ArrowLeft } from 'lucide-react'
 import FormSkeleton from './FormSkeleton'
 import { validateNews } from '@/utils/validations'
 import ImageField from './fields/ImageField'
-import TextField from './fields/TextField'
-import TextAreaField from './fields/TextAreaField'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 
 interface NewsFormProps {
   id?: number
@@ -174,102 +174,141 @@ export default function NewsForm({ id }: NewsFormProps) {
   if (isLoading) return <FormSkeleton />
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col md:flex-row w-full bg-white"
-    >
-      {/* COLUMNA IZQUIERDA */}
-      <div className="w-full md:w-4/12 px-12 py-10 flex flex-col gap-6">
-        {/* Título */}
-        <TextField
-          label="Título"
-          placeholder="Título de la noticia"
-          value={news.title}
-          onChange={(e) => setNews({ ...news, title: e.target.value })}
-          error={validation.errors.title}
-          disabled={isSubmitting}
-        />
-
-        <div className="h-1 w-60 bg-brand mb-6"></div>
-
-        {/* Descripción */}
-        <TextAreaField
-          label="Descripción"
-          placeholder="Descripción de la noticia"
-          value={news.description}
-          onChange={(e) => setNews({ ...news, description: e.target.value })}
-          error={validation.errors.description}
-          disabled={isSubmitting}
-        />
-
-        {/* Fecha */}
-        <div className="mt-auto">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Fecha
-          </label>
-          <input
-            type="date"
-            value={news.date}
-            max={new Date().toISOString().split('T')[0]}
-            onChange={(e) => setNews({ ...news, date: e.target.value })}
-            disabled={isSubmitting}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
-          />
-          {validation.errors.date && (
-            <p className="mt-1 text-sm text-red-600">
-              {validation.errors.date}
-            </p>
-          )}
-        </div>
-      </div>
-
-      {/* COLUMNA DERECHA */}
-      <div
-        className="relative w-full md:w-8/12 flex flex-col p-6 bg-green-100 bg-cover bg-center"
-        style={{
-          backgroundImage: "url('/images/form-bg.jpg')",
-        }}
+    <div className="container mx-auto px-4 py-8">
+      {/* Botón volver */}
+      <Button
+        type="button"
+        variant="secondary"
+        className="flex items-center gap-2 mb-6"
+        onClick={() => router.push('/news')}
+        disabled={isSubmitting}
       >
-        {/* Botón volver */}
-        <div className="absolute flex flex-col top-6 right-6 gap-2">
+        <ArrowLeft className="w-4 h-4" />
+        Volver
+      </Button>
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="bg-white/95 shadow-sm border border-gray-200 rounded-lg p-3 mb-2">
+          <p className="text-sm text-gray-600">
+            Los campos con <span className="text-red-600">*</span> son
+            obligatorios
+          </p>
+        </div>
+        <div className="bg-white/95 shadow-sm border border-gray-200 rounded-lg overflow-hidden h-64">
+          <div className="flex h-full">
+            {/* Imagen rectangular a la izquierda - similar a NewsItem */}
+            <div className="w-86 h-full flex-shrink-0">
+              <ImageField
+                imagePreview={localImagePreview}
+                onImageSelect={(file: File, previewUrl: string) => {
+                  setSelectedImageFile(file)
+                  setLocalImagePreview(previewUrl)
+                }}
+                error={validation.errors.photo_url}
+                disabled={isSubmitting}
+              />
+            </div>
+
+            {/* Contenido derecho - similar a NewsItem */}
+            <div className="flex-1 flex flex-col min-w-0 h-full p-6">
+              {/* Encabezado con título y fecha */}
+              <div className="flex flex-col gap-2 mb-4 flex-shrink-0">
+                <div className="flex items-start justify-between gap-4">
+                  {/* Campo de título */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <label className="text-sm font-medium text-gray-600">
+                        Título <span className="text-red-600">*</span>
+                      </label>
+                      {validation.errors.title && (
+                        <span className="text-sm text-red-600">
+                          {validation.errors.title}
+                        </span>
+                      )}
+                    </div>
+                    <Input
+                      type="text"
+                      placeholder="Título de la noticia"
+                      value={news.title}
+                      onChange={(e) =>
+                        setNews({ ...news, title: e.target.value })
+                      }
+                      disabled={isSubmitting}
+                      className="text-xl font-semibold"
+                    />
+                  </div>
+
+                  {/* Campo de fecha */}
+                  <div className="flex-shrink-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <label className="text-sm font-medium text-gray-600">
+                        Fecha <span className="text-red-600">*</span>
+                      </label>
+                      {validation.errors.date && (
+                        <span className="text-sm text-red-600">
+                          {validation.errors.date}
+                        </span>
+                      )}
+                    </div>
+                    <Input
+                      type="date"
+                      value={news.date}
+                      max={new Date().toISOString().split('T')[0]}
+                      onChange={(e) =>
+                        setNews({ ...news, date: e.target.value })
+                      }
+                      disabled={isSubmitting}
+                      className="text-sm"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Descripción */}
+              <div className="flex-1 flex flex-col min-h-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <label className="text-sm font-medium text-gray-600 flex-shrink-0">
+                    Descripción <span className="text-red-600">*</span>
+                  </label>
+                  {validation.errors.description && (
+                    <span className="text-sm text-red-600">
+                      {validation.errors.description}
+                    </span>
+                  )}
+                </div>
+                <div className="flex-1 border border-input rounded-md bg-white overflow-hidden p-3 shadow-sm">
+                  <Textarea
+                    placeholder="Descripción de la noticia"
+                    value={news.description}
+                    onChange={(e) =>
+                      setNews({ ...news, description: e.target.value })
+                    }
+                    disabled={isSubmitting}
+                    className="w-full h-full leading-relaxed resize-none border-none focus-visible:ring-0 p-0 shadow-none custom-scrollbar whitespace-pre-wrap break-words"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Mensajes de error integrados en los labels (arriba) */}
+
+        {/* Botón guardar fuera de la tarjeta */}
+        <div className="flex justify-end">
           <Button
-            type="button"
-            variant="secondary"
-            className="flex items-center ml-auto w-min gap-2 text-white font-bold bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-md text-sm transition"
-            onClick={() => router.push('/news')}
-            disabled={isSubmitting}
+            type="submit"
+            variant="admin"
+            disabled={isSubmitting || !validation.isValid}
           >
-            <ArrowLeft className="w-4 h-4" />
+            {isSubmitting
+              ? 'Guardando...'
+              : id
+                ? 'Guardar cambios'
+                : 'Crear noticia'}
           </Button>
         </div>
-
-        {/* Imagen centrada */}
-        <div className="flex justify-center items-center flex-1 mt-20">
-          <ImageField
-            imagePreview={localImagePreview}
-            onImageSelect={(file: File, previewUrl: string) => {
-              setSelectedImageFile(file)
-              setLocalImagePreview(previewUrl)
-            }}
-            error={validation.errors.photo_url}
-            disabled={isSubmitting}
-          />
-        </div>
-
-        {/* Botón guardar */}
-        <Button
-          type="submit"
-          variant="admin"
-          className="absolute bottom-6 right-6 w-40 mx-auto"
-          disabled={isSubmitting || !validation.isValid}
-        >
-          {isSubmitting
-            ? 'Guardando...'
-            : id
-              ? 'Guardar cambios'
-              : 'Crear noticia'}
-        </Button>
-      </div>
-    </form>
+      </form>
+    </div>
   )
 }

@@ -163,30 +163,46 @@ export default function InfoDisplay({
 
         {/* Lista de opciones de compra */}
         <div className="mt-auto flex flex-wrap justify-center gap-15">
-          {purchaseOptions.map((option, index) => (
-            <div
-              key={index}
-              className="flex flex-col items-center bg-white/60 backdrop-blur-sm shadow-lg rounded-xl p-6 w-fit min-w-56"
-            >
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                {option.title}
-              </h3>
-              <p className="text-black text-xl font-bold mb-3">
-                ${option.price.toLocaleString() + ' pesos col.'}
-              </p>
+          {purchaseOptions.length ? (
+            purchaseOptions.map((option, index) => (
+              <div
+                key={index}
+                className="flex flex-col items-center bg-white/60 backdrop-blur-sm shadow-lg rounded-xl p-6 w-fit min-w-56"
+              >
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                  {option.title}
+                </h3>
+                <p className="text-black text-xl font-bold mb-3">
+                  ${option.price.toLocaleString() + ' pesos col.'}
+                </p>
+                <Button
+                  className="bg-brand hover:bg-brand/80 text-white font-medium px-4 py-2 rounded-md transition"
+                  onClick={() => {
+                    const message = `Hola, quiero pagar y/o saber más información de el ${elemento}: ${title}, cuyo ${option.title.toLowerCase()} es ${option.price.toLocaleString()} pesos col. por favor.`
+                    setSelectedMessage(message)
+                    setDialogOpen(true)
+                  }}
+                  disabled={isDeleting}
+                >
+                  {option.buttonText}
+                </Button>
+              </div>
+            ))
+          ) : (
+            <div className="flex flex-col items-center bg-white/60 backdrop-blur-sm shadow-lg rounded-xl p-6 w-fit min-w-56">
               <Button
                 className="bg-brand hover:bg-brand/80 text-white font-medium px-4 py-2 rounded-md transition"
                 onClick={() => {
-                  const message = `Hola, quiero pagar y/o saber más información de el ${elemento}: ${title}, cuyo ${option.title.toLowerCase()} es ${option.price.toLocaleString()} pesos col. por favor.`
+                  const message = `Hola, quiero saber más información de el ${elemento}: ${title}, por favor.`
                   setSelectedMessage(message)
                   setDialogOpen(true)
                 }}
                 disabled={isDeleting}
               >
-                {option.buttonText}
+                Agendar cita
               </Button>
             </div>
-          ))}
+          )}
         </div>
         {/* Dialogo de contacto */}
         <ContactDialog

@@ -171,7 +171,7 @@ const BiographySection = () => (
         {/* Columna Derecha - Marcador de Posición de Imagen */}
         <div className="relative lg:w-1/3 w-full h-[500px] lg:h-auto rounded-lg shadow-lg overflow-hidden">
           <img
-            src="/images/biografia.png"
+            src="/images/AnaInicio.jpg"
             alt="Biografía"
             className="w-full h-full object-cover"
           />

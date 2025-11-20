@@ -16,8 +16,16 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination'
+import { Button } from '@/components/ui/button'
+import { useAdmin } from '@/context/AdminContext'
+import { CirclePlus } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useCreateVisit } from '@/hooks/useRecordVisit'
 
 export default function ServicesPage() {
+  useCreateVisit()
+  const { editMode } = useAdmin()
+  const router = useRouter()
   const [services, setServices] = useState<Service[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string>('')
   const [searchTerm, setSearchTerm] = useState<string>('')
@@ -68,11 +76,6 @@ export default function ServicesPage() {
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1)
 
   return (
-    // {editMode && (
-    //     <div className="text-center text-brand font-bold">
-    //       Edición habilitada
-    //     </div>
-    //   )}
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-green-100/50 to-blue-50">
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
@@ -93,11 +96,21 @@ export default function ServicesPage() {
           {/* Contenido principal */}
           <main className="flex-1">
             {/* Buscador en la parte superior */}
-            <div className="mb-6 flex justify-end">
+            <div className="mb-6 flex justify-end gap-10">
               <Search
                 placeholder="Buscar servicios..."
                 onSearch={setSearchTerm}
               />
+              {/* Botón añadir */}
+              {editMode && (
+                <Button
+                  variant="admin"
+                  onClick={() => router.replace('/services/form')}
+                >
+                  Añadir
+                  <CirclePlus className="w-4 h-4" />
+                </Button>
+              )}
             </div>
 
             {/* Grid de servicios */}

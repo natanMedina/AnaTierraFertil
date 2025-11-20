@@ -38,14 +38,21 @@ export default function ServiceDetailPage() {
 
   if (loading || !service) return <InfoDisplaySkeleton />
 
-  const purchaseOptions = [
-    { title: 'Precio compra', buttonText: 'Comprar', price: service.price },
-    {
+  const purchaseOptions = []
+  if (service.price) {
+    purchaseOptions.push({
+      title: 'Precio de compra',
+      buttonText: 'Comprar',
+      price: service.price,
+    })
+  }
+  if (service.price_live_class) {
+    purchaseOptions.push({
       title: 'Precio de clases en vivo',
       buttonText: 'Inscribirme',
-      price: service.price,
-    },
-  ]
+      price: service.price_live_class,
+    })
+  }
 
   return (
     <InfoDisplay

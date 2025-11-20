@@ -4,12 +4,13 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
-import { siteConfig } from '@/config/site'
+import { siteConfigBase } from '@/config/site'
 import { ContactDialog } from '@/components/shared/ContactDialog'
 import { useAdmin } from '@/context/AdminContext'
+import { AdminSheet } from './AdminSheet'
 
 export default function Header() {
-  const { isAdmin, editMode, toggleEditMode, logout } = useAdmin()
+  const { isAdmin } = useAdmin()
   const [open, setOpen] = useState(false)
 
   return (
@@ -22,12 +23,12 @@ export default function Header() {
         >
           <Image
             src="/logo.svg"
-            alt={`Logo ${siteConfig.name}`}
+            alt={`Logo ${siteConfigBase.name}`}
             width={36}
             height={36}
           />
           <span className="text-xl font-semibold text-foreground">
-            {siteConfig.name}
+            {siteConfigBase.name}
           </span>
         </Link>
 
@@ -55,25 +56,7 @@ export default function Header() {
           </Button>
 
           {isAdmin ? (
-            <>
-              <Button
-                variant="outline"
-                onClick={toggleEditMode}
-                className={`w-45 rounded-md ${
-                  editMode
-                    ? 'bg-gray-600 text-white hover:bg-gray-500'
-                    : 'bg-gray-300 hover:bg-gray-400'
-                }`}
-              >
-                {editMode ? 'Salir del modo edición' : 'Entrar al modo edición'}
-              </Button>
-              <Button
-                onClick={logout}
-                className="px-3 py-1 bg-red-400 hover:bg-red-800 text-white rounded-md"
-              >
-                Cerrar sesión
-              </Button>
-            </>
+            <AdminSheet />
           ) : (
             <Link
               href="/login"

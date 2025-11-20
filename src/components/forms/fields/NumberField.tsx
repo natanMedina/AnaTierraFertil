@@ -8,6 +8,7 @@ export default function NumberField({
   value,
   onChange,
   error,
+  disabled = false,
 }: {
   label: string
   placeholder?: string
@@ -16,6 +17,7 @@ export default function NumberField({
   max?: number
   onChange: (e: any) => void
   error?: string
+  disabled: boolean
 }) {
   return (
     <div className="bg-white rounded-2xl shadow p-4 flex flex-col items-center gap-3">
@@ -28,6 +30,7 @@ export default function NumberField({
         className="text-center font-bold text-lg"
         value={value === 0 ? '' : value}
         onChange={onChange}
+        disabled={disabled}
       />
       {error && <p className="form-field-error">{error}</p>}
     </div>

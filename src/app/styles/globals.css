@@ -11,6 +11,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-brand: #8aa69e;
+  --color-admin: #50a2ff;
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
@@ -132,20 +133,28 @@
   }
 }
 
-/* --- Estilos para modo administrador --- */
-.admin-btn {
-  @apply flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-md transition bg-gray-200 text-gray-800 hover:bg-blue-300 hover:text-gray-900;
-}
-
-.admin-btn--danger {
-  @apply bg-red-400 hover:bg-red-600 text-white;
-}
-
-.admin-btn--primary {
-  @apply bg-blue-400 hover:bg-blue-300 text-white;
-}
-
 /* --- Estilos para formularios --- */
 .form-field-error {
   @apply text-red-500 text-sm mt-1;
+}
+
+/* --- Scrollbar UI (coincide con estilo de ScrollArea) --- */
+/* Firefox */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: oklch(0.922 0 0) transparent; /* var(--border) sobre transparente */
+}
+/* WebKit */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: oklch(0.922 0 0); /* var(--border) */
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
 }

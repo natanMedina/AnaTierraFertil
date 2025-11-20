@@ -20,8 +20,10 @@ import { Button } from '@/components/ui/button'
 import { useAdmin } from '@/context/AdminContext'
 import { CirclePlus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { useCreateVisit } from '@/hooks/useRecordVisit'
 
 export default function ProductsPage() {
+  useCreateVisit()
   const { editMode } = useAdmin()
   const router = useRouter()
   const [products, setProducts] = useState<Product[]>([])
@@ -99,9 +101,10 @@ export default function ProductsPage() {
                 placeholder="Buscar productos..."
                 onSearch={setSearchTerm}
               />
+              {/* Botón añadir */}
               {editMode && (
                 <Button
-                  className="admin-btn admin-btn--primary"
+                  variant="admin"
                   onClick={() => router.replace('/products/form')}
                 >
                   Añadir

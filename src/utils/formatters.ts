@@ -36,3 +36,20 @@ export function getYouTubeEmbedUrl(url: string): string {
     return ''
   }
 }
+
+export const resolvePath = (path: string | null): string => {
+  if (!path) return 'No hay datos'
+
+  switch (path) {
+    case '/biography':
+      return 'Biografía'
+    case '/products':
+      return 'Productos'
+    case '/services':
+      return 'Servicios'
+    case '/news':
+      return 'Novedades'
+    default:
+      return 'Inicio'
+  }
+}

@@ -3,7 +3,6 @@
 import { useAdmin } from '@/context/AdminContext'
 import { Edit, Trash2, ArrowLeft } from 'lucide-react'
 import { useState } from 'react'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Button } from '../ui/button'
 import { toast } from 'sonner'
@@ -11,6 +10,7 @@ import { getYouTubeEmbedUrl } from '@/utils/formatters'
 import { deleteProduct } from '@/services/products'
 import ConfirmDialog from './ConfirmDialog'
 import { ContactDialog } from '@/components/shared/ContactDialog'
+import { deleteService } from '@/services/services'
 
 interface PurchaseOption {
   title: string
@@ -45,16 +45,19 @@ export default function InfoDisplay({
   const [selectedMessage, setSelectedMessage] = useState('')
 
   const router = useRouter()
+  const elemento = basePath.includes('products') ? 'Producto' : 'Servicio'
 
   const handleDelete = async () => {
     try {
       setIsDeleting(true)
-      const success = await deleteProduct(id)
+      const success = basePath.includes('products')
+        ? await deleteProduct(id)
+        : await deleteService(id)
       if (success) {
-        toast.success('Producto eliminado')
+        toast.success(`${elemento} eliminado`)
         router.push(basePath)
       } else {
-        toast.error('Error al eliminar el producto')
+        toast.error(`Error al eliminar el ${elemento.toLowerCase()}`)
       }
     } catch (error) {
       console.error(error)
@@ -63,8 +66,6 @@ export default function InfoDisplay({
       setIsDeleting(false)
     }
   }
-
-  const elemento = basePath.includes('products') ? 'Producto' : 'Servicio'
 
   return (
     <div className="w-full flex flex-col min-h-160 md:flex-row bg-white">
@@ -95,33 +96,33 @@ export default function InfoDisplay({
             type="button"
             variant="secondary"
             className="flex items-center ml-auto w-min gap-2 text-white font-bold bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-md text-sm transition"
-            onClick={() => router.push('/products')}
+            onClick={() => router.push(basePath)}
+            disabled={isDeleting}
           >
             <ArrowLeft className="w-4 h-4" />
           </Button>
 
           {editMode && (
             <>
-              <Link
-                href={`/products/form/${id}`}
-                className="admin-btn admin-btn--primary"
+              <Button
+                type="button"
+                variant="admin"
+                onClick={() => router.push(`${basePath}/form/${id}`)}
+                disabled={isDeleting}
               >
                 <Edit className="w-4 h-4" />
                 Editar
-              </Link>
+              </Button>
               <ConfirmDialog
                 title="¿Eliminar registro?"
-                description="Esta acción eliminará el producto de forma permanente."
+                description={`Esta acción eliminará el ${elemento.toLowerCase()} de forma permanente.`}
                 confirmText={isDeleting ? 'Eliminando...' : 'Eliminar'}
                 cancelText="Cancelar"
                 onConfirm={handleDelete}
                 icon={<Trash2 className="w-5 h-5 text-red-600" />}
                 iconBg="bg-red-100"
                 trigger={
-                  <Button
-                    className="admin-btn admin-btn--danger"
-                    disabled={isDeleting}
-                  >
+                  <Button variant="admin_destructive" disabled={isDeleting}>
                     <Trash2 className="w-4 h-4" />
                     Borrar
                   </Button>
@@ -162,29 +163,46 @@ export default function InfoDisplay({
 
         {/* Lista de opciones de compra */}
         <div className="mt-auto flex flex-wrap justify-center gap-15">
-          {purchaseOptions.map((option, index) => (
-            <div
-              key={index}
-              className="flex flex-col items-center bg-white/60 backdrop-blur-sm shadow-lg rounded-xl p-6 w-fit min-w-56"
-            >
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                {option.title}
-              </h3>
-              <p className="text-black text-xl font-bold mb-3">
-                ${option.price.toLocaleString() + ' pesos col.'}
-              </p>
+          {purchaseOptions.length ? (
+            purchaseOptions.map((option, index) => (
+              <div
+                key={index}
+                className="flex flex-col items-center bg-white/60 backdrop-blur-sm shadow-lg rounded-xl p-6 w-fit min-w-56"
+              >
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                  {option.title}
+                </h3>
+                <p className="text-black text-xl font-bold mb-3">
+                  ${option.price.toLocaleString() + ' pesos col.'}
+                </p>
+                <Button
+                  className="bg-brand hover:bg-brand/80 text-white font-medium px-4 py-2 rounded-md transition"
+                  onClick={() => {
+                    const message = `Hola, quiero pagar y/o saber más información de el ${elemento}: ${title}, cuyo ${option.title.toLowerCase()} es ${option.price.toLocaleString()} pesos col. por favor.`
+                    setSelectedMessage(message)
+                    setDialogOpen(true)
+                  }}
+                  disabled={isDeleting}
+                >
+                  {option.buttonText}
+                </Button>
+              </div>
+            ))
+          ) : (
+            <div className="flex flex-col items-center bg-white/60 backdrop-blur-sm shadow-lg rounded-xl p-6 w-fit min-w-56">
               <Button
                 className="bg-brand hover:bg-brand/80 text-white font-medium px-4 py-2 rounded-md transition"
                 onClick={() => {
-                  const message = `Hola, quiero pagar y/o saber más información de el ${elemento}: ${title}, que cuesta ${option.price.toLocaleString()} pesos col. por favor.`
+                  const message = `Hola, quiero saber más información de el ${elemento}: ${title}, por favor.`
                   setSelectedMessage(message)
                   setDialogOpen(true)
                 }}
+                disabled={isDeleting}
               >
-                {option.buttonText}
+                Agendar cita
               </Button>
             </div>
-          ))}
+          )}
         </div>
         {/* Dialogo de contacto */}
         <ContactDialog

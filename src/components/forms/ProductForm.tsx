@@ -178,7 +178,7 @@ export default function ProductForm({ id }: ProductFormProps) {
     }
   }
 
-  if (isLoading) return <FormSkeleton />
+  if (isLoading || !isAdmin) return <FormSkeleton />
 
   return (
     <form

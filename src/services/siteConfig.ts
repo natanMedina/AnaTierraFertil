@@ -1,7 +1,8 @@
-import { supabase } from '@/lib/supabaseClient'
+import { getSupabaseBrowserClient } from '@/lib/supabaseClient'
 import { SiteConfig } from '@/types/siteConfig'
 
 export async function getSiteConfig() {
+  const supabase = getSupabaseBrowserClient()
   const { data, error } = await supabase
     .from('site_config')
     .select('*')
@@ -12,6 +13,7 @@ export async function getSiteConfig() {
 }
 
 export async function updateSiteConfig(updates: Partial<SiteConfig>) {
+  const supabase = getSupabaseBrowserClient()
   const { data, error } = await supabase
     .from('site_config')
     .update(updates)

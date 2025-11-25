@@ -1,7 +1,8 @@
-import { supabase } from '@/lib/supabaseClient'
+import { getSupabaseBrowserClient } from '@/lib/supabaseClient'
 import { Product } from '@/types/product'
 
 export async function getProducts(): Promise<Product[]> {
+  const supabase = getSupabaseBrowserClient()
   const { data, error } = await supabase
     .from('products')
     .select('*')
@@ -12,6 +13,7 @@ export async function getProducts(): Promise<Product[]> {
 }
 
 export async function getProductById(id: number): Promise<Product | null> {
+  const supabase = getSupabaseBrowserClient()
   const { data, error } = await supabase
     .from('products')
     .select('*')
@@ -26,6 +28,7 @@ export async function getProductById(id: number): Promise<Product | null> {
 export async function createProduct(
   product: Omit<Product, 'id'>
 ): Promise<Product> {
+  const supabase = getSupabaseBrowserClient()
   const { data, error } = await supabase
     .from('products')
     .insert([product])
@@ -37,6 +40,7 @@ export async function createProduct(
 }
 
 export async function updateProduct(id: number, product: Partial<Product>) {
+  const supabase = getSupabaseBrowserClient()
   const { data, error } = await supabase
     .from('products')
     .update(product)
@@ -48,6 +52,7 @@ export async function updateProduct(id: number, product: Partial<Product>) {
 }
 
 export async function deleteProduct(id: number): Promise<boolean> {
+  const supabase = getSupabaseBrowserClient()
   try {
     // Obtener el producto para acceder a su imagen
     const { data: product, error: fetchError } = await supabase
@@ -85,6 +90,7 @@ export async function deleteProduct(id: number): Promise<boolean> {
 
 // Funciones para imagenes en el bucket
 export async function uploadProductImage(file: File): Promise<string | null> {
+  const supabase = getSupabaseBrowserClient()
   const fileExt = file.name.split('.').pop()
   const fileName = `${Math.random().toString(36).substring(2, 15)}${Date.now()}.${fileExt}`
   const bucketName = 'products'
@@ -106,6 +112,7 @@ export async function uploadProductImage(file: File): Promise<string | null> {
 }
 
 export async function deleteProductImage(publicUrl: string): Promise<boolean> {
+  const supabase = getSupabaseBrowserClient()
   try {
     const bucketName = 'products'
 
@@ -124,7 +131,15 @@ export async function deleteProductImage(publicUrl: string): Promise<boolean> {
       return false
     }
 
-    const { error } = await supabase.storage.from(bucketName).remove([filePath])
+    const { data: removed, error } = await supabase.storage
+      .from(bucketName)
+      .remove([filePath])
+    console.log('REMOVE RESULT:', removed)
+    console.log('REMOVE ERROR:', error)
+
+    console.log('basePublicPath =>', basePublicPath)
+    console.log('publicUrl =>', publicUrl)
+    console.log('filePath =>', filePath)
 
     if (error) {
       console.error('Error al eliminar imagen del bucket:', error)

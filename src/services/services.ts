@@ -1,7 +1,8 @@
-import { supabase } from '@/lib/supabaseClient'
+import { getSupabaseBrowserClient } from '@/lib/supabaseClient'
 import { Service } from '@/types/service'
 
 export async function getServices(): Promise<Service[]> {
+  const supabase = getSupabaseBrowserClient()
   const { data, error } = await supabase
     .from('services')
     .select('*')
@@ -12,6 +13,7 @@ export async function getServices(): Promise<Service[]> {
 }
 
 export async function getServiceById(id: number): Promise<Service | null> {
+  const supabase = getSupabaseBrowserClient()
   const { data, error } = await supabase
     .from('services')
     .select('*')
@@ -26,6 +28,7 @@ export async function getServiceById(id: number): Promise<Service | null> {
 export async function createService(
   service: Omit<Service, 'id'>
 ): Promise<Service> {
+  const supabase = getSupabaseBrowserClient()
   const { data, error } = await supabase
     .from('services')
     .insert([service])
@@ -37,6 +40,7 @@ export async function createService(
 }
 
 export async function updateService(id: number, service: Partial<Service>) {
+  const supabase = getSupabaseBrowserClient()
   const { data, error } = await supabase
     .from('services')
     .update(service)
@@ -48,6 +52,7 @@ export async function updateService(id: number, service: Partial<Service>) {
 }
 
 export async function deleteService(id: number): Promise<boolean> {
+  const supabase = getSupabaseBrowserClient()
   try {
     // Obtener el servicio para acceder a su imagen
     const { data: service, error: fetchError } = await supabase
@@ -85,6 +90,7 @@ export async function deleteService(id: number): Promise<boolean> {
 
 // Funciones para imagenes en el bucket
 export async function uploadServiceImage(file: File): Promise<string | null> {
+  const supabase = getSupabaseBrowserClient()
   const fileExt = file.name.split('.').pop()
   const fileName = `${Math.random().toString(36).substring(2, 15)}${Date.now()}.${fileExt}`
   const bucketName = 'services'
@@ -104,6 +110,7 @@ export async function uploadServiceImage(file: File): Promise<string | null> {
 }
 
 export async function deleteServiceImage(publicUrl: string): Promise<boolean> {
+  const supabase = getSupabaseBrowserClient()
   try {
     const bucketName = 'services'
 

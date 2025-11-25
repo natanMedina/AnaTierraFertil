@@ -7,7 +7,7 @@ import {
   useState,
   ReactNode,
 } from 'react'
-import { supabase } from '@/lib/supabaseClient'
+import { getSupabaseBrowserClient } from '@/lib/supabaseClient'
 
 interface AdminContextType {
   isAdmin: boolean
@@ -21,6 +21,7 @@ interface AdminContextType {
 const AdminContext = createContext<AdminContextType | undefined>(undefined)
 
 export function AdminProvider({ children }: { children: ReactNode }) {
+  const supabase = getSupabaseBrowserClient()
   const [isAdmin, setIsAdmin] = useState(false)
   const [editMode, setEditMode] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
@@ -33,14 +34,13 @@ export function AdminProvider({ children }: { children: ReactNode }) {
       if (data.session) {
         await validateAdmin(data.session.user.id)
       }
-
       setIsLoading(false)
     }
     loadSession()
 
     // Escuchar cambios de sesión
     const { data: sub } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      async (event: any, session: any) => {
         if (event === 'SIGNED_IN' && session) {
           await validateAdmin(session.user.id)
         }

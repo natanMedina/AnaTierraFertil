@@ -33,8 +33,8 @@ export function validateProduct(
   // Descripción
   if (!product.description.trim()) {
     errors.description = 'La descripción es obligatoria'
-  } else if (product.description.trim().length > 500) {
-    errors.description = 'La descripción no puede tener más de 500 caracteres'
+  } else if (product.description.trim().length > 5000) {
+    errors.description = 'La descripción no puede tener más de 5000 caracteres'
   }
 
   // Categoría
@@ -95,8 +95,8 @@ export function validateService(
   // Descripción
   if (!service.description.trim()) {
     errors.description = 'La descripción es obligatoria'
-  } else if (service.description.trim().length > 500) {
-    errors.description = 'La descripción no puede tener más de 500 caracteres'
+  } else if (service.description.trim().length > 5000) {
+    errors.description = 'La descripción no puede tener más de 5000 caracteres'
   }
 
   // Categoría
@@ -197,8 +197,8 @@ export function validateNews(
     errors.description = 'La descripción es obligatoria'
   } else if (news.description.trim().length < 10) {
     errors.description = 'La descripción debe tener al menos 10 caracteres'
-  } else if (news.description.trim().length > 1000) {
-    errors.description = 'La descripción no puede tener más de 1000 caracteres'
+  } else if (news.description.trim().length > 5000) {
+    errors.description = 'La descripción no puede tener más de 5000 caracteres'
   }
 
   // Imagen

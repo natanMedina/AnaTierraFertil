@@ -1,8 +1,7 @@
-import { getSupabaseBrowserClient } from '@/lib/supabaseClient'
+import { supabase } from '@/lib/supabaseClient'
 import { News } from '@/types/news'
 
 export async function getNews(): Promise<News[]> {
-  const supabase = getSupabaseBrowserClient()
   const { data, error } = await supabase
     .from('news')
     .select('*')
@@ -13,7 +12,6 @@ export async function getNews(): Promise<News[]> {
 }
 
 export async function getNewsById(id: number): Promise<News | null> {
-  const supabase = getSupabaseBrowserClient()
   const { data, error } = await supabase
     .from('news')
     .select('*')
@@ -26,7 +24,6 @@ export async function getNewsById(id: number): Promise<News | null> {
 }
 
 export async function createNews(news: Omit<News, 'id'>): Promise<News> {
-  const supabase = getSupabaseBrowserClient()
   const { data, error } = await supabase
     .from('news')
     .insert([news])
@@ -38,7 +35,6 @@ export async function createNews(news: Omit<News, 'id'>): Promise<News> {
 }
 
 export async function updateNews(id: number, news: Partial<News>) {
-  const supabase = getSupabaseBrowserClient()
   const { data, error } = await supabase
     .from('news')
     .update(news)
@@ -50,7 +46,6 @@ export async function updateNews(id: number, news: Partial<News>) {
 }
 
 export async function deleteNews(id: number): Promise<boolean> {
-  const supabase = getSupabaseBrowserClient()
   try {
     // Obtener la noticia para acceder a su imagen
     const { data: news, error: fetchError } = await supabase
@@ -88,7 +83,6 @@ export async function deleteNews(id: number): Promise<boolean> {
 
 // Funciones para imagenes en el bucket
 export async function uploadNewsImage(file: File): Promise<string | null> {
-  const supabase = getSupabaseBrowserClient()
   const fileExt = file.name.split('.').pop()
   const fileName = `${Math.random().toString(36).substring(2, 15)}${Date.now()}.${fileExt}`
   const bucketName = 'news'
@@ -110,7 +104,6 @@ export async function uploadNewsImage(file: File): Promise<string | null> {
 }
 
 export async function deleteNewsImage(publicUrl: string): Promise<boolean> {
-  const supabase = getSupabaseBrowserClient()
   try {
     const bucketName = 'news'
 

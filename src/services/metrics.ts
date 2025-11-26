@@ -1,6 +1,5 @@
 // services/metricsService.ts
-// import { supabase } from '@/lib/supabaseClient'
-import { getSupabaseBrowserClient } from '@/lib/supabaseClient'
+import { supabase } from '@/lib/supabaseClient'
 import {
   ChartData,
   DeviceType,
@@ -19,7 +18,6 @@ export async function createVisit({
   pathname: string
   device: 'mobile' | 'desktop'
 }) {
-  const supabase = getSupabaseBrowserClient()
   const { error } = await supabase
     .from('metrics')
     .insert([{ pathname, device }])
@@ -38,7 +36,6 @@ export async function getMetricsByRange(
   start: Date,
   end: Date
 ): Promise<MetricRow[]> {
-  const supabase = getSupabaseBrowserClient()
   const { data, error } = await supabase
     .from('metrics')
     .select('*')
@@ -54,7 +51,6 @@ export async function getDailyVisits(
   start: Date,
   end: Date
 ): Promise<ChartData[]> {
-  const supabase = getSupabaseBrowserClient()
   const { data, error } = await supabase
     .from('metrics')
     .select('created_at, device')
@@ -93,7 +89,6 @@ export async function getDailyVisits(
 }
 
 export async function getVisitsLastNDays(days: number): Promise<number> {
-  const supabase = getSupabaseBrowserClient()
   const start = new Date()
   start.setDate(start.getDate() - days)
 
@@ -109,7 +104,6 @@ export async function getVisitsLastNDays(days: number): Promise<number> {
 export async function getTopSectionLastNDays(
   days: number
 ): Promise<TopSection> {
-  const supabase = getSupabaseBrowserClient()
   const start = new Date()
   start.setDate(start.getDate() - days)
 
@@ -136,11 +130,10 @@ export async function getTopSectionLastNDays(
 export async function getMostUsedDeviceLastNDays(
   days: number
 ): Promise<MostUsedDevice> {
-  const supabase = getSupabaseBrowserClient()
   const start = new Date()
   start.setDate(start.getDate() - days)
 
-  const { data, error }: { data: MetricRow[]; error: any } = await supabase
+  const { data, error } = await supabase
     .from('metrics')
     .select('device')
     .gte('created_at', start.toISOString())
@@ -182,11 +175,10 @@ const SECTIONS = ['/', '/biography', '/products', '/services', '/news']
 export async function getSectionVisitsLastNDays(
   days: number
 ): Promise<SectionChartData[]> {
-  const supabase = getSupabaseBrowserClient()
   const start = new Date()
   start.setDate(start.getDate() - days)
 
-  const { data, error }: { data: MetricRow[]; error: any } = await supabase
+  const { data, error } = await supabase
     .from('metrics')
     .select('pathname, device')
     .gte('created_at', start.toISOString())

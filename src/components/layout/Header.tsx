@@ -10,7 +10,7 @@ import { useAdmin } from '@/context/AdminContext'
 import { AdminSheet } from './AdminSheet'
 
 export default function Header() {
-  const { isAdmin } = useAdmin()
+  const { isAdmin, isLoading } = useAdmin()
   const [open, setOpen] = useState(false)
 
   return (
@@ -55,7 +55,7 @@ export default function Header() {
             Contacto
           </Button>
 
-          {isAdmin ? (
+          {isLoading ? null : isAdmin ? (
             <AdminSheet />
           ) : (
             <Link

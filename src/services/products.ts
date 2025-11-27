@@ -124,15 +124,7 @@ export async function deleteProductImage(publicUrl: string): Promise<boolean> {
       return false
     }
 
-    const { data: removed, error } = await supabase.storage
-      .from(bucketName)
-      .remove([filePath])
-    console.log('REMOVE RESULT:', removed)
-    console.log('REMOVE ERROR:', error)
-
-    console.log('basePublicPath =>', basePublicPath)
-    console.log('publicUrl =>', publicUrl)
-    console.log('filePath =>', filePath)
+    const { error } = await supabase.storage.from(bucketName).remove([filePath])
 
     if (error) {
       console.error('Error al eliminar imagen del bucket:', error)

@@ -66,9 +66,6 @@ export default function NewsPage() {
   )
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1)
 
-  // Debug: verificar si editMode está activo
-  console.log('Edit Mode:', editMode)
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-green-100/50 to-blue-50">
       <div className="container mx-auto px-6 lg:px-12 py-8">

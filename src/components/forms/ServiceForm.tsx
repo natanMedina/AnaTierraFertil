@@ -180,7 +180,7 @@ export default function ServiceForm({ id }: ServiceFormProps) {
     }
   }
 
-  if (isLoading) return <FormSkeleton />
+  if (isLoading || !isAdmin) return <FormSkeleton />
 
   return (
     <form

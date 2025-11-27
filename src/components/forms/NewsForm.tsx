@@ -172,7 +172,7 @@ export default function NewsForm({ id }: NewsFormProps) {
     }
   }
 
-  if (isLoading) return <FormSkeleton />
+  if (isLoading || !isAdmin) return <FormSkeleton />
 
   return (
     <div className="container mx-auto px-4 py-8">

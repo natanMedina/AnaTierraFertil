@@ -110,7 +110,9 @@ const ServicesSection = () => (
           size="lg"
           className="bg-brand text-white px-8 py-3 text-base font-medium hover:opacity-90 transition-opacity"
         >
-          {siteConfigBase.sections.services.ctaButton}
+          <Link href={'/survey'}>
+            {siteConfigBase.sections.services.ctaButton}
+          </Link>
         </Button>
       </div>
     </div>

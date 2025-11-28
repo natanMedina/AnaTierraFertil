@@ -162,7 +162,7 @@ const SocialSection = ({
               onSave={(value) => onUpdate('social_description', value)}
               isEditMode={isEditMode}
               className="w-full text-lg text-gray-700 leading-relaxed text-center"
-              textareaClassName="text-lg text-center min-h-[120px] w-full"
+              textareaClassName="text-lg text-center min-h-[120px] w-[400px]"
               minRows={5}
               centerButton={true}
             />

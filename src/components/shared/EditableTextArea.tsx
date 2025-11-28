@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Edit, Check, X } from 'lucide-react'
@@ -27,6 +27,15 @@ export function EditableTextArea({
   const [isEditing, setIsEditing] = useState(false)
   const [editValue, setEditValue] = useState(value)
   const [isSaving, setIsSaving] = useState(false)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  // Auto-ajustar altura del textarea
+  useEffect(() => {
+    if (isEditing && textareaRef.current) {
+      textareaRef.current.style.height = 'auto'
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`
+    }
+  }, [isEditing, editValue])
 
   const handleEdit = () => {
     setEditValue(value)
@@ -60,9 +69,10 @@ export function EditableTextArea({
     return (
       <div className="relative">
         <Textarea
+          ref={textareaRef}
           value={editValue}
           onChange={(e) => setEditValue(e.target.value)}
-          className={textareaClassName}
+          className={`${textareaClassName} overflow-hidden resize-none`}
           rows={minRows}
           disabled={isSaving}
         />

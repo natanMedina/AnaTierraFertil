@@ -11,6 +11,9 @@ import {
 } from '@/components/ui/card'
 import { siteConfigBase } from '@/config/site'
 import { useCreateVisit } from '@/hooks/useRecordVisit'
+import { getBiographyConfig } from '@/services/biographyConfig'
+import { useEffect, useState } from 'react'
+import { BiographyConfig } from '@/types/biographyConfig'
 
 const BiographySection = () => (
   <div className="relative z-10 py-16 bg-white">
@@ -184,6 +187,24 @@ const SocialSection = () => (
 
 export default function BiographyPage() {
   useCreateVisit()
+  const [biographyConfig, setBiographyConfig] = useState<BiographyConfig | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchBiographyConfig = async () => {
+      try {
+        const data = await getBiographyConfig()
+        setBiographyConfig(data)
+      } catch (error) {
+        console.error('Error al cargar la configuración de biografía:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchBiographyConfig()
+  }, [])
+
   return (
     <div className="relative min-h-screen overflow-hidden">
       <Background />
@@ -193,15 +214,12 @@ export default function BiographyPage() {
             El arte de acompañar
           </h1>
           <p className="max-w-2xl text-lg md:text-xl text-gray-700 leading-relaxed">
-            Soy partera intercultural, doula, educadora en salud materna,
-            profesora de yoga prenatal y consultora en salud ayurveda para la
-            mujer, además socióloga con una maestría en asesoría familiar.
-            Acompaño los procesos de gestación, parto y posparto desde una
-            mirada integral que une los saberes ancestrales, la medicina natural
-            y las prácticas del yoga. Mi labor se centra en promover el
-            autocuidado, la conexión cuerpo-espíritu y el respeto por los ritmos
-            naturales de la vida femenina, creando espacios de acompañamiento
-            educativos y conscientes para mujeres, familias y comunidades.
+            {loading ? (
+              'Cargando...'
+            ) : (
+              biographyConfig?.biography_description || 
+              'Soy partera intercultural, doula, educadora en salud materna, profesora de yoga prenatal y consultora en salud ayurveda para la mujer, además socióloga con una maestría en asesoría familiar. Acompaño los procesos de gestación, parto y posparto desde una mirada integral que une los saberes ancestrales, la medicina natural y las prácticas del yoga. Mi labor se centra en promover el autocuidado, la conexión cuerpo-espíritu y el respeto por los ritmos naturales de la vida femenina, creando espacios de acompañamiento educativos y conscientes para mujeres, familias y comunidades.'
+            )}
           </p>
         </div>
         <BiographySection />

@@ -13,12 +13,28 @@ import { siteConfigBase } from '@/config/site'
 import { Background } from '@/components/shared/Background'
 import { SpecialMomentsSection } from '@/components/shared/SpecialMoments'
 import { useCreateVisit } from '@/hooks/useRecordVisit'
-import { getHomeConfig } from '@/services/homeConfig'
+import {
+  getHomeConfig,
+  updateHomeConfig,
+  uploadHomeImage,
+} from '@/services/homeConfig'
 import { useEffect, useState } from 'react'
 import { HomeConfig } from '@/types/HomeConfig'
+import { useAdmin } from '@/context/AdminContext'
+import { EditableTextArea } from '@/components/shared/EditableTextArea'
+import { EditableImage } from '@/components/shared/EditableImage'
+import { toast } from 'sonner'
 
 // Componente para la sección hero
-const HeroSection = ({ config }: { config: HomeConfig | null }) => (
+const HeroSection = ({
+  config,
+  isEditMode,
+  onUpdate,
+}: {
+  config: HomeConfig | null
+  isEditMode: boolean
+  onUpdate: (field: keyof HomeConfig, value: string) => Promise<void>
+}) => (
   <div className="relative z-10 flex items-center min-h-screen">
     <div className="container mx-auto px-6 lg:px-12">
       <div className="max-w-4xl">
@@ -30,10 +46,20 @@ const HeroSection = ({ config }: { config: HomeConfig | null }) => (
             {siteConfigBase.name}
           </h1>
         </div>
-        <p className="text-lg lg:text-xl text-black mb-8 max-w-2xl leading-relaxed whitespace-pre-wrap">
-          {config?.hero_section_description ||
-            'Acompañamiento integral en salud femenina, cuidado prenatal y bienestar natural, con un enfoque personalizado y holístico para cada etapa de tu vida.'}
-        </p>
+        <div className="mb-8">
+          <EditableTextArea
+            value={
+              config?.hero_section_description ||
+              'Acompañamiento integral en salud femenina, cuidado prenatal y bienestar natural, con un enfoque personalizado y holístico para cada etapa de tu vida.'
+            }
+            onSave={(value) => onUpdate('hero_section_description', value)}
+            isEditMode={isEditMode}
+            className="text-lg lg:text-xl text-black max-w-2xl leading-relaxed"
+            textareaClassName="text-lg lg:text-xl min-h-[100px] w-full"
+            minRows={4}
+            buttonMargin="mt-6"
+          />
+        </div>
         <div className="flex flex-col sm:flex-row gap-4 mb-12">
           <Button
             size="lg"
@@ -119,7 +145,17 @@ const ServicesSection = () => (
 )
 
 // Componente para la sección de biografía
-const BiographySection = ({ config }: { config: HomeConfig | null }) => (
+const BiographySection = ({
+  config,
+  isEditMode,
+  onUpdate,
+  onImageUpdate,
+}: {
+  config: HomeConfig | null
+  isEditMode: boolean
+  onUpdate: (field: keyof HomeConfig, value: string) => Promise<void>
+  onImageUpdate: (field: keyof HomeConfig, file: File) => Promise<void>
+}) => (
   <div className="relative z-10 py-16 bg-white">
     <div className="container mx-auto px-6 lg:px-12">
       <div className="flex flex-col lg:flex-row items-stretch gap-12">
@@ -137,10 +173,17 @@ const BiographySection = ({ config }: { config: HomeConfig | null }) => (
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6 text-gray-700 text-lg leading-relaxed">
-            <p className="whitespace-pre-wrap">
-              {config?.about_description ||
-                siteConfigBase.homeBiography.descriptionP1.join('\n\n')}
-            </p>
+            <EditableTextArea
+              value={
+                config?.about_description ||
+                siteConfigBase.homeBiography.descriptionP1.join('\n\n')
+              }
+              onSave={(value) => onUpdate('about_description', value)}
+              isEditMode={isEditMode}
+              className="text-gray-700 text-lg leading-relaxed"
+              textareaClassName="text-lg min-h-[200px]"
+              minRows={8}
+            />
             <div className="pt-4 flex justify-center">
               <Link href="/biography">
                 <Button
@@ -156,13 +199,14 @@ const BiographySection = ({ config }: { config: HomeConfig | null }) => (
         </Card>
 
         {/* Columna Derecha - Marcador de Posición de Imagen */}
-        <div className="relative lg:w-1/3 w-full h-[500px] lg:h-auto rounded-lg shadow-lg overflow-hidden">
-          <img
-            src={config?.about_photo || '/images/AnaInicio.jpg'}
-            alt="Biografía"
-            className="w-full h-full object-cover"
-          />
-        </div>
+        <EditableImage
+          src={config?.about_photo || '/images/AnaInicio.jpg'}
+          alt="Biografía"
+          onImageChange={(file) => onImageUpdate('about_photo', file)}
+          isEditMode={isEditMode}
+          className="w-full h-full object-cover"
+          containerClassName="relative lg:w-1/3 w-full h-[500px] lg:h-auto rounded-lg shadow-lg overflow-hidden"
+        />
       </div>
     </div>
   </div>
@@ -171,6 +215,7 @@ const BiographySection = ({ config }: { config: HomeConfig | null }) => (
 // Componente principal
 export default function Home() {
   useCreateVisit()
+  const { editMode } = useAdmin()
   const [homeConfig, setHomeConfig] = useState<HomeConfig | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -189,6 +234,38 @@ export default function Home() {
     fetchHomeConfig()
   }, [])
 
+  const handleUpdate = async (field: keyof HomeConfig, value: string) => {
+    if (!homeConfig) return
+
+    try {
+      const updated = await updateHomeConfig({ [field]: value })
+      setHomeConfig(updated)
+      toast.success('Descripción actualizada correctamente')
+    } catch (error) {
+      console.error('Error al actualizar:', error)
+      toast.error('Error al actualizar la descripción')
+    }
+  }
+
+  const handleImageUpdate = async (field: keyof HomeConfig, file: File) => {
+    if (!homeConfig) return
+
+    try {
+      const imageUrl = await uploadHomeImage(file)
+      if (!imageUrl) {
+        toast.error('Error al subir la imagen')
+        return
+      }
+
+      const updated = await updateHomeConfig({ [field]: imageUrl })
+      setHomeConfig(updated)
+      toast.success('Imagen actualizada correctamente')
+    } catch (error) {
+      console.error('Error al actualizar la imagen:', error)
+      toast.error('Error al actualizar la imagen')
+    }
+  }
+
   if (loading) {
     return (
       <div className="relative min-h-screen overflow-hidden flex items-center justify-center">
@@ -201,9 +278,18 @@ export default function Home() {
   return (
     <div className="relative min-h-screen overflow-hidden">
       <Background />
-      <HeroSection config={homeConfig} />
+      <HeroSection
+        config={homeConfig}
+        isEditMode={editMode}
+        onUpdate={handleUpdate}
+      />
       <ServicesSection />
-      <BiographySection config={homeConfig} />
+      <BiographySection
+        config={homeConfig}
+        isEditMode={editMode}
+        onUpdate={handleUpdate}
+        onImageUpdate={handleImageUpdate}
+      />
       <SpecialMomentsSection />
     </div>
   )

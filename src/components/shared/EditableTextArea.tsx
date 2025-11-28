@@ -62,7 +62,7 @@ export function EditableTextArea({
   }
 
   if (!isEditMode) {
-    return <div className={className}>{value}</div>
+    return <div className={`whitespace-pre-wrap ${className}`}>{value}</div>
   }
 
   if (isEditing) {

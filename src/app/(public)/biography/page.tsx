@@ -19,28 +19,33 @@ import { useEffect, useState } from 'react'
 import { BiographyConfig } from '@/types/biographyConfig'
 import { useAdmin } from '@/context/AdminContext'
 import { EditableTextArea } from '@/components/shared/EditableTextArea'
+import { EditableImage } from '@/components/shared/EditableImage'
 import { toast } from 'sonner'
+import { uploadBiographyImage } from '@/services/biographyConfig'
 
 const BiographySection = ({
   config,
   isEditMode,
   onUpdate,
+  onImageUpdate,
 }: {
   config: BiographyConfig | null
   isEditMode: boolean
   onUpdate: (field: keyof BiographyConfig, value: string) => Promise<void>
+  onImageUpdate: (field: keyof BiographyConfig, file: File) => Promise<void>
 }) => (
   <div className="relative z-10 py-16 bg-white">
     <div className="container mx-auto px-6 lg:px-12">
       <div className="flex flex-col lg:flex-row items-stretch gap-12">
         {/* Columna Izquierda - Imagen */}
-        <div className="relative lg:w-1/3 w-full h-[500px] lg:h-auto rounded-lg shadow-lg overflow-hidden">
-          <img
-            src={config?.about_photo || '/images/biografia.png'}
-            alt="Biografía"
-            className="w-full h-full object-cover"
-          />
-        </div>
+        <EditableImage
+          src={config?.about_photo || '/images/biografia.png'}
+          alt="Biografía"
+          onImageChange={(file) => onImageUpdate('about_photo', file)}
+          isEditMode={isEditMode}
+          className="w-full h-full object-cover"
+          containerClassName="relative lg:w-1/3 w-full h-[500px] lg:h-auto rounded-lg shadow-lg overflow-hidden"
+        />
 
         {/* Columna Derecha - Contenido de Texto */}
         <Card className="lg:w-2/3 p-8 shadow-lg rounded-lg">
@@ -78,10 +83,12 @@ const JourneySection = ({
   config,
   isEditMode,
   onUpdate,
+  onImageUpdate,
 }: {
   config: BiographyConfig | null
   isEditMode: boolean
   onUpdate: (field: keyof BiographyConfig, value: string) => Promise<void>
+  onImageUpdate: (field: keyof BiographyConfig, file: File) => Promise<void>
 }) => (
   <div className="relative z-10 py-16 bg-gray-50">
     <div className="container mx-auto px-6 lg:px-12">
@@ -106,31 +113,34 @@ const JourneySection = ({
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Imagen 1 */}
-        <div className="aspect-[4/3] overflow-hidden rounded-lg shadow-lg">
-          <img
-            src={config?.journey_photo_1 || '/images/recorrido1.png'}
-            alt="Recorrido 1"
-            className="w-full h-full object-cover"
-          />
-        </div>
+        <EditableImage
+          src={config?.journey_photo_1 || '/images/recorrido1.png'}
+          alt="Recorrido 1"
+          onImageChange={(file) => onImageUpdate('journey_photo_1', file)}
+          isEditMode={isEditMode}
+          className="w-full h-full object-cover"
+          containerClassName="aspect-[4/3] overflow-hidden rounded-lg shadow-lg"
+        />
 
         {/* Imagen 2 */}
-        <div className="aspect-[4/3] overflow-hidden rounded-lg shadow-lg">
-          <img
-            src={config?.journey_photo_2 || '/images/recorrido2.png'}
-            alt="Recorrido 2"
-            className="w-full h-full object-cover"
-          />
-        </div>
+        <EditableImage
+          src={config?.journey_photo_2 || '/images/recorrido2.png'}
+          alt="Recorrido 2"
+          onImageChange={(file) => onImageUpdate('journey_photo_2', file)}
+          isEditMode={isEditMode}
+          className="w-full h-full object-cover"
+          containerClassName="aspect-[4/3] overflow-hidden rounded-lg shadow-lg"
+        />
 
         {/* Imagen 3 */}
-        <div className="aspect-[4/3] overflow-hidden rounded-lg shadow-lg">
-          <img
-            src={config?.journey_photo_3 || '/images/recorrido3.png'}
-            alt="Recorrido 3"
-            className="w-full h-full object-cover"
-          />
-        </div>
+        <EditableImage
+          src={config?.journey_photo_3 || '/images/recorrido3.png'}
+          alt="Recorrido 3"
+          onImageChange={(file) => onImageUpdate('journey_photo_3', file)}
+          isEditMode={isEditMode}
+          className="w-full h-full object-cover"
+          containerClassName="aspect-[4/3] overflow-hidden rounded-lg shadow-lg"
+        />
       </div>
     </div>
   </div>
@@ -271,6 +281,30 @@ export default function BiographyPage() {
     }
   }
 
+  const handleImageUpdate = async (
+    field: keyof BiographyConfig,
+    file: File
+  ) => {
+    if (!biographyConfig) return
+
+    try {
+      // Subir la imagen
+      const imageUrl = await uploadBiographyImage(file)
+      if (!imageUrl) {
+        toast.error('Error al subir la imagen')
+        return
+      }
+
+      // Actualizar la configuración con la nueva URL
+      const updated = await updateBiographyConfig({ [field]: imageUrl })
+      setBiographyConfig(updated)
+      toast.success('Imagen actualizada correctamente')
+    } catch (error) {
+      console.error('Error al actualizar la imagen:', error)
+      toast.error('Error al actualizar la imagen')
+    }
+  }
+
   return (
     <div className="relative min-h-screen overflow-hidden">
       <Background />
@@ -303,11 +337,13 @@ export default function BiographyPage() {
           config={biographyConfig}
           isEditMode={editMode}
           onUpdate={handleUpdate}
+          onImageUpdate={handleImageUpdate}
         />
         <JourneySection
           config={biographyConfig}
           isEditMode={editMode}
           onUpdate={handleUpdate}
+          onImageUpdate={handleImageUpdate}
         />
         <SocialSection
           config={biographyConfig}

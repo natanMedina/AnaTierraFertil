@@ -64,3 +64,22 @@ export async function updateBiographyConfig(updates: Partial<BiographyConfig>) {
   if (error) throw error
   return data
 }
+
+export async function uploadBiographyImage(file: File): Promise<string | null> {
+  const fileExt = file.name.split('.').pop()
+  const fileName = `biography_${Math.random().toString(36).substring(2, 15)}${Date.now()}.${fileExt}`
+  const bucketName = 'site_config'
+  const filePath = `${fileName}`
+
+  const { error } = await supabase.storage
+    .from(bucketName)
+    .upload(filePath, file, { upsert: false })
+
+  if (error) {
+    console.error('Error subiendo imagen:', error)
+    return null
+  }
+
+  const { data } = supabase.storage.from(bucketName).getPublicUrl(filePath)
+  return data.publicUrl
+}

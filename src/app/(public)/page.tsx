@@ -10,7 +10,6 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { siteConfigBase } from '@/config/site'
-import { CheckCircleIcon } from 'lucide-react'
 import { Background } from '@/components/shared/Background'
 import { SpecialMomentsSection } from '@/components/shared/SpecialMoments'
 import { useCreateVisit } from '@/hooks/useRecordVisit'

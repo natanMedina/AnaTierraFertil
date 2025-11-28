@@ -14,9 +14,12 @@ import { CheckCircleIcon } from 'lucide-react'
 import { Background } from '@/components/shared/Background'
 import { SpecialMomentsSection } from '@/components/shared/SpecialMoments'
 import { useCreateVisit } from '@/hooks/useRecordVisit'
+import { getHomeConfig } from '@/services/homeConfig'
+import { useEffect, useState } from 'react'
+import { HomeConfig } from '@/types/HomeConfig'
 
 // Componente para la sección hero
-const HeroSection = () => (
+const HeroSection = ({ config }: { config: HomeConfig | null }) => (
   <div className="relative z-10 flex items-center min-h-screen">
     <div className="container mx-auto px-6 lg:px-12">
       <div className="max-w-4xl">
@@ -28,10 +31,9 @@ const HeroSection = () => (
             {siteConfigBase.name}
           </h1>
         </div>
-        <p className="text-lg lg:text-xl text-black mb-8 max-w-2xl leading-relaxed">
-          Acompañamiento integral en salud femenina, cuidado prenatal y
-          bienestar natural, con un enfoque personalizado y holístico para cada
-          etapa de tu vida.
+        <p className="text-lg lg:text-xl text-black mb-8 max-w-2xl leading-relaxed whitespace-pre-wrap">
+          {config?.hero_section_description ||
+            'Acompañamiento integral en salud femenina, cuidado prenatal y bienestar natural, con un enfoque personalizado y holístico para cada etapa de tu vida.'}
         </p>
         <div className="flex flex-col sm:flex-row gap-4 mb-12">
           <Button
@@ -118,7 +120,7 @@ const ServicesSection = () => (
 )
 
 // Componente para la sección de biografía
-const BiographySection = () => (
+const BiographySection = ({ config }: { config: HomeConfig | null }) => (
   <div className="relative z-10 py-16 bg-white">
     <div className="container mx-auto px-6 lg:px-12">
       <div className="flex flex-col lg:flex-row items-stretch gap-12">
@@ -136,24 +138,10 @@ const BiographySection = () => (
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6 text-gray-700 text-lg leading-relaxed">
-            {siteConfigBase.homeBiography.descriptionP1.map(
-              (paragraph, index) => (
-                <p key={index}>{paragraph}</p>
-              )
-            )}
-            <ul className="space-y-3 pl-5">
-              {siteConfigBase.homeBiography.services.map((service, index) => (
-                <li key={index} className="flex items-start gap-2">
-                  <CheckCircleIcon className="w-6 h-6 text-brand flex-shrink-0 mt-1" />
-                  <span>{service}</span>
-                </li>
-              ))}
-            </ul>
-            {siteConfigBase.homeBiography.descriptionP2.map(
-              (paragraph, index) => (
-                <p key={index}>{paragraph}</p>
-              )
-            )}
+            <p className="whitespace-pre-wrap">
+              {config?.about_description ||
+                siteConfigBase.homeBiography.descriptionP1.join('\n\n')}
+            </p>
             <div className="pt-4 flex justify-center">
               <Link href="/biography">
                 <Button
@@ -171,7 +159,7 @@ const BiographySection = () => (
         {/* Columna Derecha - Marcador de Posición de Imagen */}
         <div className="relative lg:w-1/3 w-full h-[500px] lg:h-auto rounded-lg shadow-lg overflow-hidden">
           <img
-            src="/images/AnaInicio.jpg"
+            src={config?.about_photo || '/images/AnaInicio.jpg'}
             alt="Biografía"
             className="w-full h-full object-cover"
           />
@@ -184,13 +172,39 @@ const BiographySection = () => (
 // Componente principal
 export default function Home() {
   useCreateVisit()
+  const [homeConfig, setHomeConfig] = useState<HomeConfig | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchHomeConfig = async () => {
+      try {
+        const data = await getHomeConfig()
+        setHomeConfig(data)
+      } catch (error) {
+        console.error('Error al cargar la configuración del home:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchHomeConfig()
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="relative min-h-screen overflow-hidden flex items-center justify-center">
+        <Background />
+        <p className="text-xl text-gray-700">Cargando...</p>
+      </div>
+    )
+  }
 
   return (
     <div className="relative min-h-screen overflow-hidden">
       <Background />
-      <HeroSection />
+      <HeroSection config={homeConfig} />
       <ServicesSection />
-      <BiographySection />
+      <BiographySection config={homeConfig} />
       <SpecialMomentsSection />
     </div>
   )

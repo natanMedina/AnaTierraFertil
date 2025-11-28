@@ -11,11 +11,25 @@ import {
 } from '@/components/ui/card'
 import { siteConfigBase } from '@/config/site'
 import { useCreateVisit } from '@/hooks/useRecordVisit'
-import { getBiographyConfig } from '@/services/biographyConfig'
+import {
+  getBiographyConfig,
+  updateBiographyConfig,
+} from '@/services/biographyConfig'
 import { useEffect, useState } from 'react'
 import { BiographyConfig } from '@/types/biographyConfig'
+import { useAdmin } from '@/context/AdminContext'
+import { EditableTextArea } from '@/components/shared/EditableTextArea'
+import { toast } from 'sonner'
 
-const BiographySection = ({ config }: { config: BiographyConfig | null }) => (
+const BiographySection = ({
+  config,
+  isEditMode,
+  onUpdate,
+}: {
+  config: BiographyConfig | null
+  isEditMode: boolean
+  onUpdate: (field: keyof BiographyConfig, value: string) => Promise<void>
+}) => (
   <div className="relative z-10 py-16 bg-white">
     <div className="container mx-auto px-6 lg:px-12">
       <div className="flex flex-col lg:flex-row items-stretch gap-12">
@@ -42,10 +56,17 @@ const BiographySection = ({ config }: { config: BiographyConfig | null }) => (
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6 text-gray-700 text-lg leading-relaxed">
-            <p>
-              {config?.about_description ||
-                siteConfigBase.biography.description.join(' ')}
-            </p>
+            <EditableTextArea
+              value={
+                config?.about_description ||
+                siteConfigBase.biography.description.join(' ')
+              }
+              onSave={(value) => onUpdate('about_description', value)}
+              isEditMode={isEditMode}
+              className="text-gray-700 text-lg leading-relaxed"
+              textareaClassName="text-lg min-h-[200px]"
+              minRows={8}
+            />
           </CardContent>
         </Card>
       </div>
@@ -53,7 +74,15 @@ const BiographySection = ({ config }: { config: BiographyConfig | null }) => (
   </div>
 )
 
-const JourneySection = ({ config }: { config: BiographyConfig | null }) => (
+const JourneySection = ({
+  config,
+  isEditMode,
+  onUpdate,
+}: {
+  config: BiographyConfig | null
+  isEditMode: boolean
+  onUpdate: (field: keyof BiographyConfig, value: string) => Promise<void>
+}) => (
   <div className="relative z-10 py-16 bg-gray-50">
     <div className="container mx-auto px-6 lg:px-12">
       <div className="text-center mb-12">
@@ -61,10 +90,17 @@ const JourneySection = ({ config }: { config: BiographyConfig | null }) => (
           <h2 className="text-4xl font-bold text-gray-900 mb-6">
             Mi recorrido
           </h2>
-          <p className="text-justify">
-            {config?.journey_description ||
-              siteConfigBase.biography.experiencie.join(' ')}
-          </p>
+          <EditableTextArea
+            value={
+              config?.journey_description ||
+              siteConfigBase.biography.experiencie.join(' ')
+            }
+            onSave={(value) => onUpdate('journey_description', value)}
+            isEditMode={isEditMode}
+            className="text-justify text-gray-700 text-lg leading-relaxed"
+            textareaClassName="text-lg min-h-[150px]"
+            minRows={6}
+          />
         </div>
       </div>
 
@@ -100,7 +136,15 @@ const JourneySection = ({ config }: { config: BiographyConfig | null }) => (
   </div>
 )
 
-const SocialSection = ({ config }: { config: BiographyConfig | null }) => (
+const SocialSection = ({
+  config,
+  isEditMode,
+  onUpdate,
+}: {
+  config: BiographyConfig | null
+  isEditMode: boolean
+  onUpdate: (field: keyof BiographyConfig, value: string) => Promise<void>
+}) => (
   <div className="relative z-10 py-16 bg-brand-light">
     <div className="container mx-auto px-6 lg:px-12">
       <div className="max-w-4xl mx-auto">
@@ -109,10 +153,20 @@ const SocialSection = ({ config }: { config: BiographyConfig | null }) => (
           <h2 className="text-4xl font-bold text-gray-900 mb-6">
             Conoce un poco más
           </h2>
-          <p className="max-w-2xl text-lg text-gray-700 leading-relaxed text-center">
-            {config?.social_description ||
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse id dolor pellentesque, convallis orci a, aliquam mi. Aenean tristique, ligula eu elementum suscipit, lacus cursus massa, eu cursus diam tellus sed neque. Mauris venenatis gravida sodales. Integer sollicitudin dapibus ornare.'}
-          </p>
+          <div className="flex flex-col items-center w-full max-w-3xl mx-auto">
+            <EditableTextArea
+              value={
+                config?.social_description ||
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse id dolor pellentesque, convallis orci a, aliquam mi. Aenean tristique, ligula eu elementum suscipit, lacus cursus massa, eu cursus diam tellus sed neque. Mauris venenatis gravida sodales. Integer sollicitudin dapibus ornare.'
+              }
+              onSave={(value) => onUpdate('social_description', value)}
+              isEditMode={isEditMode}
+              className="w-full text-lg text-gray-700 leading-relaxed text-center"
+              textareaClassName="text-lg text-center min-h-[120px] w-full"
+              minRows={5}
+              centerButton={true}
+            />
+          </div>
         </div>
 
         {/* Íconos de redes sociales */}
@@ -184,6 +238,7 @@ const SocialSection = ({ config }: { config: BiographyConfig | null }) => (
 
 export default function BiographyPage() {
   useCreateVisit()
+  const { editMode } = useAdmin()
   const [biographyConfig, setBiographyConfig] =
     useState<BiographyConfig | null>(null)
   const [loading, setLoading] = useState(true)
@@ -203,6 +258,19 @@ export default function BiographyPage() {
     fetchBiographyConfig()
   }, [])
 
+  const handleUpdate = async (field: keyof BiographyConfig, value: string) => {
+    if (!biographyConfig) return
+
+    try {
+      const updated = await updateBiographyConfig({ [field]: value })
+      setBiographyConfig(updated)
+      toast.success('Descripción actualizada correctamente')
+    } catch (error) {
+      console.error('Error al actualizar:', error)
+      toast.error('Error al actualizar la descripción')
+    }
+  }
+
   return (
     <div className="relative min-h-screen overflow-hidden">
       <Background />
@@ -211,16 +279,41 @@ export default function BiographyPage() {
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
             El arte de acompañar
           </h1>
-          <p className="max-w-2xl text-lg md:text-xl text-gray-700 leading-relaxed">
-            {loading
-              ? 'Cargando...'
-              : biographyConfig?.biography_description ||
-                'Soy partera intercultural, doula, educadora en salud materna, profesora de yoga prenatal y consultora en salud ayurveda para la mujer, además socióloga con una maestría en asesoría familiar. Acompaño los procesos de gestación, parto y posparto desde una mirada integral que une los saberes ancestrales, la medicina natural y las prácticas del yoga. Mi labor se centra en promover el autocuidado, la conexión cuerpo-espíritu y el respeto por los ritmos naturales de la vida femenina, creando espacios de acompañamiento educativos y conscientes para mujeres, familias y comunidades.'}
-          </p>
+          {loading ? (
+            <p className="max-w-2xl text-lg md:text-xl text-gray-700 leading-relaxed">
+              Cargando...
+            </p>
+          ) : (
+            <div className="w-full max-w-4xl px-4">
+              <EditableTextArea
+                value={
+                  biographyConfig?.biography_description ||
+                  'Soy partera intercultural, doula, educadora en salud materna, profesora de yoga prenatal y consultora en salud ayurveda para la mujer, además socióloga con una maestría en asesoría familiar. Acompaño los procesos de gestación, parto y posparto desde una mirada integral que une los saberes ancestrales, la medicina natural y las prácticas del yoga. Mi labor se centra en promover el autocuidado, la conexión cuerpo-espíritu y el respeto por los ritmos naturales de la vida femenina, creando espacios de acompañamiento educativos y conscientes para mujeres, familias y comunidades.'
+                }
+                onSave={(value) => handleUpdate('biography_description', value)}
+                isEditMode={editMode}
+                className="text-lg md:text-xl text-gray-700 leading-relaxed text-center"
+                textareaClassName="text-lg md:text-xl min-h-[200px] w-full"
+                minRows={8}
+              />
+            </div>
+          )}
         </div>
-        <BiographySection config={biographyConfig} />
-        <JourneySection config={biographyConfig} />
-        <SocialSection config={biographyConfig} />
+        <BiographySection
+          config={biographyConfig}
+          isEditMode={editMode}
+          onUpdate={handleUpdate}
+        />
+        <JourneySection
+          config={biographyConfig}
+          isEditMode={editMode}
+          onUpdate={handleUpdate}
+        />
+        <SocialSection
+          config={biographyConfig}
+          isEditMode={editMode}
+          onUpdate={handleUpdate}
+        />
         <SpecialMomentsSection />
       </div>
     </div>

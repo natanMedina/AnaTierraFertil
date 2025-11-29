@@ -37,7 +37,7 @@ export default function ProductForm({ id }: ProductFormProps) {
     errors: {
       name: '',
       description: '',
-      category: '',
+      category_fk: '',
       price: '',
       photo_url: '',
       video_url: '',
@@ -48,7 +48,7 @@ export default function ProductForm({ id }: ProductFormProps) {
   const [product, setProduct] = useState<Omit<Product, 'id'>>({
     name: '',
     description: '',
-    category: 0,
+    category_fk: 0,
     price: 0,
     photo_url: '',
     video_url: '',
@@ -232,12 +232,12 @@ export default function ProductForm({ id }: ProductFormProps) {
         <SelectField
           label="Categoría"
           placeholder="Selecciona una categoría"
-          value={id ? product.category?.toString() : undefined}
+          value={id ? product.category_fk?.toString() : undefined}
           values={categories}
           onChange={(e) => {
-            setProduct({ ...product, category: Number(e) })
+            setProduct({ ...product, category_fk: Number(e) })
           }}
-          error={validation.errors.category}
+          error={validation.errors.category_fk}
           disabled={isSubmitting}
         />
       </div>

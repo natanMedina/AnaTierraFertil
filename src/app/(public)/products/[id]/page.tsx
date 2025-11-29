@@ -42,7 +42,7 @@ export default function ProductDetailPage() {
     if (!product) return
 
     const fetchCategories = async () => {
-      const data = await getProductCategoryById(product.category)
+      const data = await getProductCategoryById(product.category_fk)
       if (data) setCategory(data)
       setLoading(false)
     }

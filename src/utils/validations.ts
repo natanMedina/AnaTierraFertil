@@ -15,7 +15,7 @@ export function validateProduct(
   const errors = {
     name: '',
     description: '',
-    category: '',
+    category_fk: '',
     price: '',
     photo_url: '',
     video_url: '',
@@ -38,8 +38,8 @@ export function validateProduct(
   }
 
   // Categoría
-  if (!product.category) {
-    errors.category = 'La categoría es obligatoria'
+  if (!product.category_fk) {
+    errors.category_fk = 'La categoría es obligatoria'
   }
 
   // Imagen

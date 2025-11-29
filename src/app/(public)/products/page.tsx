@@ -68,7 +68,7 @@ export default function ProductsPage() {
   const filteredProducts = products.filter((product) => {
     const matchesCategory =
       !selectedCategory ||
-      product.category ===
+      product.category_fk ===
         categories.find((c) => c.name === selectedCategory)!.id
     const matchesSearch =
       !searchTerm ||

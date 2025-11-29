@@ -7,9 +7,12 @@ import { Product } from '@/types/product'
 import InfoDisplay from '@/components/shared/InfoDisplay'
 import InfoDisplaySkeleton from '@/components/shared/InfoDisplaySkeleton'
 import { toast } from 'sonner'
+import { getProductCategoryById } from '@/services/categoriesProducts'
+import { Category } from '@/types/category'
 
 export default function ProductDetailPage() {
   const [product, setProduct] = useState<Product | null>(null)
+  const [category, setCategory] = useState<Category | null>()
   const [loading, setLoading] = useState(true)
   const router = useRouter()
   const { id } = useParams<{ id: string }>()
@@ -28,15 +31,25 @@ export default function ProductDetailPage() {
         setTimeout(() => {
           router.replace('/products')
         }, 800)
-      } finally {
-        setLoading(false)
       }
     }
 
     fetchProduct()
   }, [productId, router])
 
-  if (loading || !product) return <InfoDisplaySkeleton />
+  // Cuando haya producto se obtiene la categoría
+  useEffect(() => {
+    if (!product) return
+
+    const fetchCategories = async () => {
+      const data = await getProductCategoryById(product.category)
+      if (data) setCategory(data)
+      setLoading(false)
+    }
+    fetchCategories()
+  }, [product])
+
+  if (loading || !product || !category) return <InfoDisplaySkeleton />
 
   const purchaseOptions = [
     { title: 'Precio compra', buttonText: 'Comprar', price: product.price },
@@ -47,7 +60,7 @@ export default function ProductDetailPage() {
       id={product.id}
       title={product.name}
       description={product.description}
-      category={product.category}
+      category={category.name}
       photoUrl={product.photo_url}
       videoUrl={product.video_url}
       purchaseOptions={purchaseOptions}

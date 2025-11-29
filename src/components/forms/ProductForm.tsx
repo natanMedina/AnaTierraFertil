@@ -21,6 +21,16 @@ import VideoField from './fields/VideoField'
 import TextField from './fields/TextField'
 import TextAreaField from './fields/TextAreaField'
 import NumberField from './fields/NumberField'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select'
+import { getProductCategories } from '@/services/categoriesProducts'
+import { Category } from '@/types/category'
 
 interface ProductFormProps {
   id?: number
@@ -29,6 +39,7 @@ interface ProductFormProps {
 export default function ProductForm({ id }: ProductFormProps) {
   const router = useRouter()
   const { isAdmin, isLoading } = useAdmin()
+  const [categories, setCategories] = useState<Category[]>([])
   const [validation, setValidation] = useState({
     errors: {
       name: '',
@@ -44,7 +55,7 @@ export default function ProductForm({ id }: ProductFormProps) {
   const [product, setProduct] = useState<Omit<Product, 'id'>>({
     name: '',
     description: '',
-    category: '',
+    category: 0,
     price: 0,
     photo_url: '',
     video_url: '',
@@ -65,17 +76,30 @@ export default function ProductForm({ id }: ProductFormProps) {
 
   // Cargar datos si hay id
   useEffect(() => {
+    const fetchCategories = async () => {
+      const data = await getProductCategories()
+      if (data) {
+        setCategories(data)
+      }
+    }
     const fetchProduct = async () => {
-      if (id && isAdmin) {
+      if (id) {
         const data = await getProductById(Number(id))
         if (data) {
           setProduct(data)
           if (data.photo_url) setLocalImagePreview(data.photo_url)
         }
       }
+    }
+
+    const loadData = async () => {
+      if (!isAdmin) return
+      await fetchCategories()
+      await fetchProduct()
       setIsProductLoaded(true)
     }
-    fetchProduct()
+
+    loadData()
   }, [id, isAdmin])
 
   useEffect(() => {
@@ -212,18 +236,31 @@ export default function ProductForm({ id }: ProductFormProps) {
         />
 
         {/* Categoría */}
-        <div className="mt-auto">
-          <TextField
-            label="Categoría"
-            placeholder="Categoría del producto"
-            value={product.category}
-            onChange={(e) =>
-              setProduct({ ...product, category: e.target.value })
-            }
-            error={validation.errors.category}
-            disabled={isSubmitting}
-          />
-        </div>
+        <label>Categoría</label>
+        <Select
+          disabled={isSubmitting}
+          value={id ? product.category?.toString() : undefined}
+          onValueChange={(e) => {
+            console.log(e)
+            setProduct({ ...product, category: Number(e) })
+          }}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Selecciona una categoría" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              {categories.map((c) => (
+                <SelectItem key={c.id} value={c.id.toString()}>
+                  {c.name}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        {validation.errors.category && (
+          <p className="form-field-error">{validation.errors.category}</p>
+        )}
       </div>
 
       {/* COLUMNA DERECHA */}

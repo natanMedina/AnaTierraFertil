@@ -21,11 +21,14 @@ import { useAdmin } from '@/context/AdminContext'
 import { CirclePlus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useCreateVisit } from '@/hooks/useRecordVisit'
+import { getProductCategories } from '@/services/categoriesProducts'
+import { Category } from '@/types/category'
 
 export default function ProductsPage() {
   useCreateVisit()
-  const { editMode } = useAdmin()
+  const { isAdmin, editMode } = useAdmin()
   const router = useRouter()
+  const [categories, setCategories] = useState<Category[]>([])
   const [products, setProducts] = useState<Product[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string>('')
   const [searchTerm, setSearchTerm] = useState<string>('')
@@ -34,7 +37,26 @@ export default function ProductsPage() {
   const productsPerPage = 6
 
   useEffect(() => {
-    fetchProducts()
+    const fetchCategories = async () => {
+      const data = await getProductCategories()
+      if (data) {
+        setCategories(data)
+      }
+    }
+    const fetchProducts = async () => {
+      const data = await getProducts()
+      if (data) {
+        setProducts(data)
+      }
+    }
+
+    const loadData = async () => {
+      await fetchCategories()
+      await fetchProducts()
+      setIsLoading(false)
+    }
+
+    loadData()
   }, [])
 
   useEffect(() => {
@@ -42,21 +64,12 @@ export default function ProductsPage() {
     setCurrentPage(1)
   }, [selectedCategory, searchTerm])
 
-  async function fetchProducts() {
-    try {
-      const data = await getProducts()
-      setProducts(data)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  const categories = [...new Set(products.map((product) => product.category))]
-
   // Filtrar productos según la categoría y término de búsqueda
   const filteredProducts = products.filter((product) => {
     const matchesCategory =
-      !selectedCategory || product.category === selectedCategory
+      !selectedCategory ||
+      product.category ===
+        categories.find((c) => c.name === selectedCategory)!.id
     const matchesSearch =
       !searchTerm ||
       product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -86,7 +99,7 @@ export default function ProductsPage() {
             ) : (
               <SidebarFilter
                 title="Productos"
-                categories={categories}
+                categories={categories.map((c) => c.name)}
                 selectedCategory={selectedCategory}
                 onCategorySelect={setSelectedCategory}
               />
@@ -102,7 +115,7 @@ export default function ProductsPage() {
                 onSearch={setSearchTerm}
               />
               {/* Botón añadir */}
-              {editMode && (
+              {isAdmin && editMode && (
                 <Button
                   variant="admin"
                   onClick={() => router.replace('/products/form')}

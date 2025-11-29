@@ -38,7 +38,7 @@ export function validateProduct(
   }
 
   // Categoría
-  if (!product.category.trim()) {
+  if (!product.category) {
     errors.category = 'La categoría es obligatoria'
   }
 

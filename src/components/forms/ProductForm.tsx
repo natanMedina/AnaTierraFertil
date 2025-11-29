@@ -21,16 +21,9 @@ import VideoField from './fields/VideoField'
 import TextField from './fields/TextField'
 import TextAreaField from './fields/TextAreaField'
 import NumberField from './fields/NumberField'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '../ui/select'
 import { getProductCategories } from '@/services/categoriesProducts'
 import { Category } from '@/types/category'
+import SelectField from './fields/SelectField'
 
 interface ProductFormProps {
   id?: number
@@ -236,31 +229,17 @@ export default function ProductForm({ id }: ProductFormProps) {
         />
 
         {/* Categoría */}
-        <label>Categoría</label>
-        <Select
-          disabled={isSubmitting}
+        <SelectField
+          label="Categoría"
+          placeholder="Selecciona una categoría"
           value={id ? product.category?.toString() : undefined}
-          onValueChange={(e) => {
-            console.log(e)
+          values={categories}
+          onChange={(e) => {
             setProduct({ ...product, category: Number(e) })
           }}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Selecciona una categoría" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              {categories.map((c) => (
-                <SelectItem key={c.id} value={c.id.toString()}>
-                  {c.name}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        {validation.errors.category && (
-          <p className="form-field-error">{validation.errors.category}</p>
-        )}
+          error={validation.errors.category}
+          disabled={isSubmitting}
+        />
       </div>
 
       {/* COLUMNA DERECHA */}

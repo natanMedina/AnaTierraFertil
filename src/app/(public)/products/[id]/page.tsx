@@ -41,12 +41,12 @@ export default function ProductDetailPage() {
   useEffect(() => {
     if (!product) return
 
-    const fetchCategories = async () => {
+    const fetchCategory = async () => {
       const data = await getProductCategoryById(product.category_fk)
       if (data) setCategory(data)
       setLoading(false)
     }
-    fetchCategories()
+    fetchCategory()
   }, [product])
 
   if (loading || !product || !category) return <InfoDisplaySkeleton />

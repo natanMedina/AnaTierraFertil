@@ -76,7 +76,7 @@ export function validateService(
   const errors = {
     name: '',
     description: '',
-    category: '',
+    category_fk: '',
     price: '',
     photo_url: '',
     video_url: '',
@@ -100,8 +100,8 @@ export function validateService(
   }
 
   // Categoría
-  if (!service.category.trim()) {
-    errors.category = 'La categoría es obligatoria'
+  if (!service.category_fk) {
+    errors.category_fk = 'La categoría es obligatoria'
   }
 
   // Imagen

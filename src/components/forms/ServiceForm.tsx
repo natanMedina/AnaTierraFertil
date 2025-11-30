@@ -21,6 +21,9 @@ import VideoField from './fields/VideoField'
 import TextField from './fields/TextField'
 import TextAreaField from './fields/TextAreaField'
 import NumberField from './fields/NumberField'
+import { Category } from '@/types/category'
+import { getServiceCategories } from '@/services/categoriesServices'
+import SelectField from './fields/SelectField'
 
 interface ServiceFormProps {
   id?: number
@@ -29,11 +32,12 @@ interface ServiceFormProps {
 export default function ServiceForm({ id }: ServiceFormProps) {
   const router = useRouter()
   const { isAdmin, isLoading } = useAdmin()
+  const [categories, setCategories] = useState<Category[]>([])
   const [validation, setValidation] = useState({
     errors: {
       name: '',
       description: '',
-      category: '',
+      category_fk: '',
       price: '',
       photo_url: '',
       video_url: '',
@@ -45,7 +49,7 @@ export default function ServiceForm({ id }: ServiceFormProps) {
   const [service, setService] = useState<Omit<Service, 'id'>>({
     name: '',
     description: '',
-    category: '',
+    category_fk: 0,
     price: 0,
     photo_url: '',
     video_url: '',
@@ -67,17 +71,30 @@ export default function ServiceForm({ id }: ServiceFormProps) {
 
   // Cargar datos si hay id
   useEffect(() => {
+    const fetchCategories = async () => {
+      const data = await getServiceCategories()
+      if (data) {
+        setCategories(data)
+      }
+    }
     const fetchService = async () => {
-      if (id && isAdmin) {
+      if (id) {
         const data = await getServiceById(Number(id))
         if (data) {
           setService(data)
           if (data.photo_url) setLocalImagePreview(data.photo_url)
         }
       }
+    }
+
+    const loadData = async () => {
+      if (!isAdmin) return
+      await fetchCategories()
+      await fetchService()
       setIsServiceLoaded(true)
     }
-    fetchService()
+
+    loadData()
   }, [id, isAdmin])
 
   useEffect(() => {
@@ -214,7 +231,7 @@ export default function ServiceForm({ id }: ServiceFormProps) {
         />
 
         {/* Categoría */}
-        <div className="mt-auto">
+        {/* <div className="mt-auto">
           <TextField
             label="Categoría"
             placeholder="Categoría del servicio"
@@ -225,7 +242,18 @@ export default function ServiceForm({ id }: ServiceFormProps) {
             error={validation.errors.category}
             disabled={isSubmitting}
           />
-        </div>
+        </div> */}
+        <SelectField
+          label="Categoría"
+          placeholder="Selecciona una categoría"
+          value={id ? service.category_fk?.toString() : undefined}
+          values={categories}
+          onChange={(e) => {
+            setService({ ...service, category_fk: Number(e) })
+          }}
+          error={validation.errors.category_fk}
+          disabled={isSubmitting}
+        />
       </div>
 
       {/* COLUMNA DERECHA */}

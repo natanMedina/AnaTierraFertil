@@ -16,11 +16,14 @@ import { useAdmin } from '@/context/AdminContext'
 import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
 import { MomentsCard } from '@/components/forms/MomentsCard'
+import { EditMomentsCard } from '@/components/forms/EditMomentsCard'
 
 export const SpecialMomentsSection = () => {
   const [moments, setMoments] = useState<Moments[]>([])
   const [loading, setLoading] = useState(true)
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const [selectedMoment, setSelectedMoment] = useState<Moments | null>(null)
   const { editMode } = useAdmin()
 
   useEffect(() => {
@@ -40,6 +43,22 @@ export const SpecialMomentsSection = () => {
 
   const handleMomentCreated = (newMoment: Moments) => {
     setMoments((prev) => [newMoment, ...prev])
+  }
+
+  const handleMomentClick = (moment: Moments) => {
+    if (editMode) {
+      setSelectedMoment(moment)
+      setIsEditModalOpen(true)
+    }
+  }
+
+  const handleMomentUpdated = async () => {
+    try {
+      const data = await getMoments()
+      setMoments(data)
+    } catch (error) {
+      console.error('Error al recargar momentos:', error)
+    }
   }
 
   return (
@@ -77,8 +96,11 @@ export const SpecialMomentsSection = () => {
                     key={moment.id}
                     className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3"
                   >
-                    <div className="text-center">
-                      <Card className="overflow-hidden">
+                    <div
+                      className={`text-center ${editMode ? 'cursor-pointer' : ''}`}
+                      onClick={() => handleMomentClick(moment)}
+                    >
+                      <Card className="overflow-hidden hover:shadow-lg transition-shadow">
                         <div className="w-full h-60 overflow-hidden">
                           <img
                             src={moment.photo_url}
@@ -118,6 +140,17 @@ export const SpecialMomentsSection = () => {
           isOpen={isCreateModalOpen}
           onClose={() => setIsCreateModalOpen(false)}
           onSuccess={handleMomentCreated}
+        />
+
+        {/* Modal de editar momento */}
+        <EditMomentsCard
+          isOpen={isEditModalOpen}
+          onClose={() => {
+            setIsEditModalOpen(false)
+            setSelectedMoment(null)
+          }}
+          moment={selectedMoment}
+          onSuccess={handleMomentUpdated}
         />
       </div>
     </div>

@@ -12,10 +12,16 @@ import { siteConfigBase } from '@/config/site'
 import { getMoments } from '@/services/moments'
 import { Moments } from '@/types/moments'
 import { useEffect, useState } from 'react'
+import { useAdmin } from '@/context/AdminContext'
+import { Button } from '@/components/ui/button'
+import { Plus } from 'lucide-react'
+import { MomentsCard } from '@/components/forms/MomentsCard'
 
 export const SpecialMomentsSection = () => {
   const [moments, setMoments] = useState<Moments[]>([])
   const [loading, setLoading] = useState(true)
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
+  const { editMode } = useAdmin()
 
   useEffect(() => {
     const fetchMoments = async () => {
@@ -31,6 +37,10 @@ export const SpecialMomentsSection = () => {
 
     fetchMoments()
   }, [])
+
+  const handleMomentCreated = (newMoment: Moments) => {
+    setMoments((prev) => [newMoment, ...prev])
+  }
 
   return (
     <div className="relative z-10 py-16 bg-green-50">
@@ -89,6 +99,26 @@ export const SpecialMomentsSection = () => {
             </Carousel>
           </div>
         )}
+
+        {/* Botón de crear momento en modo edición */}
+        {editMode && (
+          <div className="flex justify-center mt-8">
+            <Button
+              onClick={() => setIsCreateModalOpen(true)}
+              className="bg-brand hover:bg-brand/90 text-white"
+            >
+              <Plus className="w-5 h-5 mr-2" />
+              Crear Momento Especial
+            </Button>
+          </div>
+        )}
+
+        {/* Modal de crear momento */}
+        <MomentsCard
+          isOpen={isCreateModalOpen}
+          onClose={() => setIsCreateModalOpen(false)}
+          onSuccess={handleMomentCreated}
+        />
       </div>
     </div>
   )

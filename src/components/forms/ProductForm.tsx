@@ -21,6 +21,9 @@ import VideoField from './fields/VideoField'
 import TextField from './fields/TextField'
 import TextAreaField from './fields/TextAreaField'
 import NumberField from './fields/NumberField'
+import { getProductCategories } from '@/services/categoriesProducts'
+import { Category } from '@/types/category'
+import SelectField from './fields/SelectField'
 
 interface ProductFormProps {
   id?: number
@@ -29,11 +32,12 @@ interface ProductFormProps {
 export default function ProductForm({ id }: ProductFormProps) {
   const router = useRouter()
   const { isAdmin, isLoading } = useAdmin()
+  const [categories, setCategories] = useState<Category[]>([])
   const [validation, setValidation] = useState({
     errors: {
       name: '',
       description: '',
-      category: '',
+      category_fk: '',
       price: '',
       photo_url: '',
       video_url: '',
@@ -44,7 +48,7 @@ export default function ProductForm({ id }: ProductFormProps) {
   const [product, setProduct] = useState<Omit<Product, 'id'>>({
     name: '',
     description: '',
-    category: '',
+    category_fk: 0,
     price: 0,
     photo_url: '',
     video_url: '',
@@ -65,17 +69,30 @@ export default function ProductForm({ id }: ProductFormProps) {
 
   // Cargar datos si hay id
   useEffect(() => {
+    const fetchCategories = async () => {
+      const data = await getProductCategories()
+      if (data) {
+        setCategories(data)
+      }
+    }
     const fetchProduct = async () => {
-      if (id && isAdmin) {
+      if (id) {
         const data = await getProductById(Number(id))
         if (data) {
           setProduct(data)
           if (data.photo_url) setLocalImagePreview(data.photo_url)
         }
       }
+    }
+
+    const loadData = async () => {
+      if (!isAdmin) return
+      await fetchCategories()
+      await fetchProduct()
       setIsProductLoaded(true)
     }
-    fetchProduct()
+
+    loadData()
   }, [id, isAdmin])
 
   useEffect(() => {
@@ -212,18 +229,17 @@ export default function ProductForm({ id }: ProductFormProps) {
         />
 
         {/* Categoría */}
-        <div className="mt-auto">
-          <TextField
-            label="Categoría"
-            placeholder="Categoría del producto"
-            value={product.category}
-            onChange={(e) =>
-              setProduct({ ...product, category: e.target.value })
-            }
-            error={validation.errors.category}
-            disabled={isSubmitting}
-          />
-        </div>
+        <SelectField
+          label="Categoría"
+          placeholder="Selecciona una categoría"
+          value={id ? product.category_fk?.toString() : undefined}
+          values={categories}
+          onChange={(e) => {
+            setProduct({ ...product, category_fk: Number(e) })
+          }}
+          error={validation.errors.category_fk}
+          disabled={isSubmitting}
+        />
       </div>
 
       {/* COLUMNA DERECHA */}

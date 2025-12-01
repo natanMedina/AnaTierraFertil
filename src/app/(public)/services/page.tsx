@@ -21,11 +21,14 @@ import { useAdmin } from '@/context/AdminContext'
 import { CirclePlus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useCreateVisit } from '@/hooks/useRecordVisit'
+import { Category } from '@/types/category'
+import { getServiceCategories } from '@/services/categoriesServices'
 
 export default function ServicesPage() {
   useCreateVisit()
-  const { editMode } = useAdmin()
+  const { isAdmin, editMode } = useAdmin()
   const router = useRouter()
+  const [categories, setCategories] = useState<Category[]>([])
   const [services, setServices] = useState<Service[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string>('')
   const [searchTerm, setSearchTerm] = useState<string>('')
@@ -34,7 +37,26 @@ export default function ServicesPage() {
   const servicesPerPage = 6
 
   useEffect(() => {
-    fetchServices()
+    const fetchCategories = async () => {
+      const data = await getServiceCategories()
+      if (data) {
+        setCategories(data)
+      }
+    }
+    const fetchServices = async () => {
+      const data = await getServices()
+      if (data) {
+        setServices(data)
+      }
+    }
+
+    const loadData = async () => {
+      await fetchCategories()
+      await fetchServices()
+      setIsLoading(false)
+    }
+
+    loadData()
   }, [])
 
   useEffect(() => {
@@ -42,21 +64,12 @@ export default function ServicesPage() {
     setCurrentPage(1)
   }, [selectedCategory, searchTerm])
 
-  async function fetchServices() {
-    try {
-      const data = await getServices()
-      setServices(data)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  const categories = [...new Set(services.map((service) => service.category))]
-
   // Filtrar servicios según la categoría y término de búsqueda
   const filteredServices = services.filter((service) => {
     const matchesCategory =
-      !selectedCategory || service.category === selectedCategory
+      !selectedCategory ||
+      service.category_fk ===
+        categories.find((c) => c.name === selectedCategory)!.id
     const matchesSearch =
       !searchTerm ||
       service.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -86,7 +99,7 @@ export default function ServicesPage() {
             ) : (
               <SidebarFilter
                 title="Servicios"
-                categories={categories}
+                categories={categories.map((c) => c.name)}
                 selectedCategory={selectedCategory}
                 onCategorySelect={setSelectedCategory}
               />
@@ -102,7 +115,7 @@ export default function ServicesPage() {
                 onSearch={setSearchTerm}
               />
               {/* Botón añadir */}
-              {editMode && (
+              {isAdmin && editMode && (
                 <Button
                   variant="admin"
                   onClick={() => router.replace('/services/form')}

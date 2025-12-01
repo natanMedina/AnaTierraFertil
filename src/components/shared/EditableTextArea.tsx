@@ -13,6 +13,7 @@ interface EditableTextAreaProps {
   textareaClassName?: string
   minRows?: number
   centerButton?: boolean
+  buttonMargin?: string
 }
 
 export function EditableTextArea({
@@ -23,6 +24,7 @@ export function EditableTextArea({
   textareaClassName = '',
   minRows = 3,
   centerButton = false,
+  buttonMargin = 'mt-2',
 }: EditableTextAreaProps) {
   const [isEditing, setIsEditing] = useState(false)
   const [editValue, setEditValue] = useState(value)
@@ -76,7 +78,7 @@ export function EditableTextArea({
           rows={minRows}
           disabled={isSaving}
         />
-        <div className="flex gap-2 mt-2">
+        <div className={`flex gap-2 ${buttonMargin}`}>
           <Button
             onClick={handleSave}
             disabled={isSaving || editValue.trim() === ''}
@@ -107,7 +109,7 @@ export function EditableTextArea({
         <Button
           onClick={handleEdit}
           size="sm"
-          className="mt-2 bg-brand hover:bg-brand/80 text-white"
+          className={`${buttonMargin} bg-brand hover:bg-brand/80 text-white`}
         >
           <Edit className="w-4 h-4 mr-1" />
           Editar

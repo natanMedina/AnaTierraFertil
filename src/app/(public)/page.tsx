@@ -98,20 +98,24 @@ interface ServiceCardProps {
 // Componente para una tarjeta de servicio
 const ServiceCard = ({ title, description, iconColor }: ServiceCardProps) => {
   const isHexColor = iconColor?.startsWith('#')
-  
+
   return (
     <Card className="text-center h-80 flex flex-col justify-center">
       <CardHeader className="pb-2 pt-4">
-        <div 
-          className={`w-16 h-16 rounded-full mx-auto mb-6 flex items-center justify-center ${!isHexColor ? (iconColor || 'bg-brand') : ''}`}
+        <div
+          className={`w-16 h-16 rounded-full mx-auto mb-6 flex items-center justify-center ${!isHexColor ? iconColor || 'bg-brand' : ''}`}
           style={isHexColor ? { backgroundColor: iconColor } : undefined}
         >
           <div className="w-8 h-8 bg-white rounded-full"></div>
         </div>
-        <CardTitle className="text-xl font-bold text-gray-800">{title}</CardTitle>
+        <CardTitle className="text-xl font-bold text-gray-800">
+          {title}
+        </CardTitle>
       </CardHeader>
       <CardContent className="pt-2">
-        <CardDescription className="text-gray-600">{description}</CardDescription>
+        <CardDescription className="text-gray-600">
+          {description}
+        </CardDescription>
       </CardContent>
     </Card>
   )
@@ -133,22 +137,22 @@ const ServicesSection = () => (
         <ServiceCard
           title="Cuidado Prenatal"
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-          iconColor='bg-brand'
+          iconColor="bg-brand"
         />
         <ServiceCard
           title="Terapias Naturales"
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-          iconColor='#7ca5b6'
+          iconColor="#7ca5b6"
         />
         <ServiceCard
           title="Yoga Prenatal"
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-          iconColor='#67a4d8'
+          iconColor="#67a4d8"
         />
         <ServiceCard
           title="Cursos Educativos"
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-          iconColor='bg-admin'
+          iconColor="bg-admin"
         />
       </div>
       <div className="text-center">

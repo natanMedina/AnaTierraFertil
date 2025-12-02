@@ -2,6 +2,9 @@
 
 import SurveySkeleton from '@/components/survey/SurveySkeleton'
 import { Button } from '@/components/ui/button'
+import { getProductCategories } from '@/services/categoriesProducts'
+import { getServiceCategories } from '@/services/categoriesServices'
+import { Category } from '@/types/category'
 import { useEffect, useState } from 'react'
 
 interface Question {
@@ -15,11 +18,37 @@ interface QuestionsGroup {
 }
 
 export default function SurveyPage() {
+  const [productCategories, setProductCategories] = useState<Category[]>([])
+  const [serviceCategories, setServiceCategories] = useState<Category[]>([])
   const [answers, setAnswers] = useState<number[]>([])
   const [currentQuestions, setCurrentQuestions] = useState<QuestionsGroup>()
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0)
   const [isFinished, setIsFinished] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(true)
+
+  useEffect(() => {
+    const fetchProductCategories = async () => {
+      const data = await getProductCategories()
+      if (data) {
+        setProductCategories(data)
+      }
+    }
+    const fetchServiceCategories = async () => {
+      const data = await getServiceCategories()
+      if (data) {
+        setServiceCategories(data)
+      }
+    }
+
+    const loadData = async () => {
+      await fetchProductCategories()
+      await fetchServiceCategories()
+      setIsLoading(false)
+    }
+
+    setCurrentQuestions(baseQuestions)
+    loadData()
+  }, [])
 
   const baseQuestions: QuestionsGroup = {
     group: null,
@@ -110,11 +139,6 @@ export default function SurveyPage() {
   }
 
   useEffect(() => {
-    setCurrentQuestions(baseQuestions)
-    setIsLoading(false)
-  }, [])
-
-  useEffect(() => {
     const evaluateAnswers = () => {
       const answersNum = answers.length
       const questionsNum = answersNum
@@ -151,20 +175,16 @@ export default function SurveyPage() {
 
     // Servicios
     if (answers[0]) {
-      if (countA > Math.max(countB, countC))
-        return 'Salud y Acompañamiento Femenino  y Manuales Digitales'
-      if (countB > Math.max(countA, countC))
-        return 'Yoga y Movimiento Consciente'
-      if (countC > Math.max(countA, countB)) return 'Cursos y Formaciones'
-      if (countA === countB) return 'Masajes y Terapias Corporales'
+      if (countA > Math.max(countB, countC)) return serviceCategories[0].name
+      if (countB > Math.max(countA, countC)) return serviceCategories[1].name
+      if (countC > Math.max(countA, countB)) return serviceCategories[2].name
+      if (countA === countB) return serviceCategories[3].name
       return 'No match'
     }
     // Productos
-    if (countA > Math.max(countB, countC)) return 'Libros y Manuales Digitales'
-    if (countB > Math.max(countA, countC))
-      return 'Productos de Bienestar Natural'
-    if (countC > Math.max(countA, countB))
-      return 'Productos de Higiene y Cuidado Personal Ecológicos'
+    if (countA > Math.max(countB, countC)) return productCategories[1].name
+    if (countB > Math.max(countA, countC)) return productCategories[0].name
+    if (countC > Math.max(countA, countB)) return productCategories[2].name
     return 'No match'
   }
   const generateQuestionInterface = () => {

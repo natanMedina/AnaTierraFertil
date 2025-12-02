@@ -186,16 +186,17 @@ export default function NewsForm({ id }: NewsFormProps) {
 
       <div className="relative z-10 container mx-auto px-4 py-8">
         {/* Botón volver */}
-        <Button
-          type="button"
-          variant="secondary"
-          className="flex items-center gap-2 mb-6"
-          onClick={() => router.push('/news')}
-          disabled={isSubmitting}
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Volver
-        </Button>
+        <div className="flex justify-end mb-6">
+          <Button
+            type="button"
+            variant="secondary"
+            className="flex items-center gap-2 hover:bg-gray-300"
+            onClick={() => router.push('/news')}
+            disabled={isSubmitting}
+          >
+            <ArrowLeft className="w-4 h-4" />
+          </Button>
+        </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="bg-white/95 shadow-sm border border-gray-200 rounded-lg p-3 mb-2">

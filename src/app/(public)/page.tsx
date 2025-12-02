@@ -61,7 +61,7 @@ const HeroSection = ({
             }
             onSave={(value) => onUpdate('hero_section_description', value)}
             isEditMode={isEditMode}
-            className="text-lg lg:text-xl text-black max-w-2xl leading-relaxed"
+            className="text-lg lg:text-xl text-black font-bold max-w-2xl leading-relaxed"
             textareaClassName="text-lg lg:text-xl min-h-[100px] w-full"
             minRows={4}
             buttonMargin="mt-6"

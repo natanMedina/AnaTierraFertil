@@ -104,7 +104,7 @@ export default function NewsPage() {
         {/* Lista de novedades */}
         <div className="flex flex-col gap-5">
           {isLoading ? (
-            // Mostrar 6 skeletons mientras carga
+            // Mostrar 3 skeletons mientras carga
             Array.from({ length: itemsPerPage }).map((_, index) => (
               <NewsItemSkeleton key={index} />
             ))
@@ -123,7 +123,28 @@ export default function NewsPage() {
                 date={item.date}
                 showActions={editMode}
                 onDeleted={(deleteId) => {
-                  setNews((prev) => prev.filter((n) => n.id !== deleteId))
+                  setNews((prev) => {
+                    const updated = prev.filter((n) => n.id !== deleteId)
+                    // Si después de eliminar no quedan novedades en la página actual
+                    // y no estamos en la primera página, ir a la página anterior
+                    const newFilteredCount = updated.filter((item) => {
+                      if (!searchTerm) return true
+                      const searchLower = searchTerm.toLowerCase()
+                      return (
+                        item.title.toLowerCase().includes(searchLower) ||
+                        item.description.toLowerCase().includes(searchLower)
+                      )
+                    }).length
+
+                    const newTotalPages = Math.ceil(
+                      newFilteredCount / itemsPerPage
+                    )
+                    if (currentPage > newTotalPages && newTotalPages > 0) {
+                      setCurrentPage(newTotalPages)
+                    }
+
+                    return updated
+                  })
                 }}
               />
             ))

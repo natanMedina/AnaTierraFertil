@@ -97,7 +97,9 @@ export default function Footer() {
             <ul className="space-y-3 text-sm" style={{ color: '#9CA3AF' }}>
               <li>
                 <Link
-                  href="/news"
+                  href={siteConfigBase.redes.blog}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="hover:text-brand transition-colors duration-200"
                 >
                   Blog

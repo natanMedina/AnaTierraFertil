@@ -246,7 +246,7 @@ export default function ProductForm({ id }: ProductFormProps) {
       <div className="relative w-full md:w-8/12 flex flex-col p-6 overflow-hidden">
         {/* Fondo con imagen */}
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          className="absolute inset-0 bg-cover bg-top bg-no-repeat"
           style={{ backgroundImage: "url('/images/products_bg.jpg')" }}
         >
           <div className="absolute inset-0 bg-white/20"></div>

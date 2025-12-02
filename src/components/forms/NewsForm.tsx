@@ -178,7 +178,7 @@ export default function NewsForm({ id }: NewsFormProps) {
     <div className="relative min-h-screen overflow-hidden">
       {/* Fondo con imagen */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 bg-cover bg-top bg-no-repeat"
         style={{ backgroundImage: "url('/images/news_bg.png')" }}
       >
         <div className="absolute inset-0 bg-white/30"></div>

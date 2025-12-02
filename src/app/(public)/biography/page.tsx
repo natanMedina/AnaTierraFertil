@@ -182,6 +182,7 @@ const SocialSection = ({
               textareaClassName="text-lg text-center min-h-[120px] w-[400px]"
               minRows={5}
               centerButton={true}
+              maxCharacters={900}
             />
           </div>
         </div>

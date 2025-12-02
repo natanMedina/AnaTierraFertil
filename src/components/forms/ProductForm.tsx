@@ -243,84 +243,89 @@ export default function ProductForm({ id }: ProductFormProps) {
       </div>
 
       {/* COLUMNA DERECHA */}
-      <div
-        className="relative  w-full md:w-8/12 flex flex-col p-6 bg-green-100 bg-cover bg-center"
-        style={{
-          backgroundImage: "url('/images/form-bg.jpg')",
-        }}
-      >
-        {/* Botón volver */}
-        <div className="absolute flex flex-col top-6 right-6 gap-2">
+      <div className="relative w-full md:w-8/12 flex flex-col p-6 overflow-hidden">
+        {/* Fondo con imagen */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: "url('/images/products_bg.jpg')" }}
+        >
+          <div className="absolute inset-0 bg-white/20"></div>
+        </div>
+
+        <div className="relative z-10 w-full h-full">
+          {/* Botón volver */}
+          <div className="absolute flex flex-col top-6 right-6 gap-2">
+            <Button
+              type="button"
+              variant="secondary"
+              className="flex items-center ml-auto w-min gap-2 text-white font-bold bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-md text-sm transition"
+              onClick={() => router.push(id ? `/products/${id}` : '/products')}
+              disabled={isSubmitting}
+            >
+              <ArrowLeft className="w-4 h-4" />
+            </Button>
+          </div>
+
+          {/* Cuadros de imagen y video */}
+          <div className="flex justify-center gap-10 mt-20">
+            {/* Imagen */}
+            <ImageField
+              imagePreview={localImagePreview}
+              onImageSelect={(file: File, previewUrl: string) => {
+                setSelectedImageFile(file)
+                setLocalImagePreview(previewUrl)
+              }}
+              error={validation.errors.photo_url}
+              disabled={isSubmitting}
+            />
+
+            {/* Video */}
+            <VideoField
+              video_url={product.video_url}
+              onChange={(e) =>
+                setProduct({
+                  ...product,
+                  video_url: e.target.value,
+                })
+              }
+              error={validation.errors.video_url}
+              disabled={isSubmitting}
+            />
+          </div>
+
+          {/* Cuadro inferior con precio */}
+          <div className="mt-10 mx-auto w-64">
+            <NumberField
+              label="Precio (pesos col.)"
+              placeholder="Valor en pesos (COP)"
+              value={product.price}
+              min={0}
+              max={10 ** 6}
+              onChange={(e) => {
+                setProduct({
+                  ...product,
+                  price: Number(e.target.value),
+                })
+              }}
+              error={validation.errors.price}
+              disabled={isSubmitting}
+            />
+          </div>
+
+          {/* Botón guardar */}
           <Button
-            type="button"
-            variant="secondary"
-            className="flex items-center ml-auto w-min gap-2 text-white font-bold bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-md text-sm transition"
-            onClick={() => router.push(id ? `/products/${id}` : '/products')}
-            disabled={isSubmitting}
+            type="submit"
+            variant="admin"
+            className="absolute bottom-6 right-6 w-40 mx-auto mt-10"
+            disabled={isSubmitting || !validation.isValid}
           >
-            <ArrowLeft className="w-4 h-4" />
+            {isSubmitting
+              ? 'Guardando...'
+              : id
+                ? 'Guardar cambios'
+                : 'Crear producto'}
           </Button>
         </div>
-
-        {/* Cuadros de imagen y video */}
-        <div className="flex justify-center gap-10 mt-20">
-          {/* Imagen */}
-          <ImageField
-            imagePreview={localImagePreview}
-            onImageSelect={(file: File, previewUrl: string) => {
-              setSelectedImageFile(file)
-              setLocalImagePreview(previewUrl)
-            }}
-            error={validation.errors.photo_url}
-            disabled={isSubmitting}
-          />
-
-          {/* Video */}
-          <VideoField
-            video_url={product.video_url}
-            onChange={(e) =>
-              setProduct({
-                ...product,
-                video_url: e.target.value,
-              })
-            }
-            error={validation.errors.video_url}
-            disabled={isSubmitting}
-          />
-        </div>
-
-        {/* Cuadro inferior con precio */}
-        <div className="mt-10 mx-auto w-64">
-          <NumberField
-            label="Precio (pesos col.)"
-            placeholder="Valor en pesos (COP)"
-            value={product.price}
-            min={0}
-            max={10 ** 6}
-            onChange={(e) => {
-              setProduct({
-                ...product,
-                price: Number(e.target.value),
-              })
-            }}
-            error={validation.errors.price}
-            disabled={isSubmitting}
-          />
-        </div>
-
-        {/* Botón guardar */}
-        <Button
-          type="submit"
-          variant="admin"
-          className="absolute bottom-6 right-6 w-40 mx-auto mt-10"
-          disabled={isSubmitting || !validation.isValid}
-        >
-          {isSubmitting
-            ? 'Guardando...'
-            : id
-              ? 'Guardar cambios'
-              : 'Crear producto'}
-        </Button>
       </div>
     </form>
   )

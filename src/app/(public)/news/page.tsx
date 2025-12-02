@@ -67,8 +67,16 @@ export default function NewsPage() {
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1)
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-green-100/50 to-blue-50">
-      <div className="container mx-auto px-6 lg:px-12 py-8">
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Fondo con imagen */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/images/news_bg.png')" }}
+      >
+        <div className="absolute inset-0 bg-white/30"></div>
+      </div>
+
+      <div className="relative z-10 container mx-auto px-6 lg:px-12 py-8">
         {/* Encabezado */}
         <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <h1 className="text-3xl lg:text-4xl font-bold text-gray-900">

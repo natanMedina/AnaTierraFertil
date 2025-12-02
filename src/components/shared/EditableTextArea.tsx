@@ -14,6 +14,7 @@ interface EditableTextAreaProps {
   minRows?: number
   centerButton?: boolean
   buttonMargin?: string
+  maxCharacters?: number
 }
 
 export function EditableTextArea({
@@ -25,11 +26,13 @@ export function EditableTextArea({
   minRows = 3,
   centerButton = false,
   buttonMargin = 'mt-2',
+  maxCharacters,
 }: EditableTextAreaProps) {
   const [isEditing, setIsEditing] = useState(false)
   const [editValue, setEditValue] = useState(value)
   const [isSaving, setIsSaving] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const isOverLimit = maxCharacters ? editValue.length > maxCharacters : false
 
   // Auto-ajustar altura del textarea
   useEffect(() => {
@@ -78,12 +81,23 @@ export function EditableTextArea({
           rows={minRows}
           disabled={isSaving}
         />
-        <div className={`flex gap-2 ${buttonMargin}`}>
+        {maxCharacters && (
+          <div className="flex justify-center mt-1 text-sm">
+            <span
+              className={`${isOverLimit ? 'text-red-600 font-semibold' : 'text-gray-500'}`}
+            >
+              {editValue.length}/{maxCharacters} caracteres
+            </span>
+          </div>
+        )}
+        <div
+          className={`flex gap-2 ${buttonMargin} ${centerButton ? 'justify-center' : ''}`}
+        >
           <Button
             onClick={handleSave}
-            disabled={isSaving || editValue.trim() === ''}
+            disabled={isSaving || editValue.trim() === '' || isOverLimit}
             size="sm"
-            className="bg-brand hover:bg-brand/80 text-white"
+            className="bg-admin hover:bg-admin/80 text-white"
           >
             <Check className="w-4 h-4 mr-1" />
             {isSaving ? 'Guardando...' : 'Guardar'}
@@ -109,7 +123,7 @@ export function EditableTextArea({
         <Button
           onClick={handleEdit}
           size="sm"
-          className={`${buttonMargin} bg-brand hover:bg-brand/80 text-white`}
+          className={`${buttonMargin} bg-admin hover:bg-admin/80 text-white`}
         >
           <Edit className="w-4 h-4 mr-1" />
           Editar

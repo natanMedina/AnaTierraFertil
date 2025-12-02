@@ -37,6 +37,8 @@ export function EditMomentsCard({
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+  const MAX_CHARACTERS = 140
+  const isOverLimit = description.length > MAX_CHARACTERS
 
   useEffect(() => {
     if (moment) {
@@ -172,21 +174,40 @@ export function EditMomentsCard({
               onChange={handleImageSelect}
               className="hidden"
             />
+            {!imagePreview && (
+              <p className="text-red-600 text-sm font-semibold mt-2">
+                * La imagen es obligatoria
+              </p>
+            )}
           </div>
 
           {/* Campo de descripción */}
-          <Textarea
-            placeholder="Descripción..."
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="min-h-[60px] resize-none bg-white border-gray-300"
-          />
+          <div>
+            <Textarea
+              placeholder="Descripción..."
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="min-h-[60px] resize-none bg-white border-gray-300"
+            />
+            <div className="flex justify-between items-center mt-1 text-sm">
+              <span
+                className={`${isOverLimit ? 'text-red-600 font-semibold' : 'text-gray-500'}`}
+              >
+                {description.length}/{MAX_CHARACTERS} caracteres
+              </span>
+              {isOverLimit && (
+                <span className="text-red-600 font-semibold">
+                  Máximo de caracteres excedido
+                </span>
+              )}
+            </div>
+          </div>
 
           {/* Botones */}
           <div className="flex gap-4 pt-2">
             <Button
               onClick={handleSave}
-              disabled={isLoading}
+              disabled={isLoading || isOverLimit || !imagePreview}
               variant="admin"
               className="flex-1"
             >

@@ -101,7 +101,7 @@ export function ElementCard({
               </p>
             </HoverCardTrigger>
             <HoverCardContent className="max-w-sm break-words">
-              <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap">
+              <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap line-clamp-10">
                 {element.description}
               </p>
             </HoverCardContent>

@@ -83,7 +83,7 @@ export function EditableTextArea({
             onClick={handleSave}
             disabled={isSaving || editValue.trim() === ''}
             size="sm"
-            className="bg-brand hover:bg-brand/80 text-white"
+            className="bg-admin hover:bg-admin/80 text-white"
           >
             <Check className="w-4 h-4 mr-1" />
             {isSaving ? 'Guardando...' : 'Guardar'}
@@ -109,7 +109,7 @@ export function EditableTextArea({
         <Button
           onClick={handleEdit}
           size="sm"
-          className={`${buttonMargin} bg-brand hover:bg-brand/80 text-white`}
+          className={`${buttonMargin} bg-admin hover:bg-admin/80 text-white`}
         >
           <Edit className="w-4 h-4 mr-1" />
           Editar

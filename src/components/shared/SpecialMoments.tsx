@@ -127,7 +127,7 @@ export const SpecialMomentsSection = () => {
           <div className="flex justify-center mt-8">
             <Button
               onClick={() => setIsCreateModalOpen(true)}
-              className="bg-brand hover:bg-brand/90 text-white"
+              className="bg-admin hover:bg-admin/90 text-white"
             >
               <Plus className="w-5 h-5 mr-2" />
               Crear Momento Especial

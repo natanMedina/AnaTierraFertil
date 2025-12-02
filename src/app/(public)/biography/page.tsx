@@ -106,6 +106,7 @@ const JourneySection = ({
             className="text-justify text-gray-700 text-lg leading-relaxed"
             textareaClassName="text-lg min-h-[150px]"
             minRows={6}
+            centerButton={true}
           />
         </div>
       </div>
@@ -325,11 +326,11 @@ export default function BiographyPage() {
             <div className="absolute inset-0"></div>
           </div>
 
-          <h1 className="relative z-10 text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
+          <h1 className="relative z-10 text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
             El arte de acompañar
           </h1>
           {loading ? (
-            <p className="relative z-10 max-w-2xl text-lg md:text-xl text-gray-700 leading-relaxed">
+            <p className="relative z-10 max-w-2xl text-lg md:text-xl text-white leading-relaxed">
               Cargando...
             </p>
           ) : (
@@ -341,9 +342,10 @@ export default function BiographyPage() {
                 }
                 onSave={(value) => handleUpdate('biography_description', value)}
                 isEditMode={editMode}
-                className="text-lg md:text-xl text-gray-700 leading-relaxed text-center"
-                textareaClassName="text-lg md:text-xl min-h-[200px] w-full"
+                className="text-lg md:text-xl text-white leading-relaxed text-center"
+                textareaClassName="text-lg md:text-xl min-h-[200px] w-full text-white"
                 minRows={8}
+                centerButton={true}
               />
             </div>
           )}

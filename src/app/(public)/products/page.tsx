@@ -89,8 +89,16 @@ export default function ProductsPage() {
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1)
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-green-100/50 to-blue-50">
-      <div className="container mx-auto px-4 py-8">
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Fondo con imagen */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/images/products_bg.jpg')" }}
+      >
+        <div className="absolute inset-0 bg-white/30"></div>
+      </div>
+
+      <div className="relative z-10 container mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar con filtros */}
           <aside className="lg:w-64 flex-shrink-0">

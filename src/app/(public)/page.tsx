@@ -10,7 +10,6 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { siteConfigBase } from '@/config/site'
-import { Background } from '@/components/shared/Background'
 import { SpecialMomentsSection } from '@/components/shared/SpecialMoments'
 import { useCreateVisit } from '@/hooks/useRecordVisit'
 import {
@@ -35,8 +34,16 @@ const HeroSection = ({
   isEditMode: boolean
   onUpdate: (field: keyof HomeConfig, value: string) => Promise<void>
 }) => (
-  <div className="relative z-10 flex items-center min-h-screen">
-    <div className="container mx-auto px-6 lg:px-12">
+  <div className="relative flex items-center min-h-screen overflow-hidden">
+    {/* Fondo con imagen */}
+    <div
+      className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: "url('/images/home_bg.png')" }}
+    >
+      <div className="absolute inset-0 bg-black/20"></div>
+    </div>
+
+    <div className="relative z-10 container mx-auto px-6 lg:px-12">
       <div className="max-w-4xl">
         <div className="flex items-center gap-4 mb-6">
           <div className="w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center">
@@ -270,8 +277,7 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="relative min-h-screen overflow-hidden flex items-center justify-center">
-        <Background />
+      <div className="relative min-h-screen overflow-hidden flex items-center justify-center bg-gray-100">
         <p className="text-xl text-gray-700">Cargando...</p>
       </div>
     )
@@ -279,7 +285,6 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen overflow-hidden">
-      <Background />
       <HeroSection
         config={homeConfig}
         isEditMode={editMode}

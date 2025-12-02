@@ -1,7 +1,6 @@
 'use client'
 
 import { SpecialMomentsSection } from '@/components/shared/SpecialMoments'
-import { Background } from '@/components/shared/Background'
 import {
   Card,
   CardContent,
@@ -155,8 +154,16 @@ const SocialSection = ({
   isEditMode: boolean
   onUpdate: (field: keyof BiographyConfig, value: string) => Promise<void>
 }) => (
-  <div className="relative z-10 py-16 bg-brand-light">
-    <div className="container mx-auto px-6 lg:px-12">
+  <div className="relative py-16 overflow-hidden">
+    {/* Fondo con imagen */}
+    <div
+      className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: "url('/images/conoce_bg.png')" }}
+    >
+      <div className="absolute inset-0 bg-black/20"></div>
+    </div>
+
+    <div className="relative z-10 container mx-auto px-6 lg:px-12">
       <div className="max-w-4xl mx-auto">
         {/* Imagen de la sección */}
         <div className="relative w-full h-[400px] lg:h-[500px] rounded-lg overflow-hidden flex flex-col items-center justify-center p-8">
@@ -307,18 +314,25 @@ export default function BiographyPage() {
 
   return (
     <div className="relative min-h-screen overflow-hidden">
-      <Background />
       <div className="relative z-10">
-        <div className="flex flex-col items-center justify-center min-h-[95vh] text-center px-4 pt-16">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
+        <div className="relative flex flex-col items-center justify-center min-h-[95vh] text-center px-4 pt-16 overflow-hidden">
+          {/* Fondo con imagen */}
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: "url('/images/biography_bg.png')" }}
+          >
+            <div className="absolute inset-0 bg-black/20"></div>
+          </div>
+
+          <h1 className="relative z-10 text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
             El arte de acompañar
           </h1>
           {loading ? (
-            <p className="max-w-2xl text-lg md:text-xl text-gray-700 leading-relaxed">
+            <p className="relative z-10 max-w-2xl text-lg md:text-xl text-gray-700 leading-relaxed">
               Cargando...
             </p>
           ) : (
-            <div className="w-full max-w-4xl px-4">
+            <div className="relative z-10 w-full max-w-4xl px-4">
               <EditableTextArea
                 value={
                   biographyConfig?.biography_description ||

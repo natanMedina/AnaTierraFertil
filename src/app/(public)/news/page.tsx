@@ -73,7 +73,7 @@ export default function NewsPage() {
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: "url('/images/news_bg.png')" }}
       >
-        <div className="absolute inset-0 bg-white/30"></div>
+        <div className="absolute inset-0 bg-white/40"></div>
       </div>
 
       <div className="relative z-10 container mx-auto px-6 lg:px-12 py-8">

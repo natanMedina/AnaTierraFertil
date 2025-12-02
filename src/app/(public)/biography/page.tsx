@@ -160,7 +160,7 @@ const SocialSection = ({
       className="absolute inset-0 bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: "url('/images/conoce_bg.png')" }}
     >
-      <div className="absolute inset-0 bg-black/20"></div>
+      <div className="absolute inset-0 bg-black/0"></div>
     </div>
 
     <div className="relative z-10 container mx-auto px-6 lg:px-12">
@@ -321,7 +321,7 @@ export default function BiographyPage() {
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: "url('/images/biography_bg.png')" }}
           >
-            <div className="absolute inset-0 bg-black/20"></div>
+            <div className="absolute inset-0"></div>
           </div>
 
           <h1 className="relative z-10 text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">

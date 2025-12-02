@@ -28,7 +28,7 @@ export default function NewsPage() {
   const [news, setNews] = useState<News[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 6
+  const itemsPerPage = 3
 
   useEffect(() => {
     async function fetchNews() {
@@ -109,7 +109,7 @@ export default function NewsPage() {
               <NewsItemSkeleton key={index} />
             ))
           ) : filteredNews.length === 0 ? (
-            <p className="text-center text-gray-600">
+            <p className="text-center text-black bg-white rounded-lg py-8 px-6">
               No se encontraron novedades.
             </p>
           ) : (

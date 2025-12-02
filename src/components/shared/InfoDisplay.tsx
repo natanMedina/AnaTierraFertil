@@ -78,7 +78,7 @@ export default function InfoDisplay({
           {title}
         </h1>
         <div className="h-1 w-60 bg-brand mb-6"></div>
-        <p className="text-gray-700 leading-relaxed mb-8 overflow-hidden whitespace-pre-wrap break-words">
+        <p className="text-gray-700 leading-relaxed mb-8 max-h-100 overflow-y-auto whitespace-pre-wrap break-words">
           {description}
         </p>
         <p className="text-gray-500 text-sm mt-auto mb-1">

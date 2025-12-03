@@ -55,16 +55,7 @@ export default function Header() {
             Contacto
           </Button>
 
-          {isLoading ? null : isAdmin ? (
-            <AdminSheet />
-          ) : (
-            <Link
-              href="/login"
-              className="px-3 py-1 bg-gray-300 text-white rounded-md"
-            >
-              Login
-            </Link>
-          )}
+          {!isLoading && isAdmin && <AdminSheet />}
         </nav>
       </div>
       <ContactDialog open={open} onOpenChange={setOpen} />

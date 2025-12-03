@@ -5,24 +5,17 @@ import { Button } from '@/components/ui/button'
 import { getProductCategories } from '@/services/categoriesProducts'
 import { getServiceCategories } from '@/services/categoriesServices'
 import { Category } from '@/types/category'
+import { QuestionsGroup } from '@/types/surveyQuestions'
 import {
   baseQuestions,
   productQuestions,
   serviceQuestions,
 } from '@/utils/constants'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
-interface Question {
-  title: string
-  options: string[]
-}
-
-interface QuestionsGroup {
-  group: string | null
-  questions: Question[]
-}
-
 export default function SurveyPage() {
+  const router = useRouter()
   const [productCategories, setProductCategories] = useState<Category[]>([])
   const [serviceCategories, setServiceCategories] = useState<Category[]>([])
   const [answers, setAnswers] = useState<number[]>([])
@@ -147,6 +140,12 @@ export default function SurveyPage() {
     setIsFinished(false)
   }
 
+  const redirectToSection = () => {
+    const section = answers[0] ? 'services' : 'products'
+    const category = calculateCategory(answers)
+    router.push(`/${section}/${category}`)
+  }
+
   if (isLoading)
     return (
       <div className="bg-brand min-h-150">
@@ -165,7 +164,10 @@ export default function SurveyPage() {
           <h1 className="text-2xl font-bold text-white">
             La categoría que te recomendamos es
           </h1>
-          <h1 className="py-5 px-10 bg-white rounded-2xl text-3xl font-bold max-w-3/4">
+          <h1
+            onClick={redirectToSection}
+            className="py-5 px-10 bg-white rounded-2xl text-3xl font-bold max-w-3/4 cursor-pointer"
+          >
             {calculateCategory(answers)}
           </h1>
           <Button onClick={resetSurvey}>Reiniciar cuestionario</Button>

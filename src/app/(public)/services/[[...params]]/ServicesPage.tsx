@@ -24,7 +24,7 @@ import { useCreateVisit } from '@/hooks/useRecordVisit'
 import { Category } from '@/types/category'
 import { getServiceCategories } from '@/services/categoriesServices'
 
-export default function ServicesPage() {
+export default function ServicesPage(categoryParam?: string) {
   useCreateVisit()
   const { isAdmin, editMode } = useAdmin()
   const router = useRouter()
@@ -58,6 +58,16 @@ export default function ServicesPage() {
 
     loadData()
   }, [])
+
+  useEffect(() => {
+    const setCategory = () => {
+      if (!categoryParam) return
+      const category = decodeURIComponent(categoryParam)
+      if (categories.find((c) => c.name === category))
+        setSelectedCategory(category)
+    }
+    setCategory()
+  }, [categories])
 
   useEffect(() => {
     // Resetear a la primera página cuando cambian los filtros

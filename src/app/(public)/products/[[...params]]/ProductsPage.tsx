@@ -24,7 +24,7 @@ import { useCreateVisit } from '@/hooks/useRecordVisit'
 import { getProductCategories } from '@/services/categoriesProducts'
 import { Category } from '@/types/category'
 
-export default function ProductsPage() {
+export default function ProductsPage(categoryParam?: string) {
   useCreateVisit()
   const { isAdmin, editMode } = useAdmin()
   const router = useRouter()
@@ -60,6 +60,16 @@ export default function ProductsPage() {
   }, [])
 
   useEffect(() => {
+    const setCategory = () => {
+      if (!categoryParam) return
+      const category = decodeURIComponent(categoryParam)
+      if (categories.find((c) => c.name === category))
+        setSelectedCategory(category)
+    }
+    setCategory()
+  }, [categories])
+
+  useEffect(() => {
     // Resetear a la primera página cuando cambian los filtros
     setCurrentPage(1)
   }, [selectedCategory, searchTerm])
@@ -92,7 +102,7 @@ export default function ProductsPage() {
     <div className="relative min-h-screen overflow-hidden">
       {/* Fondo con imagen */}
       <div
-        className="absolute inset-0 bg-cover bg-top bg-no-repeat"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: "url('/images/products_bg.jpg')" }}
       >
         <div className="absolute inset-0 bg-white/30"></div>

@@ -15,7 +15,7 @@ export function validateProduct(
   const errors = {
     name: '',
     description: '',
-    category: '',
+    category_fk: '',
     price: '',
     photo_url: '',
     video_url: '',
@@ -33,13 +33,13 @@ export function validateProduct(
   // Descripción
   if (!product.description.trim()) {
     errors.description = 'La descripción es obligatoria'
-  } else if (product.description.trim().length > 500) {
-    errors.description = 'La descripción no puede tener más de 500 caracteres'
+  } else if (product.description.trim().length > 5000) {
+    errors.description = 'La descripción no puede tener más de 5000 caracteres'
   }
 
   // Categoría
-  if (!product.category.trim()) {
-    errors.category = 'La categoría es obligatoria'
+  if (!product.category_fk) {
+    errors.category_fk = 'La categoría es obligatoria'
   }
 
   // Imagen
@@ -76,7 +76,7 @@ export function validateService(
   const errors = {
     name: '',
     description: '',
-    category: '',
+    category_fk: '',
     price: '',
     photo_url: '',
     video_url: '',
@@ -95,13 +95,13 @@ export function validateService(
   // Descripción
   if (!service.description.trim()) {
     errors.description = 'La descripción es obligatoria'
-  } else if (service.description.trim().length > 500) {
-    errors.description = 'La descripción no puede tener más de 500 caracteres'
+  } else if (service.description.trim().length > 5000) {
+    errors.description = 'La descripción no puede tener más de 5000 caracteres'
   }
 
   // Categoría
-  if (!service.category.trim()) {
-    errors.category = 'La categoría es obligatoria'
+  if (!service.category_fk) {
+    errors.category_fk = 'La categoría es obligatoria'
   }
 
   // Imagen
@@ -144,21 +144,8 @@ export function validateService(
 
 export function validateSiteConfig(localSiteConfig: Omit<SiteConfig, 'id'>) {
   const errors = {
-    // contact_username: '',
     contact_whatsapp: '',
   }
-
-  // Contacto: Username
-  // const usernameRegex = /^@([a-zA-Z][a-zA-Z0-9_-]*)(\.[a-zA-Z0-9_-]+)*$/
-  // if (!localSiteConfig.contact_username.trim()) {
-  //   errors.contact_username = 'El username es obligatorio'
-  // } else if (!usernameRegex.test(localSiteConfig.contact_username)) {
-  //   errors.contact_username = 'Formato no válido. Ejemplo: @juan.nombrepagina'
-  // } else if (localSiteConfig.contact_username.trim().length < 3) {
-  //   errors.contact_username = 'El username debe tener al menos 3 caracteres'
-  // } else if (localSiteConfig.contact_username.trim().length > 40) {
-  //   errors.contact_username = 'El username no puede tener más de 40 caracteres'
-  // }
 
   // Contacto: Whatsapp
   const cellphoneRegex = /^\d{10}$/
@@ -197,8 +184,8 @@ export function validateNews(
     errors.description = 'La descripción es obligatoria'
   } else if (news.description.trim().length < 10) {
     errors.description = 'La descripción debe tener al menos 10 caracteres'
-  } else if (news.description.trim().length > 1000) {
-    errors.description = 'La descripción no puede tener más de 1000 caracteres'
+  } else if (news.description.trim().length > 5000) {
+    errors.description = 'La descripción no puede tener más de 5000 caracteres'
   }
 
   // Imagen

@@ -88,8 +88,6 @@ export async function uploadProductImage(file: File): Promise<string | null> {
   const fileExt = file.name.split('.').pop()
   const fileName = `${Math.random().toString(36).substring(2, 15)}${Date.now()}.${fileExt}`
   const bucketName = 'products'
-  // const folder = 'public'
-  // const filePath = `${folder}/${fileName}`
   const filePath = `${fileName}`
 
   const { error } = await supabase.storage

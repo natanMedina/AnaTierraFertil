@@ -95,13 +95,13 @@ export function ElementCard({
             <HoverCardTrigger asChild>
               <p
                 ref={descriptionRef}
-                className="text-gray-600 overflow-hidden line-clamp-2 flex-1 cursor-help"
+                className="text-gray-600 overflow-hidden line-clamp-2 flex-1 cursor-help whitespace-pre-wrap"
               >
                 {element.description}
               </p>
             </HoverCardTrigger>
             <HoverCardContent className="max-w-sm break-words">
-              <p className="text-sm text-gray-600 leading-relaxed">
+              <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap line-clamp-10">
                 {element.description}
               </p>
             </HoverCardContent>
@@ -109,7 +109,7 @@ export function ElementCard({
         ) : (
           <p
             ref={descriptionRef}
-            className="text-gray-600 overflow-hidden line-clamp-2 flex-1"
+            className="text-gray-600 overflow-hidden line-clamp-2 flex-1 whitespace-pre-wrap"
           >
             {element.description}
           </p>

@@ -21,6 +21,9 @@ import VideoField from './fields/VideoField'
 import TextField from './fields/TextField'
 import TextAreaField from './fields/TextAreaField'
 import NumberField from './fields/NumberField'
+import { Category } from '@/types/category'
+import { getServiceCategories } from '@/services/categoriesServices'
+import SelectField from './fields/SelectField'
 
 interface ServiceFormProps {
   id?: number
@@ -29,11 +32,12 @@ interface ServiceFormProps {
 export default function ServiceForm({ id }: ServiceFormProps) {
   const router = useRouter()
   const { isAdmin, isLoading } = useAdmin()
+  const [categories, setCategories] = useState<Category[]>([])
   const [validation, setValidation] = useState({
     errors: {
       name: '',
       description: '',
-      category: '',
+      category_fk: '',
       price: '',
       photo_url: '',
       video_url: '',
@@ -45,7 +49,7 @@ export default function ServiceForm({ id }: ServiceFormProps) {
   const [service, setService] = useState<Omit<Service, 'id'>>({
     name: '',
     description: '',
-    category: '',
+    category_fk: 0,
     price: 0,
     photo_url: '',
     video_url: '',
@@ -67,17 +71,30 @@ export default function ServiceForm({ id }: ServiceFormProps) {
 
   // Cargar datos si hay id
   useEffect(() => {
+    const fetchCategories = async () => {
+      const data = await getServiceCategories()
+      if (data) {
+        setCategories(data)
+      }
+    }
     const fetchService = async () => {
-      if (id && isAdmin) {
+      if (id) {
         const data = await getServiceById(Number(id))
         if (data) {
           setService(data)
           if (data.photo_url) setLocalImagePreview(data.photo_url)
         }
       }
+    }
+
+    const loadData = async () => {
+      if (!isAdmin) return
+      await fetchCategories()
+      await fetchService()
       setIsServiceLoaded(true)
     }
-    fetchService()
+
+    loadData()
   }, [id, isAdmin])
 
   useEffect(() => {
@@ -180,7 +197,7 @@ export default function ServiceForm({ id }: ServiceFormProps) {
     }
   }
 
-  if (isLoading) return <FormSkeleton />
+  if (isLoading || !isAdmin) return <FormSkeleton />
 
   return (
     <form
@@ -214,118 +231,122 @@ export default function ServiceForm({ id }: ServiceFormProps) {
         />
 
         {/* Categoría */}
-        <div className="mt-auto">
-          <TextField
-            label="Categoría"
-            placeholder="Categoría del servicio"
-            value={service.category}
-            onChange={(e) =>
-              setService({ ...service, category: e.target.value })
-            }
-            error={validation.errors.category}
-            disabled={isSubmitting}
-          />
-        </div>
+        <SelectField
+          label="Categoría"
+          placeholder="Selecciona una categoría"
+          value={id ? service.category_fk?.toString() : undefined}
+          values={categories}
+          onChange={(e) => {
+            setService({ ...service, category_fk: Number(e) })
+          }}
+          error={validation.errors.category_fk}
+          disabled={isSubmitting}
+        />
       </div>
 
       {/* COLUMNA DERECHA */}
-      <div
-        className="relative  w-full md:w-8/12 flex flex-col p-6 bg-green-100 bg-cover bg-center"
-        style={{
-          backgroundImage: "url('/images/form-bg.jpg')",
-        }}
-      >
-        {/* Botón volver */}
-        <div className="absolute flex flex-col top-6 right-6 gap-2">
+      <div className="relative w-full md:w-8/12 flex flex-col p-6 overflow-hidden">
+        {/* Fondo con imagen */}
+        <div
+          className="absolute inset-0 bg-cover bg-top bg-no-repeat"
+          style={{ backgroundImage: "url('/images/services_bg.png')" }}
+        >
+          <div className="absolute inset-0 bg-white/20"></div>
+        </div>
+
+        <div className="relative z-10 w-full h-full">
+          {/* Botón volver */}
+          <div className="absolute flex flex-col top-6 right-6 gap-2">
+            <Button
+              type="button"
+              variant="secondary"
+              className="flex items-center ml-auto w-min gap-2 text-white font-bold bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-md text-sm transition"
+              onClick={() => router.push(id ? `/services/${id}` : '/services')}
+              disabled={isSubmitting}
+            >
+              <ArrowLeft className="w-4 h-4" />
+            </Button>
+          </div>
+
+          {/* Cuadros de imagen y video */}
+          <div className="flex justify-center gap-10 mt-20">
+            {/* Imagen */}
+            <ImageField
+              imagePreview={localImagePreview}
+              onImageSelect={(file: File, previewUrl: string) => {
+                setSelectedImageFile(file)
+                setLocalImagePreview(previewUrl)
+              }}
+              error={validation.errors.photo_url}
+              disabled={isSubmitting}
+            />
+
+            {/* Video */}
+            <VideoField
+              video_url={service.video_url}
+              onChange={(e) =>
+                setService({
+                  ...service,
+                  video_url: e.target.value,
+                })
+              }
+              error={validation.errors.video_url}
+              disabled={isSubmitting}
+            />
+          </div>
+
+          {/* Cuadros inferiores con precios */}
+          <div className="mt-10 flex justify-center gap-10">
+            <div className="w-68">
+              <NumberField
+                label="Precio de compra (pesos col.)"
+                placeholder="Valor en pesos (COP)"
+                value={service.price}
+                min={0}
+                max={10 ** 6}
+                onChange={(e) => {
+                  setService({
+                    ...service,
+                    price: Number(e.target.value),
+                  })
+                }}
+                error={validation.errors.price}
+                disabled={isSubmitting}
+              />
+            </div>
+            <div className="w-68">
+              <NumberField
+                label="Precio clases en vivo (pesos col.)"
+                placeholder="Valor en pesos (COP)"
+                value={service.price_live_class || 0}
+                min={0}
+                max={10 ** 6}
+                onChange={(e) => {
+                  setService({
+                    ...service,
+                    price_live_class: Number(e.target.value),
+                  })
+                }}
+                error={validation.errors.price_live_class}
+                disabled={isSubmitting}
+              />
+            </div>
+          </div>
+
+          {/* Botón guardar */}
           <Button
-            type="button"
-            variant="secondary"
-            className="flex items-center ml-auto w-min gap-2 text-white font-bold bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-md text-sm transition"
-            onClick={() => router.push(id ? `/services/${id}` : '/services')}
-            disabled={isSubmitting}
+            type="submit"
+            variant="admin"
+            className="absolute bottom-6 right-6 w-40 mx-auto mt-10"
+            disabled={isSubmitting || !validation.isValid}
           >
-            <ArrowLeft className="w-4 h-4" />
+            {isSubmitting
+              ? 'Guardando...'
+              : id
+                ? 'Guardar cambios'
+                : 'Crear Servicio'}
           </Button>
         </div>
-
-        {/* Cuadros de imagen y video */}
-        <div className="flex justify-center gap-10 mt-20">
-          {/* Imagen */}
-          <ImageField
-            imagePreview={localImagePreview}
-            onImageSelect={(file: File, previewUrl: string) => {
-              setSelectedImageFile(file)
-              setLocalImagePreview(previewUrl)
-            }}
-            error={validation.errors.photo_url}
-            disabled={isSubmitting}
-          />
-
-          {/* Video */}
-          <VideoField
-            video_url={service.video_url}
-            onChange={(e) =>
-              setService({
-                ...service,
-                video_url: e.target.value,
-              })
-            }
-            error={validation.errors.video_url}
-            disabled={isSubmitting}
-          />
-        </div>
-
-        {/* Cuadros inferiores con precios */}
-        <div className="mt-10 flex justify-center gap-10">
-          <div className="w-68">
-            <NumberField
-              label="Precio de compra (pesos col.)"
-              placeholder="Valor en pesos (COP)"
-              value={service.price}
-              min={0}
-              max={10 ** 6}
-              onChange={(e) => {
-                setService({
-                  ...service,
-                  price: Number(e.target.value),
-                })
-              }}
-              error={validation.errors.price}
-              disabled={isSubmitting}
-            />
-          </div>
-          <div className="w-68">
-            <NumberField
-              label="Precio clases en vivo (pesos col.)"
-              placeholder="Valor en pesos (COP)"
-              value={service.price_live_class || 0}
-              min={0}
-              max={10 ** 6}
-              onChange={(e) => {
-                setService({
-                  ...service,
-                  price_live_class: Number(e.target.value),
-                })
-              }}
-              error={validation.errors.price_live_class}
-              disabled={isSubmitting}
-            />
-          </div>
-        </div>
-
-        {/* Botón guardar */}
-        <Button
-          type="submit"
-          variant="admin"
-          className="absolute bottom-6 right-6 w-40 mx-auto mt-10"
-          disabled={isSubmitting || !validation.isValid}
-        >
-          {isSubmitting
-            ? 'Guardando...'
-            : id
-              ? 'Guardar cambios'
-              : 'Crear Servicio'}
-        </Button>
       </div>
     </form>
   )

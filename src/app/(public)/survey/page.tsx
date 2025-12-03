@@ -91,7 +91,7 @@ export default function SurveyPage() {
       if (countA === countB) return serviceCategories[3].name
       if (countA === countC) return serviceCategories[0].name
       if (countB === countC) return serviceCategories[1].name
-      return 'No match'
+      return 'No hay coincidencias'
     }
     // Productos
     if (countA > Math.max(countB, countC)) return productCategories[1].name
@@ -100,7 +100,7 @@ export default function SurveyPage() {
     if (countA === countB) return productCategories[0].name
     if (countA === countC) return productCategories[1].name
     if (countB === countC) return productCategories[2].name
-    return 'No match'
+    return 'No hay coincidencias'
   }
   const generateQuestionInterface = () => {
     const group = currentQuestions!.group

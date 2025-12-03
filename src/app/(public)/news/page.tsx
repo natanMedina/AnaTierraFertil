@@ -28,7 +28,7 @@ export default function NewsPage() {
   const [news, setNews] = useState<News[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 6
+  const itemsPerPage = 3
 
   useEffect(() => {
     async function fetchNews() {
@@ -70,10 +70,10 @@ export default function NewsPage() {
     <div className="relative min-h-screen overflow-hidden">
       {/* Fondo con imagen */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 bg-cover bg-top bg-no-repeat"
         style={{ backgroundImage: "url('/images/news_bg.png')" }}
       >
-        <div className="absolute inset-0 bg-white/30"></div>
+        <div className="absolute inset-0 bg-white/40"></div>
       </div>
 
       <div className="relative z-10 container mx-auto px-6 lg:px-12 py-8">
@@ -104,12 +104,12 @@ export default function NewsPage() {
         {/* Lista de novedades */}
         <div className="flex flex-col gap-5">
           {isLoading ? (
-            // Mostrar 6 skeletons mientras carga
+            // Mostrar 3 skeletons mientras carga
             Array.from({ length: itemsPerPage }).map((_, index) => (
               <NewsItemSkeleton key={index} />
             ))
           ) : filteredNews.length === 0 ? (
-            <p className="text-center text-gray-600">
+            <p className="text-center text-black bg-white rounded-lg py-8 px-6">
               No se encontraron novedades.
             </p>
           ) : (
@@ -123,7 +123,28 @@ export default function NewsPage() {
                 date={item.date}
                 showActions={editMode}
                 onDeleted={(deleteId) => {
-                  setNews((prev) => prev.filter((n) => n.id !== deleteId))
+                  setNews((prev) => {
+                    const updated = prev.filter((n) => n.id !== deleteId)
+                    // Si después de eliminar no quedan novedades en la página actual
+                    // y no estamos en la primera página, ir a la página anterior
+                    const newFilteredCount = updated.filter((item) => {
+                      if (!searchTerm) return true
+                      const searchLower = searchTerm.toLowerCase()
+                      return (
+                        item.title.toLowerCase().includes(searchLower) ||
+                        item.description.toLowerCase().includes(searchLower)
+                      )
+                    }).length
+
+                    const newTotalPages = Math.ceil(
+                      newFilteredCount / itemsPerPage
+                    )
+                    if (currentPage > newTotalPages && newTotalPages > 0) {
+                      setCurrentPage(newTotalPages)
+                    }
+
+                    return updated
+                  })
                 }}
               />
             ))

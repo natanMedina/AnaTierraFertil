@@ -92,7 +92,7 @@ export default function ServicesPage() {
     <div className="relative min-h-screen overflow-hidden">
       {/* Fondo con imagen */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 bg-cover bg-top bg-no-repeat"
         style={{ backgroundImage: "url('/images/services_bg.png')" }}
       >
         <div className="absolute inset-0 bg-white/30"></div>

@@ -61,8 +61,8 @@ const HeroSection = ({
             }
             onSave={(value) => onUpdate('hero_section_description', value)}
             isEditMode={isEditMode}
-            className="text-lg lg:text-xl text-black max-w-2xl leading-relaxed"
-            textareaClassName="text-lg lg:text-xl min-h-[100px] w-full"
+            className="text-lg lg:text-xl text-black font-bold max-w-2xl leading-relaxed"
+            textareaClassName="text-lg lg:text-xl min-h-[100px] w-full text-black font-bold"
             minRows={4}
             buttonMargin="mt-6"
           />
@@ -78,7 +78,7 @@ const HeroSection = ({
             <Button
               variant="outline"
               size="lg"
-              className="border-brand text-brand bg-transparent px-8 py-3 text-base font-medium hover:bg-brand hover:text-white transition-all"
+              className="border-white text-white bg-transparent px-8 py-3 text-base font-medium hover:border-brand hover:bg-brand hover:text-white transition-all"
             >
               Conocer Más
             </Button>
@@ -92,22 +92,34 @@ const HeroSection = ({
 interface ServiceCardProps {
   title: string
   description: string
+  iconColor?: string
 }
 
 // Componente para una tarjeta de servicio
-const ServiceCard = ({ title, description }: ServiceCardProps) => (
-  <Card className="text-center h-80 flex flex-col justify-center">
-    <CardHeader className="pb-2 pt-4">
-      <div className="w-16 h-16 bg-brand rounded-full mx-auto mb-6 flex items-center justify-center">
-        <div className="w-8 h-8 bg-white rounded-full"></div>
-      </div>
-      <CardTitle className="text-xl font-bold text-gray-800">{title}</CardTitle>
-    </CardHeader>
-    <CardContent className="pt-2">
-      <CardDescription className="text-gray-600">{description}</CardDescription>
-    </CardContent>
-  </Card>
-)
+const ServiceCard = ({ title, description, iconColor }: ServiceCardProps) => {
+  const isHexColor = iconColor?.startsWith('#')
+
+  return (
+    <Card className="text-center h-80 flex flex-col justify-center">
+      <CardHeader className="pb-2 pt-4">
+        <div
+          className={`w-16 h-16 rounded-full mx-auto mb-6 flex items-center justify-center ${!isHexColor ? iconColor || 'bg-brand' : ''}`}
+          style={isHexColor ? { backgroundColor: iconColor } : undefined}
+        >
+          <div className="w-8 h-8 bg-white rounded-full"></div>
+        </div>
+        <CardTitle className="text-xl font-bold text-gray-800">
+          {title}
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="pt-2">
+        <CardDescription className="text-gray-600">
+          {description}
+        </CardDescription>
+      </CardContent>
+    </Card>
+  )
+}
 
 // Componente para la sección de servicios
 const ServicesSection = () => (
@@ -125,18 +137,22 @@ const ServicesSection = () => (
         <ServiceCard
           title="Cuidado Prenatal"
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+          iconColor="bg-brand"
         />
         <ServiceCard
           title="Terapias Naturales"
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+          iconColor="#7ca5b6"
         />
         <ServiceCard
           title="Yoga Prenatal"
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+          iconColor="#67a4d8"
         />
         <ServiceCard
           title="Cursos Educativos"
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+          iconColor="bg-admin"
         />
       </div>
       <div className="text-center">

@@ -78,7 +78,7 @@ export default function InfoDisplay({
           {title}
         </h1>
         <div className="h-1 w-60 bg-brand mb-6"></div>
-        <p className="text-gray-700 leading-relaxed mb-8 overflow-hidden whitespace-pre-wrap break-words">
+        <p className="text-gray-700 leading-relaxed mb-8 max-h-100 overflow-y-auto whitespace-pre-wrap break-words">
           {description}
         </p>
         <p className="text-gray-500 text-sm mt-auto mb-1">
@@ -140,9 +140,9 @@ export default function InfoDisplay({
           </div>
 
           {/* Video o imagen */}
-          <div className="mt-16 w-full flex justify-center">
+          <div className="mt-20 w-full flex justify-center">
             {videoUrl ? (
-              <div className="aspect-video w-full max-w-xl rounded-lg overflow-hidden shadow-lg">
+              <div className="aspect-video w-full max-w-2xl rounded-lg overflow-hidden shadow-lg">
                 <iframe
                   src={getYouTubeEmbedUrl(videoUrl).replace(
                     'www.youtube.com',
@@ -157,10 +157,10 @@ export default function InfoDisplay({
               <img
                 src={photoUrl}
                 alt={title}
-                className="bg-white max-h-80 max-w-full rounded-lg shadow-lg object-contain"
+                className="bg-white max-h-128 max-w-full rounded-lg shadow-lg object-contain"
               />
             ) : (
-              <div className="flex flex-col justify-center text-center bg-gray-100 h-80 w-2/4 rounded-lg shadow-lg">
+              <div className="flex flex-col justify-center text-center bg-gray-100 h-128 w-2/4 rounded-lg shadow-lg">
                 <p className="text-xl text-gray-500 italic">
                   Sin multimedia disponible
                 </p>

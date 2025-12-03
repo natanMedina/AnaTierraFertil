@@ -68,12 +68,14 @@ const HeroSection = ({
           />
         </div>
         <div className="flex flex-col sm:flex-row gap-4 mb-12">
-          <Button
-            size="lg"
-            className="bg-brand text-white px-8 py-3 text-base font-medium hover:opacity-90 transition-opacity"
-          >
-            Explorar Cursos
-          </Button>
+          <Link href={'/services'}>
+            <Button
+              size="lg"
+              className="bg-brand text-white px-8 py-3 text-base font-medium hover:opacity-90 transition-opacity"
+            >
+              Explorar Cursos
+            </Button>
+          </Link>
           <Link href="/biography">
             <Button
               variant="outline"

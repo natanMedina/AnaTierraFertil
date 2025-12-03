@@ -24,7 +24,7 @@ import { useCreateVisit } from '@/hooks/useRecordVisit'
 import { getProductCategories } from '@/services/categoriesProducts'
 import { Category } from '@/types/category'
 
-export default function ProductsPage() {
+export default function ProductsPage(categoryParam?: string) {
   useCreateVisit()
   const { isAdmin, editMode } = useAdmin()
   const router = useRouter()
@@ -60,6 +60,16 @@ export default function ProductsPage() {
   }, [])
 
   useEffect(() => {
+    const setCategory = () => {
+      if (!categoryParam) return
+      const category = decodeURIComponent(categoryParam)
+      if (categories.find((c) => c.name === category))
+        setSelectedCategory(category)
+    }
+    setCategory()
+  }, [categories])
+
+  useEffect(() => {
     // Resetear a la primera página cuando cambian los filtros
     setCurrentPage(1)
   }, [selectedCategory, searchTerm])
@@ -92,7 +102,7 @@ export default function ProductsPage() {
     <div className="relative min-h-screen overflow-hidden">
       {/* Fondo con imagen */}
       <div
-        className="absolute inset-0 bg-cover bg-top bg-no-repeat"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: "url('/images/products_bg.jpg')" }}
       >
         <div className="absolute inset-0 bg-white/30"></div>
@@ -136,18 +146,24 @@ export default function ProductsPage() {
 
             {/* Grid de productos */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {isLoading
-                ? // Mostrar 6 skeletons durante la carga
-                  Array.from({ length: 6 }).map((_, index) => (
-                    <ProductCardSkeleton key={index} />
-                  ))
-                : paginatedProducts.map((product) => (
-                    <ElementCard
-                      key={product.id}
-                      element={product}
-                      basePath="products"
-                    />
-                  ))}
+              {isLoading ? (
+                // Mostrar 6 skeletons durante la carga
+                Array.from({ length: 6 }).map((_, index) => (
+                  <ProductCardSkeleton key={index} />
+                ))
+              ) : filteredProducts.length === 0 ? (
+                <p className="text-center text-black bg-white rounded-lg py-8 px-6 ml-80 w-full">
+                  No se encontraron productos.
+                </p>
+              ) : (
+                paginatedProducts.map((product) => (
+                  <ElementCard
+                    key={product.id}
+                    element={product}
+                    basePath="products"
+                  />
+                ))
+              )}
             </div>
             {/* Paginación */}
             {totalPages > 1 && (

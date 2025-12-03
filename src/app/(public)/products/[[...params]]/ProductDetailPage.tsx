@@ -1,6 +1,6 @@
 'use client'
 
-import { useParams, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { getProductById } from '@/services/products'
 import { Product } from '@/types/product'
@@ -10,14 +10,11 @@ import { toast } from 'sonner'
 import { getProductCategoryById } from '@/services/categoriesProducts'
 import { Category } from '@/types/category'
 
-export default function ProductDetailPage() {
+export default function ProductDetailPage(productId: number) {
   const [product, setProduct] = useState<Product | null>(null)
   const [category, setCategory] = useState<Category | null>()
   const [loading, setLoading] = useState(true)
   const router = useRouter()
-  const { id } = useParams<{ id: string }>()
-
-  const productId = parseInt(id, 10)
 
   useEffect(() => {
     const fetchProduct = async () => {

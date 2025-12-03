@@ -1,6 +1,6 @@
 'use client'
 
-import { useParams, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { getServiceById } from '@/services/services'
 import { Service } from '@/types/service'
@@ -10,14 +10,11 @@ import { toast } from 'sonner'
 import { Category } from '@/types/category'
 import { getServiceCategoryById } from '@/services/categoriesServices'
 
-export default function ServiceDetailPage() {
+export default function ServiceDetailPage(serviceId: number) {
   const [service, setService] = useState<Service | null>(null)
   const [category, setCategory] = useState<Category | null>()
   const [loading, setLoading] = useState(true)
   const router = useRouter()
-  const { id } = useParams<{ id: string }>()
-
-  const serviceId = parseInt(id, 10)
 
   useEffect(() => {
     const fetchService = async () => {

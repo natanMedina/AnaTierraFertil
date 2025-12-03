@@ -146,19 +146,25 @@ export default function ServicesPage(categoryParam?: string) {
 
             {/* Grid de servicios */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {isLoading
-                ? // Mostrar 6 skeletons durante la carga
-                  Array.from({ length: 6 }).map((_, index) => (
-                    <ProductCardSkeleton key={index} />
-                  ))
-                : paginatedServices.map((service) => (
-                    <ElementCard
-                      key={service.id}
-                      element={service}
-                      basePath="services"
-                      buttonText="Explorar"
-                    />
-                  ))}
+              {isLoading ? (
+                // Mostrar 6 skeletons durante la carga
+                Array.from({ length: 6 }).map((_, index) => (
+                  <ProductCardSkeleton key={index} />
+                ))
+              ) : filteredServices.length === 0 ? (
+                <p className="text-center text-black bg-white rounded-lg py-8 px-6 ml-80 w-full">
+                  No se encontraron servicios.
+                </p>
+              ) : (
+                paginatedServices.map((service) => (
+                  <ElementCard
+                    key={service.id}
+                    element={service}
+                    basePath="services"
+                    buttonText="Explorar"
+                  />
+                ))
+              )}
             </div>
 
             {/* Paginación */}

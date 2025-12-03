@@ -231,18 +231,6 @@ export default function ServiceForm({ id }: ServiceFormProps) {
         />
 
         {/* Categoría */}
-        {/* <div className="mt-auto">
-          <TextField
-            label="Categoría"
-            placeholder="Categoría del servicio"
-            value={service.category}
-            onChange={(e) =>
-              setService({ ...service, category: e.target.value })
-            }
-            error={validation.errors.category}
-            disabled={isSubmitting}
-          />
-        </div> */}
         <SelectField
           label="Categoría"
           placeholder="Selecciona una categoría"

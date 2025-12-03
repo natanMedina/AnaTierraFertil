@@ -91,7 +91,7 @@ const HeroSection = ({
 
 interface ServiceCardProps {
   title: string
-  description: string
+  description?: string
   iconColor?: string
 }
 
@@ -100,7 +100,7 @@ const ServiceCard = ({ title, description, iconColor }: ServiceCardProps) => {
   const isHexColor = iconColor?.startsWith('#')
 
   return (
-    <Card className="text-center h-80 flex flex-col justify-center">
+    <Card className="text-center h-fit flex flex-col justify-center py-15">
       <CardHeader className="pb-2 pt-4">
         <div
           className={`w-16 h-16 rounded-full mx-auto mb-6 flex items-center justify-center ${!isHexColor ? iconColor || 'bg-brand' : ''}`}
@@ -112,11 +112,13 @@ const ServiceCard = ({ title, description, iconColor }: ServiceCardProps) => {
           {title}
         </CardTitle>
       </CardHeader>
-      <CardContent className="pt-2">
-        <CardDescription className="text-gray-600">
-          {description}
-        </CardDescription>
-      </CardContent>
+      {description && (
+        <CardContent className="pt-2">
+          <CardDescription className="text-gray-600">
+            {description}
+          </CardDescription>
+        </CardContent>
+      )}
     </Card>
   )
 }
@@ -134,26 +136,10 @@ const ServicesSection = () => (
         </p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-        <ServiceCard
-          title="Cuidado Prenatal"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-          iconColor="bg-brand"
-        />
-        <ServiceCard
-          title="Terapias Naturales"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-          iconColor="#7ca5b6"
-        />
-        <ServiceCard
-          title="Yoga Prenatal"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-          iconColor="#67a4d8"
-        />
-        <ServiceCard
-          title="Cursos Educativos"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-          iconColor="bg-admin"
-        />
+        <ServiceCard title="Cuidado Prenatal" iconColor="bg-brand" />
+        <ServiceCard title="Terapias Naturales" iconColor="#7ca5b6" />
+        <ServiceCard title="Yoga Prenatal" iconColor="#67a4d8" />
+        <ServiceCard title="Cursos Educativos" iconColor="bg-admin" />
       </div>
       <div className="text-center">
         <Button

@@ -5,9 +5,9 @@ import { createVisit } from '@/services/metrics'
 export function useCreateVisit() {
   useEffect(() => {
     const pathname = window.location.pathname
+    const firstPart = '/' + pathname.split('/')[1]
     const device = getDeviceType()
 
-    createVisit({ device: device, pathname: pathname })
-    console.log('Visita creada: ', pathname, device)
+    createVisit({ device: device, pathname: firstPart })
   }, [])
 }

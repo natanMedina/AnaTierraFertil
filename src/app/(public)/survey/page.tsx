@@ -96,12 +96,17 @@ export default function SurveyPage() {
       if (countB > Math.max(countA, countC)) return serviceCategories[1].name
       if (countC > Math.max(countA, countB)) return serviceCategories[2].name
       if (countA === countB) return serviceCategories[3].name
+      if (countA === countC) return serviceCategories[0].name
+      if (countB === countC) return serviceCategories[1].name
       return 'No match'
     }
     // Productos
     if (countA > Math.max(countB, countC)) return productCategories[1].name
     if (countB > Math.max(countA, countC)) return productCategories[0].name
     if (countC > Math.max(countA, countB)) return productCategories[2].name
+    if (countA === countB) return productCategories[0].name
+    if (countA === countC) return productCategories[1].name
+    if (countB === countC) return productCategories[2].name
     return 'No match'
   }
   const generateQuestionInterface = () => {
@@ -141,35 +146,6 @@ export default function SurveyPage() {
     setAnswers([])
     setIsFinished(false)
   }
-
-  function testCategory() {
-    const results: number[][] = []
-    const values = [0, 1, 2]
-    const size = 5
-
-    function backtrack(current: number[]) {
-      if (current.length === size) {
-        results.push([...current])
-        return
-      }
-
-      for (const v of values) {
-        current.push(v)
-        backtrack(current)
-        current.pop()
-      }
-    }
-
-    backtrack([])
-    results.map((r) => {
-      const a = calculateCategory(r)
-      if (a == 'No match' && r[0] != 2) {
-        console.log(r, a)
-      }
-    })
-  }
-
-  // testCategory()
 
   if (isLoading)
     return (
